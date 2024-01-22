@@ -1,4 +1,5 @@
 # LogicLegends
+**COSC 310 Project**
 Team Name: Logic Legends
 Team Members: 
 Soumil Chhabra (6646330)
