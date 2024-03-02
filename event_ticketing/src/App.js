@@ -7,6 +7,7 @@ import Signup from './Signup';
 import EventList from './Eventlist';
 import About from './about';
 import Contact from './contact';
+import EventDetails from './EventDetails';
 function App() {
   return (
     <Router>
@@ -14,10 +15,10 @@ function App() {
       <Routes>
       <Route path="/event-list" element={<EventList />} />
         <Route path="/" element={<LandingContent />} />
-        <Route path="/sign-up" element={<Signup />} /> {/* Define the route for the signup page */}
-        {/* Define the route for the event list page */}
+        <Route path="/sign-up" element={<Signup />} /> 
         <Route path= "/about" element={<About/>}/>
         <Route path="/contact" element={<Contact/>}/>
+        <Route path="/event-details:id"element={<EventDetails/>}/>
       </Routes>
     </Router>
   );

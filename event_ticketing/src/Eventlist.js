@@ -1,36 +1,24 @@
 // EventList.js
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom'; // Import Link
 import styled from 'styled-components';
 
-// Styled components for better styling
-const EventListContainer = styled.div`
+const EventListWrapper = styled.div`
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
 `;
 
 const EventItem = styled.div`
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
   border-radius: 8px;
   margin-bottom: 20px;
   padding: 20px;
+  cursor: pointer; /* Add cursor pointer */
 `;
 
 const EventTitle = styled.h3`
-  color: #333;
-`;
-
-const EventDescription = styled.p`
-  color: #666;
-`;
-
-const EventDate = styled.p`
-  color: #777;
-`;
-
-const EventLocation = styled.p`
-  color: #777;
+  margin-top: 0;
 `;
 
 function EventList() {
@@ -38,32 +26,34 @@ function EventList() {
     {
       id: 1,
       title: 'Demo Event 1',
-      description: 'This is the description of demo event 1.',
+      description: 'Description of Demo Event 1',
       date: '2024-03-15',
-      location: 'Location 1'
+      location: 'Location of Demo Event 1',
     },
     {
       id: 2,
       title: 'Demo Event 2',
-      description: 'This is the description of demo event 2.',
+      description: 'Description of Demo Event 2',
       date: '2024-03-20',
-      location: 'Location 2'
+      location: 'Location of Demo Event 2',
     },
     // Add more demo events as needed
   ]);
 
   return (
-    <EventListContainer>
+    <EventListWrapper>
       <h2>Events List</h2>
       {events.map(event => (
-        <EventItem key={event.id}>
-          <EventTitle>{event.title}</EventTitle>
-          <EventDescription>{event.description}</EventDescription>
-          <EventDate>Date: {event.date}</EventDate>
-          <EventLocation>Location: {event.location}</EventLocation>
-        </EventItem>
+        <Link key={event.id} to={`/event-details/${event.id}`}> {/* Link to event details page */}
+          <EventItem>
+            <EventTitle>{event.title}</EventTitle>
+            <p>{event.description}</p>
+            <p>Date: {event.date}</p>
+            <p>Location: {event.location}</p>
+          </EventItem>
+        </Link>
       ))}
-    </EventListContainer>
+    </EventListWrapper>
   );
 }
 
