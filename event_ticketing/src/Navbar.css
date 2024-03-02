@@ -1,0 +1,42 @@
+/* src/Navbar.css */
+.navbar {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px; /* Increase padding for better spacing */
+  }
+  
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .navbar__logo {
+    margin: 0;
+  }
+  
+  .navbar__menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap onto multiple lines */
+  }
+  
+  .navbar__item {
+    margin-right: 20px;
+  }
+  
+  .navbar__item:last-child {
+    margin-right: 0;
+  }
+  
+  .navbar__item a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .navbar__item a:hover {
+    text-decoration: underline;
+  }
+  
