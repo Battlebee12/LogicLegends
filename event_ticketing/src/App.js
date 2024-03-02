@@ -5,15 +5,19 @@ import Navbar from './Navbar'; // Import the Navbar component
 import LandingContent from './LandingContent';
 import Signup from './Signup';
 import EventList from './Eventlist';
-
+import About from './about';
+import Contact from './contact';
 function App() {
   return (
     <Router>
       <Navbar /> {/* Render the Navbar component */}
       <Routes>
+      <Route path="/event-list" element={<EventList />} />
         <Route path="/" element={<LandingContent />} />
         <Route path="/sign-up" element={<Signup />} /> {/* Define the route for the signup page */}
-        <Route path="/event-list" element={<EventList />} /> {/* Define the route for the event list page */}
+        {/* Define the route for the event list page */}
+        <Route path= "/about" element={<About/>}/>
+        <Route path="/contact" element={<Contact/>}/>
       </Routes>
     </Router>
   );

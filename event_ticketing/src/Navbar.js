@@ -1,6 +1,6 @@
-// src/Navbar.js
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
 // Styled components for Navbar
 const Nav = styled.nav`
@@ -31,7 +31,7 @@ const MenuItem = styled.li`
   margin-left: 20px;
 `;
 
-const MenuLink = styled.a`
+const MenuLink = styled(Link)`
   color: #fff;
   text-decoration: none;
 
@@ -46,10 +46,12 @@ function Navbar() {
       <Container>
         <Logo>Event Ticketing</Logo>
         <Menu>
-          <MenuItem><MenuLink href="#">Home</MenuLink></MenuItem>
-          <MenuItem><MenuLink href="#">Events</MenuLink></MenuItem>
-          <MenuItem><MenuLink href="#">About</MenuLink></MenuItem>
-          <MenuItem><MenuLink href="#">Contact</MenuLink></MenuItem>
+          {/* Use Link instead of anchor tags */}
+          <MenuItem><MenuLink to="/event-list">Home</MenuLink></MenuItem>
+         
+          <MenuItem><MenuLink to="/about">About</MenuLink></MenuItem>
+          <MenuItem><MenuLink to="/contact">Contact</MenuLink></MenuItem>
+          <MenuItem><MenuLink to="/">Login</MenuLink></MenuItem>
         </Menu>
       </Container>
     </Nav>
