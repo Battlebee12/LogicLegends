@@ -1,18 +1,17 @@
-// LandingContent.js
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-const LandingContentWrapper = styled.div`
+const SignupWrapper = styled.div`
   text-align: center;
   padding: 50px 20px;
 `;
 
-const LoginSection = styled.section`
+const SignupSection = styled.section`
   margin-top: 50px;
 `;
 
-const LoginForm = styled.form`
+const SignupForm = styled.form`
   max-width: 400px;
   margin: 0 auto;
 `;
@@ -45,7 +44,7 @@ const Input = styled.input`
   }
 `;
 
-const LoginButton = styled.button`
+const SignupButton = styled.button`
   width: 100%;
   padding: 12px;
   font-size: 16px;
@@ -61,17 +60,32 @@ const LoginButton = styled.button`
   }
 `;
 
-function LandingContent() {
+const LoginLink = styled(Link)`
+  display: block;
+  margin-top: 20px;
+  color: #007bff;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+function Signup() {
   return (
-    <LandingContentWrapper>
+    <SignupWrapper>
       <header>
-        <h1>Welcome to Event Ticketing</h1>
-        <p>Discover amazing things</p>
+        <h1>Event Ticketing Platform</h1>
+        <p>Sign up to explore events</p>
       </header>
       <main>
-        <LoginSection>
-          <h2>Login</h2>
-          <LoginForm>
+        <SignupSection>
+          <h2>Sign Up</h2>
+          <SignupForm>
+            <FormGroup>
+              <Label htmlFor="fullName">Full Name:</Label>
+              <Input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required />
+            </FormGroup>
             <FormGroup>
               <Label htmlFor="email">Email:</Label>
               <Input type="email" id="email" name="email" placeholder="Enter your email" required />
@@ -81,18 +95,16 @@ function LandingContent() {
               <Input type="password" id="password" name="password" placeholder="Enter your password" required />
             </FormGroup>
             <Link to="/event-list">
-              <LoginButton type="button">Login</LoginButton>
+            <SignupButton type="submit">Sign Up</SignupButton>
+
             </Link>
             
-            <p>Don't have an account? <Link to="/sign-up">Signup</Link></p>
-          </LoginForm>
-        </LoginSection>
+          </SignupForm>
+          <LoginLink to="/">Already have an account? Log in here</LoginLink>
+        </SignupSection>
       </main>
-    </LandingContentWrapper>
+    </SignupWrapper>
   );
 }
 
-export default LandingContent;
-
-
-
+export default Signup;

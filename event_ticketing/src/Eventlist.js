@@ -1,5 +1,37 @@
 // EventList.js
 import React, { useState } from 'react';
+import styled from 'styled-components';
+
+// Styled components for better styling
+const EventListContainer = styled.div`
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+`;
+
+const EventItem = styled.div`
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  padding: 20px;
+`;
+
+const EventTitle = styled.h3`
+  color: #333;
+`;
+
+const EventDescription = styled.p`
+  color: #666;
+`;
+
+const EventDate = styled.p`
+  color: #777;
+`;
+
+const EventLocation = styled.p`
+  color: #777;
+`;
 
 function EventList() {
   const [events] = useState([
@@ -21,17 +53,17 @@ function EventList() {
   ]);
 
   return (
-    <div>
+    <EventListContainer>
       <h2>Events List</h2>
       {events.map(event => (
-        <div key={event.id}>
-          <h3>{event.title}</h3>
-          <p>{event.description}</p>
-          <p>Date: {event.date}</p>
-          <p>Location: {event.location}</p>
-        </div>
+        <EventItem key={event.id}>
+          <EventTitle>{event.title}</EventTitle>
+          <EventDescription>{event.description}</EventDescription>
+          <EventDate>Date: {event.date}</EventDate>
+          <EventLocation>Location: {event.location}</EventLocation>
+        </EventItem>
       ))}
-    </div>
+    </EventListContainer>
   );
 }
 
