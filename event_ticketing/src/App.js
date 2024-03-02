@@ -1,20 +1,17 @@
-// src/App.js
+// App.js
 import React from 'react';
-import Navbar from './Navbar';
-import './Navbar.css'; // Import Navbar.css for styles
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LandingContent from './LandingContent';
+import EventList from './Eventlist'; // Corrected import to match the actual file name
 
 function App() {
   return (
-    <div className="App">
-      <Navbar />
-      <div className="landing-page">
-        <header>
-          <h1>Welcome to My Website</h1>
-          <p>Discover amazing things</p>
-        </header>
-        {/* Add other sections of your landing page here */}
-      </div>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingContent />} />
+        <Route path="/event-list" element={<EventList />} />
+      </Routes>
+    </Router>
   );
 }
 
