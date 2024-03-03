@@ -8,6 +8,11 @@ Raghav Bhagria (65827354)
 Lluis Escolano (27196567)
 
 
+To make sure the given code works on your device please run the following commands in your terminal:
+
+1. npm install
+1. npm start
+
 
 
 
