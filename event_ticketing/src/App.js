@@ -2,12 +2,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './Navbar'; // Import the Navbar component
-import LandingContent from './LandingContent';
+import LandingContent from './LandingContent'; // Import the Landing Content
 import Signup from './Signup';
 import EventList from './Eventlist';
 import About from './about';
 import Contact from './contact';
 import EventDetails from './EventDetails';
+
 function App() {
   return (
     <Router>
