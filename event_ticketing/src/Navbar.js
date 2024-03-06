@@ -51,7 +51,7 @@ function Navbar() {
          
           <MenuItem><MenuLink to="/about">About</MenuLink></MenuItem>
           <MenuItem><MenuLink to="/contact">Contact</MenuLink></MenuItem>
-          <MenuItem><MenuLink to="/">Login</MenuLink></MenuItem>
+          <MenuItem><MenuLink to="/login">Login</MenuLink></MenuItem>
         </Menu>
       </Container>
     </Nav>

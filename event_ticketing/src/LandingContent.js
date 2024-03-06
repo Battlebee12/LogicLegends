@@ -1,15 +1,11 @@
-// LandingContent.js
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Axios from 'axios';
 
-const LandingContentWrapper = styled.div`
+const LoginWrapper = styled.div`
   text-align: center;
   padding: 50px 20px;
-`;
-
-const LoginSection = styled.section`
-  margin-top: 50px;
 `;
 
 const LoginForm = styled.form`
@@ -61,38 +57,49 @@ const LoginButton = styled.button`
   }
 `;
 
-function LandingContent() {
+function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loginStatus, setLoginStatus] = useState("");
+  const navigate = useNavigate();
+
+  const login = (e) => {
+    e.preventDefault();
+    if (!email || !password) {
+      setLoginStatus("Email and password are required.");
+      return;
+    }
+    Axios.post("http://localhost:3002/login", { email, password })
+      .then((response) => {
+        setLoginStatus(response.data.message);
+        if (response.status === 200) {
+          // Redirect to ListEvents.js after successful login
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        setLoginStatus("Error logging in.");
+      });
+  };
+
   return (
-    <LandingContentWrapper>
-      <header>
-        <h1>Welcome to Event Ticketing</h1>
-        <p>Discover amazing things</p>
-      </header>
-      <main>
-        <LoginSection>
-          <h2>Login</h2>
-          <LoginForm>
-            <FormGroup>
-              <Label htmlFor="email">Email:</Label>
-              <Input type="email" id="email" name="email" placeholder="Enter your email" required />
-            </FormGroup>
-            <FormGroup>
-              <Label htmlFor="password">Password:</Label>
-              <Input type="password" id="password" name="password" placeholder="Enter your password" required />
-            </FormGroup>
-            <Link to="/event-list">
-              <LoginButton type="button">Login</LoginButton>
-            </Link>
-            
-            <p>Don't have an account? <Link to="/sign-up">Signup</Link></p>
-          </LoginForm>
-        </LoginSection>
-      </main>
-    </LandingContentWrapper>
+    <LoginWrapper>
+      <h2>Login</h2>
+      <LoginForm>
+        <FormGroup>
+          <Label htmlFor="email">Email:</Label>
+          <Input type="email" id="email" name="email" onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email" required />
+        </FormGroup>
+        <FormGroup>
+          <Label htmlFor="password">Password:</Label>
+          <Input type="password" id="password" name="password" onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password" required />
+        </FormGroup>
+        <LoginButton type="submit" onClick={login}>Login</LoginButton>
+      </LoginForm>
+      <p>{loginStatus}</p>
+      <p>Don't have an account? <Link to="/sign-up">Sign up</Link></p>
+    </LoginWrapper>
   );
 }
 
-export default LandingContent;
-
-
-
+export default Login;
