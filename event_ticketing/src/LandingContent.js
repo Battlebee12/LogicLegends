@@ -3,9 +3,13 @@ import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 
-const LoginWrapper = styled.div`
+const LandingContentWrapper = styled.div`
   text-align: center;
   padding: 50px 20px;
+`;
+
+const LoginSection = styled.section`
+  margin-top: 50px;
 `;
 
 const LoginForm = styled.form`
@@ -57,6 +61,17 @@ const LoginButton = styled.button`
   }
 `;
 
+const SignupLink = styled(Link)`
+  display: block;
+  margin-top: 10px;
+  color: #007bff;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -73,6 +88,8 @@ function Login() {
       .then((response) => {
         setLoginStatus(response.data.message);
         if (response.status === 200) {
+          // Set user information in local storage upon successful login
+          localStorage.setItem('user', JSON.stringify(response.data.user));
           // Redirect to ListEvents.js after successful login
           navigate("/");
         }
@@ -83,22 +100,29 @@ function Login() {
   };
 
   return (
-    <LoginWrapper>
-      <h2>Login</h2>
-      <LoginForm>
-        <FormGroup>
-          <Label htmlFor="email">Email:</Label>
-          <Input type="email" id="email" name="email" onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email" required />
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor="password">Password:</Label>
-          <Input type="password" id="password" name="password" onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password" required />
-        </FormGroup>
-        <LoginButton type="submit" onClick={login}>Login</LoginButton>
-      </LoginForm>
-      <p>{loginStatus}</p>
-      <p>Don't have an account? <Link to="/sign-up">Sign up</Link></p>
-    </LoginWrapper>
+    <LandingContentWrapper>
+      <header>
+        <h1>Welcome to Event Ticketing</h1>
+        <p>Discover amazing things</p>
+      </header>
+      <main>
+        <LoginSection>
+          <h2>Login</h2>
+          <LoginForm>
+            <FormGroup>
+              <Label htmlFor="email">Email:</Label>
+              <Input type="email" id="email" name="email" onChange={(e) => { setEmail(e.target.value) }} placeholder="Enter your email" required />
+            </FormGroup>
+            <FormGroup>
+              <Label htmlFor="password">Password:</Label>
+              <Input type="password" id="password" name="password" onChange={(e) => { setPassword(e.target.value) }} placeholder="Enter your password" required />
+            </FormGroup>
+            <LoginButton type="submit" onClick={login}>Login</LoginButton>
+          </LoginForm>
+          <SignupLink to="/sign-up">Don't have an account? Sign up here</SignupLink>
+        </LoginSection>
+      </main>
+    </LandingContentWrapper>
   );
 }
 
