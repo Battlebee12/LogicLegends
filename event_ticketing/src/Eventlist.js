@@ -144,13 +144,14 @@ const EventList = () => {
       </div>
       <div className='p-1 flex flex-wrap'>
         {filteredEvents.map((event) => (
+          <div key={event.id} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/3 p-2">
           <Event
-            key={event.id}
             title={event.title}
             description={event.description}
             date={event.date}
             location={event.location}
           />
+        </div>
         ))}
       </div>
     </div>
