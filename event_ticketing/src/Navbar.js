@@ -76,7 +76,15 @@ function Navbar() {
   }
 
   // Get user information from local storage
-  const user = JSON.parse(localStorage.getItem("user"));
+  let user = null;
+  const userData = localStorage.getItem("user");
+  if (userData) {
+    try {
+      user = JSON.parse(userData);
+    } catch (error) {
+      console.error("Error parsing user data:", error);
+    }
+  }
 
   return (
     <Nav>
