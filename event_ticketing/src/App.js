@@ -8,13 +8,21 @@ import EventList from './Eventlist';
 import About from './about';
 import Contact from './contact';
 import EventDetails from './EventDetails';
+import AdminLogin from './AdminLogin';
+import AdminSignup from './AdminSignup'
+import Hero from './components/Hero';
 
 function App() {
   return (
     <Router>
       <Navbar /> {/* Render the Navbar component */}
+      
       <Routes>
       <Route path="/event-list" element={<EventList />} />
+      <Route path ="/admin-login" element = {<AdminLogin/>}/>
+      <Route path ="login" element = {<LandingContent/>}/>
+      <Route path ="admin-signup" element = {<AdminSignup/>}/>
+
         <Route path="/" element={<LandingContent />} />
         <Route path="/sign-up" element={<Signup />} /> 
         <Route path= "/about" element={<About/>}/>

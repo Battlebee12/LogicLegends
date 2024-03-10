@@ -1,19 +1,24 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-const SignupWrapper = styled.div`
-  text-align: center;
-  padding: 50px 20px;
+const AdminLoginWrapper = styled.div`
+text-align: center;
+padding: 50px 20px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+
 `;
 
-const SignupSection = styled.section`
-  margin-top: 50px;
-`;
-
-const SignupForm = styled.form`
+const AdminLoginForm = styled.form`
   max-width: 400px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 `;
 
 const FormGroup = styled.div`
@@ -44,7 +49,7 @@ const Input = styled.input`
   }
 `;
 
-const SignupButton = styled.button`
+const AdminLoginButton = styled.button`
   width: 100%;
   padding: 12px;
   font-size: 16px;
@@ -60,7 +65,7 @@ const SignupButton = styled.button`
   }
 `;
 
-const LoginLink = styled(Link)`
+const BackToLoginLink = styled(Link)`
   display: block;
   margin-top: 20px;
   color: #007bff;
@@ -71,28 +76,22 @@ const LoginLink = styled(Link)`
   }
 `;
 
-function Signup() {
-  return (
-    <div className="text-center py-20 px-4 sm:px-6 lg:px-8">
-      <header>
-        <h1 className="text-4xl font-bold text-tropical-blue-800 mb-4">Welcome to Event Ticketing</h1>
-        <p className="text-lg text-gray-600 mb-8">Discover amazing things</p>
-      </header>
-      <main className="max-w-md mx-auto bg-gray-50 rounded-lg shadow-2xl p-8">
-        <section className="mt-8">
-          <h2 className="text-2xl font-bold mb-6">Sign Up</h2>
-          <form>
-            <div className="mb-4">
-              <label htmlFor="fullName" className="block text-left text-tropical-blue font-bold mb-2">Full Name:</label>
-              <input
-                type="text"
-                id="fullName"
-                name="fullName"
-                placeholder="Enter your full name"
-                className="w-full px-4 py-3 text-base border border-solid border-gray-300 rounded transition duration-300 focus:outline-none focus:border-tropical-blue"
-                required
-              />
-            </div>
+function AdminLogin() {
+    const emailRef = useRef();
+    const passwordRef = useRef();
+  
+    const handleAdminLogin = (e) => {
+      e.preventDefault();
+      // Add your admin login logic here
+    };
+  
+    return (
+      <div className="text-center py-20 px-4 sm:px-6 lg:px-8">
+        <header>
+          <h1 className="text-4xl font-bold mb-8">Admin Login</h1>
+        </header>
+        <main>
+          <form onSubmit={handleAdminLogin} className="max-w-md mx-auto bg-gray-50 rounded-lg shadow-2xl p-8">
             <div className="mb-4">
               <label htmlFor="email" className="block text-left text-tropical-blue font-bold mb-2">Email:</label>
               <input
@@ -101,6 +100,7 @@ function Signup() {
                 name="email"
                 placeholder="Enter your email"
                 className="w-full px-4 py-3 text-base border border-solid border-gray-300 rounded transition duration-300 focus:outline-none focus:border-tropical-blue"
+                ref={emailRef}
                 required
               />
             </div>
@@ -112,22 +112,26 @@ function Signup() {
                 name="password"
                 placeholder="Enter your password"
                 className="w-full px-4 py-3 text-base border border-solid border-gray-300 rounded transition duration-300 focus:outline-none focus:border-tropical-blue"
+                ref={passwordRef}
                 required
               />
             </div>
-            <Link to="/event-list">
-              <button
-                type="submit"
-                className="w-full px-4 py-3 text-base bg-tropical-blue-500 text-white rounded cursor-pointer transition duration-300 hover:bg-blue-600"
-              >
-                Sign Up
-              </button>
-            </Link>
-            <p className="text-gray-700 mt-4">Already have an account? <Link to="/" className="text-tropical-blue-500">Log in here</Link></p>
+            <button
+              type="submit"
+              className="w-full px-4 py-3 text-base bg-tropical-blue-500 text-white rounded cursor-pointer transition duration-300 hover:bg-blue-600"
+            >
+              Login
+            </button>
+            <div className="mt-4">
+              <Link to="/login" className="text-tropical-blue-500">Back to Login</Link>
+            </div>
+            <div className="mt-2">
+              <Link to="/admin-signup" className="text-tropical-blue-500">Signup-admin</Link>
+            </div>
           </form>
-        </section>
-      </main>
-    </div>
-  );
-}
-export default Signup;
+        </main>
+      </div>
+    );
+  }
+
+export default AdminLogin;
