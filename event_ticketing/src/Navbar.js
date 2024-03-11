@@ -1,112 +1,79 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom'; 
 
-const Nav = styled.nav`
+const NavbarWrapper = styled.nav`
   background-color: #333;
   color: #fff;
-  padding: 10px 0;
-`;
-
-const Container = styled.div`
+  padding: 10px 20px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-`;
 
-const Logo = styled.h1`
-  margin: 0;
-`;
+  a {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 10px;
 
-const Menu = styled.ul`
-  list-style: none;
-  display: flex;
-`;
-
-const MenuItem = styled.li`
-  margin-left: 20px;
-  position: relative; /* Required for absolute positioning */
-`;
-
-const MenuLink = styled(Link)`
-  color: #fff;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
+    &:hover {
+      text-decoration: underline;
+    }
   }
-`;
 
-const DropdownMenu = styled.div`
-  position: absolute;
-  top: 100%; /* Position below the MenuItem */
-  right: 0;
-  background-color: #333;
-  padding: 10px;
-  display: ${props => props.isOpen ? 'block' : 'none'}; /* Conditionally render based on isOpen state */
-`;
+  button {
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    cursor: pointer;
 
-const LogoutButton = styled.button`
-  color: #fff;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-
-  &:hover {
-    text-decoration: underline;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 `;
 
 function Navbar() {
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false); // State to manage dropdown menu visibility
-  
-  // Logout function to clear user information from local storage
+
+  // Function to handle logout
   const logout = () => {
+    // Clear user information from local storage
     localStorage.removeItem('user');
-    navigate("/login"); // Redirect to login page after logout
-  }
+    // Redirect to the login page after logout
+    navigate("/login");
+  };
 
-  // Toggle dropdown menu visibility
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  }
-
-  // Get user information from local storage
+  // Retrieve user information from local storage
+  const userData = localStorage.getItem('user');
   let user = null;
-  const userData = localStorage.getItem("user");
+
+  // Parse user information if it exists
   if (userData) {
     try {
       user = JSON.parse(userData);
     } catch (error) {
-      console.error("Error parsing user data:", error);
+      console.error('Error parsing user data:', error);
     }
   }
 
   return (
-    <Nav>
-      <Container>
-        <Logo>Event Ticketing</Logo>
-        <Menu>
-          {user ? (
-            <MenuItem>
-              <span onClick={toggleDropdown}>Hello, {user.name}</span>
-              <DropdownMenu isOpen={isOpen}>
-                <LogoutButton onClick={logout}>Logout</LogoutButton>
-              </DropdownMenu>
-            </MenuItem>
-          ) : (
-            <MenuItem><MenuLink to="/login">Login</MenuLink></MenuItem>
-          )}
-          <MenuItem><MenuLink to="/event-list">Home</MenuLink></MenuItem>
-          <MenuItem><MenuLink to="/about">About</MenuLink></MenuItem>
-          <MenuItem><MenuLink to="/contact">Contact</MenuLink></MenuItem>
-        </Menu>
-      </Container>
-    </Nav>
+    <NavbarWrapper>
+      <div>
+        <Link to="/">Home</Link>
+        <Link to="/about">About</Link>
+        <Link to="/contact">Contact</Link>
+      </div>
+      {/* Conditionally render login option if user is not logged in */}
+      {!user && (
+        <Link to="/login">Login</Link>
+      )}
+      {/* Conditionally render user's name and logout option if logged in */}
+      {user && (
+        <div>
+          <span>Hello, {user.name}</span>
+          <button onClick={logout}>Logout</button>
+        </div>
+      )}
+    </NavbarWrapper>
   );
 }
 

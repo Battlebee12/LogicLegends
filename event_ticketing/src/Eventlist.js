@@ -1,37 +1,42 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import Hero from './components/Hero';
+import SearchBar from './components/searchBar';
 
 const EventListWrapper = styled.div`
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
 `;
 
-const EventItem = styled.div`
-  border: 1px solid #ccc;
+const EventGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+`;
+
+const EventItem = styled(Link)`
+  display: block;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
   border-radius: 8px;
-  margin-bottom: 20px;
   padding: 20px;
-  cursor: pointer; /* Add cursor pointer */
+  text-align: left;
+  text-decoration: none;
+  color: #333;
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
+  }
 `;
 
 const EventTitle = styled.h3`
   margin-top: 0;
 `;
 
-const SearchBar = styled.input`
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-`;
-
-const FilterSelect = styled.select`
-  padding: 10px;
-  margin-bottom: 20px;
-`;
-
-function EventList() {
+const EventList = () => {
   const [events] = useState([
     {
       id: 1,
@@ -47,48 +52,55 @@ function EventList() {
       date: '2024-03-20',
       location: 'Location B',
     },
+    {
+      id: 3,
+      title: 'Diljit',
+      description: 'Concert',
+      date: '2024-03-20',
+      location: 'Location B',
+    },
+    {
+      id: 4,
+      title: 'Karan Aujla',
+      description: 'Concert',
+      date: '2024-03-20',
+      location: 'Location B',
+    },
     // Add more demo events as needed
   ]);
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [filterCriteria, setFilterCriteria] = useState('');
 
-  // Filter events based on search query and filter criteria
+  // Filter events based on search query
   const filteredEvents = events.filter(event =>
-    event.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
-    (filterCriteria === '' || event.location === filterCriteria)
+    event.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
-    <EventListWrapper>
-      <h2>Events List</h2>
-      <SearchBar
-        type="text"
-        placeholder="Search events"
-        value={searchQuery}
-        onChange={e => setSearchQuery(e.target.value)}
-      />
-      <FilterSelect
-        value={filterCriteria}
-        onChange={e => setFilterCriteria(e.target.value)}
-      >
-        <option value="">All Locations</option>
-        {/* Replace with actual locations or categories */}
-        <option value="Location A">Location A</option>
-        <option value="Location B">Location B</option>
-      </FilterSelect>
-      {filteredEvents.map(event => (
-        <Link key={event.id} to={`/event-details/${event.id}`}> {/* Link to event details page */}
-          <EventItem>
-            <EventTitle>{event.title}</EventTitle>
-            <p>{event.description}</p>
-            <p>Date: {event.date}</p>
-            <p>Location: {event.location}</p>
-          </EventItem>
-        </Link>
-      ))}
-    </EventListWrapper>
+    <div>
+      <Hero />
+      <EventListWrapper>
+        <h2>Events List</h2>
+        <SearchBarWrapper>
+          <SearchBar onSearch={(query) => setSearchQuery(query)} />
+        </SearchBarWrapper>
+        <EventGrid>
+          {filteredEvents.map((event) => (
+            <EventItem key={event.id} to={`/event-details/${event.id}`}>
+              <EventTitle>{event.title}</EventTitle>
+              <p>{event.description}</p>
+              <p>Date: {event.date}</p>
+              <p>Location: {event.location}</p>
+            </EventItem>
+          ))}
+        </EventGrid>
+      </EventListWrapper>
+    </div>
   );
-}
+};
+
+const SearchBarWrapper = styled.div`
+  margin-bottom: 20px;
+`;
 
 export default EventList;

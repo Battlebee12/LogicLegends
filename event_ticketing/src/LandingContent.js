@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
 import Axios from 'axios';
 
 const LandingContentWrapper = styled.div`
@@ -76,7 +76,7 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginStatus, setLoginStatus] = useState("");
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Use useNavigate hook
 
   const login = (e) => {
     e.preventDefault();
@@ -86,19 +86,23 @@ function Login() {
     }
     Axios.post("http://localhost:3002/login", { email, password })
       .then((response) => {
-        setLoginStatus(response.data.message);
+        console.log("Login response:", response); // Log the response
         if (response.status === 200) {
-          // Set user information in local storage upon successful login
-          localStorage.setItem('user', JSON.stringify(response.data.user));
-          // Redirect to ListEvents.js after successful login
-          navigate("/");
+          const userData = response.data;
+          // Store user information in local storage
+          localStorage.setItem('user', JSON.stringify(userData));
+          // Redirect to event list page after successful login
+          navigate("/event-list"); // Redirect to EventList component
+        } else {
+          setLoginStatus("Invalid email or password.");
         }
       })
       .catch((error) => {
-        setLoginStatus("Error logging in.");
+        console.error('Error logging in:', error);
+        setLoginStatus("Error logging in. Please try again later.");
       });
   };
-
+  
   return (
     <LandingContentWrapper>
       <header>
@@ -120,6 +124,7 @@ function Login() {
             <LoginButton type="submit" onClick={login}>Login</LoginButton>
           </LoginForm>
           <SignupLink to="/sign-up">Don't have an account? Sign up here</SignupLink>
+          {loginStatus && <p>{loginStatus}</p>}
         </LoginSection>
       </main>
     </LandingContentWrapper>
