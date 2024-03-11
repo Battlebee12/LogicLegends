@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import Axios from 'axios';
 
 const OrganizeEventWrapper = styled.div`
   max-width: 600px;
   margin: 0 auto;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 `;
 
 const Form = styled.form`
@@ -52,84 +48,58 @@ const Button = styled.button`
 `;
 
 const OrganizeEvent = () => {
-  const [organizerName, setOrganizerName] = useState('');
-  const [eventName, setEventName] = useState('');
-  const [eventDate, setEventDate] = useState('');
-  const [eventLocation, setEventLocation] = useState('');
-  const [eventDescription, setEventDescription] = useState('');
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [date, setDate] = useState('');
+  const [message, setMessage] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Implement event submission logic here
-    console.log('Event details submitted:', {
-      organizerName,
-      eventName,
-      eventDate,
-      eventLocation,
-      eventDescription,
-    });
-    // Reset form fields after submission
-    setOrganizerName('');
-    setEventName('');
-    setEventDate('');
-    setEventLocation('');
-    setEventDescription('');
-  };
-  const handleNext = ()=>{
-    Navigate
-  }
+    const trimmedName = name.trim(); // Trim whitespace from the event name
 
+    try {
+      const response = await Axios.post('http://localhost:3002/events', {
+        name: trimmedName,
+        description: description,
+        date: date
+      });
+      setMessage(response.data.message);
+    } catch (error) {
+      console.error('Error creating event:', error);
+      setMessage('Error creating event');
+    }
+  };
   return (
     <OrganizeEventWrapper>
       <h2>Organize Your Event</h2>
       <Form onSubmit={handleSubmit}>
-        <Label htmlFor="organizerName">Organizer Name:</Label>
+        <Label htmlFor="name">Event Name:</Label>
         <Input
           type="text"
-          id="organizerName"
-          value={organizerName}
-          onChange={(e) => setOrganizerName(e.target.value)}
+          id="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           required
         />
-
-        <Label htmlFor="eventName">Event Name:</Label>
-        <Input
-          type="text"
-          id="eventName"
-          value={eventName}
-          onChange={(e) => setEventName(e.target.value)}
+        <Label htmlFor="description">Event Description:</Label>
+        <TextArea
+          id="description"
+          rows="4"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
           required
         />
-
-        <Label htmlFor="eventDate">Event Date:</Label>
+        <Label htmlFor="date">Event Date:</Label>
         <Input
           type="date"
-          id="eventDate"
-          value={eventDate}
-          onChange={(e) => setEventDate(e.target.value)}
+          id="date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
           required
         />
-
-        <Label htmlFor="eventLocation">Event Location:</Label>
-        <Input
-          type="text"
-          id="eventLocation"
-          value={eventLocation}
-          onChange={(e) => setEventLocation(e.target.value)}
-          required
-        />
-
-        <Label htmlFor="eventDescription">Event Description:</Label>
-        <TextArea
-          id="eventDescription"
-          rows="4"
-          value={eventDescription}
-          onChange={(e) => setEventDescription(e.target.value)}
-          required
-        />
-
-        <Button type="submit" onClick={handleNext}>Submit</Button>
+        <Button type="submit">Create Event</Button>
       </Form>
+      {message && <p>{message}</p>}
     </OrganizeEventWrapper>
   );
 };

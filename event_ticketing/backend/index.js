@@ -74,9 +74,33 @@ app.post('/login', (req, res) => {
     });
 });
 
-app.listen(3002, () => {
-    console.log('Running backend server on port 3002');
+app.post('/events', (req, res) => {
+    const { name, description, date } = req.body;
+
+    // Check if any required field is missing
+    if (!name || !description || !date) {
+        res.status(400).send({ message: 'All fields are required.' });
+        return;
+    }
+
+    // Insert the event into the database
+    con.query('INSERT INTO events (name, description, date) VALUES (?, ?, ?)', [name, description, date], (err, result) => {
+        if (err) {
+            console.error('Error creating event:', err);
+            // More specific error message based on error code
+            let message = "Error creating event.";
+            if (err.code === 'ER_DUP_ENTRY') {
+                message = "Event name already exists.";
+            }
+            res.status(500).send({ message });
+        } else {
+            res.status(200).send({ message: 'Event created successfully.' });
+        }
+    });
 });
 
 
 
+app.listen(3002, () => {
+    console.log('Running backend server on port 3002');
+});
