@@ -1,7 +1,7 @@
-// LandingContent.js
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Axios from 'axios';
 
 const LandingContentWrapper = styled.div`
   text-align: center;
@@ -61,7 +61,44 @@ const LoginButton = styled.button`
   }
 `;
 
-function LandingContent() {
+const SignupLink = styled(Link)`
+  display: block;
+  margin-top: 10px;
+  color: #007bff;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loginStatus, setLoginStatus] = useState("");
+  const navigate = useNavigate();
+
+  const login = (e) => {
+    e.preventDefault();
+    if (!email || !password) {
+      setLoginStatus("Email and password are required.");
+      return;
+    }
+    Axios.post("http://localhost:3002/login", { email, password })
+      .then((response) => {
+        setLoginStatus(response.data.message);
+        if (response.status === 200) {
+          // Set user information in local storage upon successful login
+          localStorage.setItem('user', JSON.stringify(response.data.user));
+          // Redirect to ListEvents.js after successful login
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        setLoginStatus("Error logging in.");
+      });
+  };
+
   return (
     <LandingContentWrapper>
       <header>
@@ -74,25 +111,19 @@ function LandingContent() {
           <LoginForm>
             <FormGroup>
               <Label htmlFor="email">Email:</Label>
-              <Input type="email" id="email" name="email" placeholder="Enter your email" required />
+              <Input type="email" id="email" name="email" onChange={(e) => { setEmail(e.target.value) }} placeholder="Enter your email" required />
             </FormGroup>
             <FormGroup>
               <Label htmlFor="password">Password:</Label>
-              <Input type="password" id="password" name="password" placeholder="Enter your password" required />
+              <Input type="password" id="password" name="password" onChange={(e) => { setPassword(e.target.value) }} placeholder="Enter your password" required />
             </FormGroup>
-            <Link to="/event-list">
-              <LoginButton type="button">Login</LoginButton>
-            </Link>
-            
-            <p>Don't have an account? <Link to="/sign-up">Signup</Link></p>
+            <LoginButton type="submit" onClick={login}>Login</LoginButton>
           </LoginForm>
+          <SignupLink to="/sign-up">Don't have an account? Sign up here</SignupLink>
         </LoginSection>
       </main>
     </LandingContentWrapper>
   );
 }
 
-export default LandingContent;
-
-
-
+export default Login;
