@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -29,10 +29,45 @@ const NavbarWrapper = styled.nav`
       text-decoration: underline;
     }
   }
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+    margin-left: 10px;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+
+  .dropdown-content a:hover {
+    background-color: #ddd;
+  }
+
+  .logout-btn {
+    color: black;
+  }
 `;
 
 function Navbar() {
   const navigate = useNavigate();
+  const [showDropdown, setShowDropdown] = useState(false);
 
   // Function to handle logout
   const logout = () => {
@@ -58,19 +93,24 @@ function Navbar() {
   return (
     <NavbarWrapper>
       <div>
-        <Link to="/">Home</Link>
+        <Link to="/event-list">Home</Link>
         <Link to="/about">About</Link>
         <Link to="/contact">Contact</Link>
+        {/* Option for organizing an event */}
+        <Link to="/organize-event">Organize Event</Link>
       </div>
       {/* Conditionally render login option if user is not logged in */}
       {!user && (
         <Link to="/login">Login</Link>
       )}
-      {/* Conditionally render user's name and logout option if logged in */}
+      {/* Conditionally render user's name and dropdown menu if logged in */}
       {user && (
-        <div>
+        <div className="dropdown">
           <span>Hello, {user.name}</span>
-          <button onClick={logout}>Logout</button>
+          <div className="dropdown-content">
+            <Link to="/profile">View Profile</Link>
+            <button className="logout-btn" onClick={logout}>Logout</button>
+          </div>
         </div>
       )}
     </NavbarWrapper>

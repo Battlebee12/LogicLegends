@@ -7,6 +7,7 @@ import EventList from './Eventlist';
 import About from './about';
 import Contact from './contact';
 import EventDetails from './EventDetails';
+import OrganizeEvent from './Organize';
 
 import ConfirmationPage from './ConfirmationPage';
 import PaymentPage from './Checkout';
@@ -16,7 +17,7 @@ function App() {
     <Router>
       <Navbar />
       <Routes>
-        <Route path="/" element={<EventList />} />
+        <Route path="/event-list" element={<EventList />} />
         <Route path="/login" element={<LandingContent />} />
         <Route path="/sign-up" element={<Signup />} /> 
         <Route path="/about" element={<About />} />
@@ -24,6 +25,7 @@ function App() {
         <Route path="/event-details/:id" element={<EventDetails />} />
         <Route path="/checkout/:id" element={<PaymentPage />} />
         <Route path="/confirmation" element={<ConfirmationPage />} />
+        <Route path="/organize-event" element={<OrganizeEvent/>}/>
       </Routes>
     </Router>
   );
