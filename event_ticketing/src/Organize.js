@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Axios from 'axios';
 
@@ -52,10 +53,11 @@ const OrganizeEvent = () => {
   const [description, setDescription] = useState('');
   const [date, setDate] = useState('');
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const trimmedName = name.trim(); // Trim whitespace from the event name
+    const trimmedName = name.trim();
 
     try {
       const response = await Axios.post('http://localhost:3002/events', {
@@ -64,11 +66,14 @@ const OrganizeEvent = () => {
         date: date
       });
       setMessage(response.data.message);
+      // Redirect to EventList after successful event creation
+      navigate('/event-list');
     } catch (error) {
       console.error('Error creating event:', error);
       setMessage('Error creating event');
     }
   };
+
   return (
     <OrganizeEventWrapper>
       <h2>Organize Your Event</h2>
