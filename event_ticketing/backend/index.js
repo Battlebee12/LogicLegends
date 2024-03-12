@@ -1,6 +1,6 @@
 const express = require('express');
 const mysql = require('mysql');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const cors = require('cors');
 const app = express();
 
@@ -10,7 +10,7 @@ app.use(cors());
 const con = mysql.createConnection({
     user: 'root',
     host: 'localhost',
-    password: '304rootpw',
+    password: '121103sarab',
     database: 'test',
 });
 
