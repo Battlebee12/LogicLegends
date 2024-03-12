@@ -5,7 +5,7 @@ import Axios from 'axios';
 
 const OrganizeEventWrapper = styled.div`
   max-width: 600px;
-  margin: 0 auto;
+  margin: 0.1 auto;
 `;
 
 const Form = styled.form`
