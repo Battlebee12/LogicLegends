@@ -1,59 +1,53 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import ConfirmationPage from './ConfirmationPage';
+import cardIcon from './Images/cards.jpeg'; 
+import applePayIcon from './Images/apple_logo.jpeg';
+import googlePayIcon from './Images/Google_Pay_Logo.png';
 
 const PaymentPage = () => {
   const [paymentMethod, setPaymentMethod] = useState('');
-  const [isPaymentConfirmed, setIsPaymentConfirmed] = useState(false);
 
   const handlePayment = (method) => {
     setPaymentMethod(method);
-    // Implement your payment logic here
-    // For demonstration, set payment confirmation to true
-    setIsPaymentConfirmed(true);
+  };
+
+  const handleCheckout = () => {
+    // Implement your checkout logic here
+    // For now, navigate to the confirmation page
+    window.location.href = '/confirmation';
   };
 
   return (
-    <div className="max-w-xl mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-3xl font-bold mb-6">Select Payment Method</h2>
-      <div className="flex justify-between space-x-4">
-        {/* Payment method options as cards */}
-        <div
-          className={`payment-card ${paymentMethod === 'card' && 'selected'}`}
-          onClick={() => handlePayment('card')}
+    <div className="flex flex-col items-center">
+      <h2 className="text-lg font-semibold my-4">Select Payment Method</h2>
+      <div className="flex flex-col gap-4 mb-8">
+        {/* Payment method selection buttons */}
+        <button 
+          onClick={() => handlePayment('card')} 
+          className={`flex items-center justify-center px-4 py-2 bg-gray-200 rounded-md shadow ${paymentMethod === 'card' ? 'bg-blue-500 text-white' : 'bg-gray-200'} hover:bg-blue-500 hover:text-white transition-colors`}
         >
-          <span className="text-lg font-semibold tracking-wide">Card</span>
-        </div>
-        <div
-          className={`payment-card ${paymentMethod === 'apple-pay' && 'selected'}`}
-          onClick={() => handlePayment('apple-pay')}
+          <img src={cardIcon} alt="Card Payment" className="w-6 h-6 mr-2" /> Card
+        </button>
+        <button 
+          onClick={() => handlePayment('apple-pay')} 
+          className={`flex items-center justify-center px-4 py-2 rounded-md shadow ${paymentMethod === 'apple-pay' ? 'bg-blue-500 text-white' : 'bg-gray-200'} hover:bg-blue-500 hover:text-white transition-colors`}
         >
-          <span className="text-lg font-semibold tracking-wide">Apple Pay</span>
-        </div>
-        <div
-          className={`payment-card ${paymentMethod === 'google-pay' && 'selected'}`}
-          onClick={() => handlePayment('google-pay')}
+          <img src={applePayIcon} alt="Apple Pay" className="w-6 h-6 mr-2" /> Apple Pay
+        </button>
+        <button 
+          onClick={() => handlePayment('google-pay')} 
+          className={`flex items-center justify-center px-4 py-2 rounded-md shadow ${paymentMethod === 'google-pay' ? 'bg-blue-500 text-white' : 'bg-gray-200'} hover:bg-blue-500 hover:text-white transition-colors`}
         >
-          <span className="text-lg font-semibold tracking-wide">Google Pay</span>
-        </div>
+          <img src={googlePayIcon} alt="Google Pay" className="w-6 h-6 mr-2" /> Google Pay
+        </button>
       </div>
-      {/* Pay Now button */}
-      <button
-        onClick={() => handlePayment(paymentMethod)}
-        disabled={!paymentMethod || isPaymentConfirmed}
-        className={`mt-6 py-2 px-4 bg-${paymentMethod ? 'orange' : 'gray'}-500 text-white rounded-md cursor-${paymentMethod ? 'pointer' : 'not-allowed'} hover:bg-${paymentMethod ? 'orange' : 'gray'}-600 hover:shadow-lg transition duration-300`}
+      {/* Checkout button */}
+      <button 
+        onClick={handleCheckout} 
+        disabled={!paymentMethod} 
+        className="px-6 py-3 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
       >
-        {isPaymentConfirmed ? 'Payment Confirmed' : 'Pay Now'}
+        Pay Now
       </button>
-      {/* Navigate to ConfirmationPage when payment is confirmed */}
-      {isPaymentConfirmed && (
-        <Link
-          to="/confirmation"
-          className="block mt-4 py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300"
-        >
-          Proceed to Confirmation
-        </Link>
-      )}
     </div>
   );
 };
