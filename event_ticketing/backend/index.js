@@ -10,8 +10,8 @@ app.use(cors());
 const con = mysql.createConnection({
     user: 'root',
     host: 'localhost',
-    password: '304rootpw',
-    database: 'test',
+    password: 'root',
+    database: 'event_ticketing',
 });
 
 app.post('/register', (req, res) => {
@@ -73,6 +73,55 @@ app.post('/login', (req, res) => {
         });
     });
 });
+
+app.post('/events', (req, res) => {
+    const { name, description, date } = req.body;
+
+    // Check if any required field is missing
+    if (!name || !description || !date) {
+        res.status(400).send({ message: 'All fields are required.' });
+        return;
+    }
+
+    // Insert the event into the database
+    con.query('INSERT INTO events (name, description, date) VALUES (?, ?, ?)', [name, description, date], (err, result) => {
+        if (err) {
+            console.error('Error creating event:', err);
+            // More specific error message based on error code
+            let message = "Error creating event.";
+            if (err.code === 'ER_DUP_ENTRY') {
+                message = "Event name already exists.";
+            }
+            res.status(500).send({ message });
+        } else {
+            res.status(200).send({ message: 'Event created successfully.' });
+        }
+    });
+});
+
+app.get('/events', (req, res) => {
+    con.query('SELECT * FROM events ORDER BY date ASC', (err, results) => {
+        if (err) {
+            console.error('Error fetching events:', err);
+            res.status(500).send({ message: 'Internal server error.' });
+        } else {
+            res.status(200).json(results);
+            //update
+        }
+    });
+});
+app.get('/events', (req, res) => {
+    con.query('SELECT * FROM events ORDER BY date ASC', (err, results) => {
+        if (err) {
+            console.error('Error fetching events:', err);
+            res.status(500).send({ message: 'Internal server error.' });
+        } else {
+            res.status(200).json(results);
+            //update
+        }
+    });
+});
+
 
 
 app.listen(3002, () => {
