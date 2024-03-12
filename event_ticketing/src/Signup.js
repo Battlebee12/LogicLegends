@@ -1,76 +1,6 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import Axios from 'axios';
-
-const SignupWrapper = styled.div`
-  text-align: center;
-  padding: 50px 20px;
-`;
-
-const SignupSection = styled.section`
-  margin-top: 50px;
-`;
-
-const SignupForm = styled.form`
-  max-width: 400px;
-  margin: 0 auto;
-`;
-
-const FormGroup = styled.div`
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-`;
-
-const Label = styled.label`
-  flex: 0 0 30%;
-  text-align: right;
-  margin-right: 10px;
-  font-weight: bold;
-  color: #333;
-`;
-
-const Input = styled.input`
-  flex: 0 0 70%;
-  padding: 12px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  transition: border-color 0.3s ease;
-
-  &:focus {
-    border-color: #007bff;
-    outline: none;
-  }
-`;
-
-const SignupButton = styled.button`
-  width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-`;
-
-const LoginLink = styled(Link)`
-  display: block;
-  margin-top: 20px;
-  color: #007bff;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
 
 function Signup() {
   const [email, setEmail] = useState("");
@@ -101,34 +31,32 @@ function Signup() {
   };
 
   return (
-    <SignupWrapper>
-      <header>
-        <h1>Event Ticketing Platform</h1>
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+      <div className="mb-6 text-center">
+        <h1 className="text-3xl font-bold">Event Ticketing Platform</h1>
         <p>Sign up to explore events</p>
-      </header>
-      <main>
-        <SignupSection>
-          <h2>Sign Up</h2>
-          <SignupForm>
-            <FormGroup>
-              <Label htmlFor="fullName">Full Name:</Label>
-              <Input type="text" id="fullName" name="fullName" onChange={(e) => { setName(e.target.value) }} placeholder="Enter your full name" required />
-            </FormGroup>
-            <FormGroup>
-              <Label htmlFor="email">Email:</Label>
-              <Input type="email" id="email" name="email" onChange={(e) => { setEmail(e.target.value) }} placeholder="Enter your email" required />
-            </FormGroup>
-            <FormGroup>
-              <Label htmlFor="password">Password:</Label>
-              <Input type="password" id="password" name="password" onChange={(e) => { setPassword(e.target.value) }} placeholder="Enter your password" required />
-            </FormGroup>
-            <SignupButton type="submit" onClick={register}>Sign Up</SignupButton>
-          </SignupForm>
-          <LoginLink to="/login">Already have an account? Log in here</LoginLink>
-          {registerStatus && <p>{registerStatus}</p>}
-        </SignupSection>
-      </main>
-    </SignupWrapper>
+      </div>
+      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md text-ce">
+        <h2 className="text-2xl font-bold mb-6 mx-auto text-center">Sign Up</h2>
+        <form>
+          <div className="mb-4">
+            <label htmlFor="fullName" className="block text-gray-700">Full Name:</label>
+            <input type="text" id="fullName" name="fullName" onChange={(e) => { setName(e.target.value) }} placeholder="Enter your full name" className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-gray-700">Email:</label>
+            <input type="email" id="email" name="email" onChange={(e) => { setEmail(e.target.value) }} placeholder="Enter your email" className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="password" className="block text-gray-700">Password:</label>
+            <input type="password" id="password" name="password" onChange={(e) => { setPassword(e.target.value) }} placeholder="Enter your password" className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required />
+          </div>
+          <button type="submit" onClick={register} className="w-full p-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700 transition duration-300 ease-in-out">Sign Up</button>
+        </form>
+        <Link to="/login" className="block text-blue-500 mt-4 hover:underline">Already have an account? Log in here</Link>
+        {registerStatus && <p className="text-red-500 mt-4">{registerStatus}</p>}
+      </div>
+    </div>
   );
 }
 

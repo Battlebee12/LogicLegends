@@ -1,69 +1,5 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-
-const NavbarWrapper = styled.nav`
-  background-color: #333;
-  color: #fff;
-  padding: 10px 20px;
-  display: flex;
-  justify-content: space-between;
-
-  a {
-    color: #fff;
-    text-decoration: none;
-    margin-right: 10px;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
-  button {
-    background-color: transparent;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
-  .dropdown {
-    position: relative;
-    display: inline-block;
-    margin-left: 10px;
-  }
-
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-    z-index: 1;
-  }
-
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
-
-  .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-  }
-
-  .dropdown-content a:hover {
-    background-color: #ddd;
-  }
-
-  .logout-btn {
-    color: black;
-  }
-`;
 
 function Navbar() {
   const navigate = useNavigate();
@@ -91,13 +27,16 @@ function Navbar() {
   }
 
   return (
-    <NavbarWrapper>
-      <div>
-        <Link to="/event-list">Home</Link>
-        <Link to="/about">About</Link>
-        <Link to="/contact">Contact</Link>
-        {/* Option for organizing an event */}
-        <Link to="/organize-event">Organize Event</Link>
+    <nav className="bg-gray-800 text-white p-4 flex justify-between items-center">
+      <div className="flex items-center">
+        <h1 className="text-2xl font-bold mr-4">Eventify</h1>
+        <div className="space-x-4">
+          <Link to="/event-list">Home</Link>
+          <Link to="/about">About</Link>
+          <Link to="/contact">Contact</Link>
+          {/* Option for organizing an event */}
+          <Link to="/organize-event">Organize Event</Link>
+        </div>
       </div>
       {/* Conditionally render login option if user is not logged in */}
       {!user && (
@@ -105,15 +44,15 @@ function Navbar() {
       )}
       {/* Conditionally render user's name and dropdown menu if logged in */}
       {user && (
-        <div className="dropdown">
-          <span>Hello, {user.name}</span>
-          <div className="dropdown-content">
+        <div className="group inline-block relative">
+          <span className="cursor-pointer">{`Hello, ${user.name}`}</span>
+          <div className="hidden group-hover:block absolute bg-white border rounded p-2">
             <Link to="/profile">View Profile</Link>
-            <button className="logout-btn" onClick={logout}>Logout</button>
+            <button className="text-black" onClick={logout}>Logout</button>
           </div>
         </div>
       )}
-    </NavbarWrapper>
+    </nav>
   );
 }
 

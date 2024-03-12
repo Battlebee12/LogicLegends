@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Hero from './components/Hero';
 import SearchBar from './components/searchBar';
+import Navbar from './Navbar';
 
 const EventListWrapper = styled.div`
   max-width: 1200px;
@@ -78,6 +79,7 @@ const EventList = () => {
 
   return (
     <div>
+      <Navbar/>
       <Hero />
       <EventListWrapper>
         <h2>Events List</h2>

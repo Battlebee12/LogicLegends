@@ -8,6 +8,7 @@ import About from './about';
 import Contact from './contact';
 import EventDetails from './EventDetails';
 import OrganizeEvent from './Organize';
+import AdminLogin from './AdminLogin';
 
 import ConfirmationPage from './ConfirmationPage';
 import PaymentPage from './Checkout';
@@ -15,8 +16,8 @@ import PaymentPage from './Checkout';
 function App() {
   return (
     <Router>
-      <Navbar />
       <Routes>
+        <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/event-list" element={<EventList />} />
         <Route path="/login" element={<LandingContent />} />
         <Route path="/sign-up" element={<Signup />} /> 

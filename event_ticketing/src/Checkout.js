@@ -1,4 +1,3 @@
-// PaymentPage.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ConfirmationPage from './ConfirmationPage';
@@ -15,70 +14,46 @@ const PaymentPage = () => {
   };
 
   return (
-    <div style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
-      <h2>Select Payment Method</h2>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
-        {/* Payment method options */}
+    <div className="max-w-xl mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
+      <h2 className="text-3xl font-bold mb-6">Select Payment Method</h2>
+      <div className="flex justify-between space-x-4">
+        {/* Payment method options as cards */}
         <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            cursor: 'pointer',
-            transition: 'transform 0.2s',
-            border: paymentMethod === 'card' ? '2px solid #ff6600' : 'none',
-          }}
+          className={`payment-card ${paymentMethod === 'card' && 'selected'}`}
           onClick={() => handlePayment('card')}
         >
-          <span>Card</span>
+          <span className="text-lg font-semibold tracking-wide">Card</span>
         </div>
         <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            cursor: 'pointer',
-            transition: 'transform 0.2s',
-            border: paymentMethod === 'apple-pay' ? '2px solid #ff6600' : 'none',
-          }}
+          className={`payment-card ${paymentMethod === 'apple-pay' && 'selected'}`}
           onClick={() => handlePayment('apple-pay')}
         >
-          <span>Apple Pay</span>
+          <span className="text-lg font-semibold tracking-wide">Apple Pay</span>
         </div>
         <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            cursor: 'pointer',
-            transition: 'transform 0.2s',
-            border: paymentMethod === 'google-pay' ? '2px solid #ff6600' : 'none',
-          }}
+          className={`payment-card ${paymentMethod === 'google-pay' && 'selected'}`}
           onClick={() => handlePayment('google-pay')}
         >
-          <span>Google Pay</span>
+          <span className="text-lg font-semibold tracking-wide">Google Pay</span>
         </div>
       </div>
       {/* Pay Now button */}
       <button
         onClick={() => handlePayment(paymentMethod)}
-        // Disable button if payment method is not selected or payment is already confirmed
         disabled={!paymentMethod || isPaymentConfirmed}
-        style={{
-          marginTop: '20px',
-          padding: '10px 20px',
-          backgroundColor: paymentMethod ? '#ff6600' : '#ccc',
-          color: 'white',
-          border: 'none',
-          borderRadius: '5px',
-          fontSize: '16px',
-          cursor: paymentMethod ? 'pointer' : 'not-allowed',
-        }}
+        className={`mt-6 py-2 px-4 bg-${paymentMethod ? 'orange' : 'gray'}-500 text-white rounded-md cursor-${paymentMethod ? 'pointer' : 'not-allowed'} hover:bg-${paymentMethod ? 'orange' : 'gray'}-600 hover:shadow-lg transition duration-300`}
       >
-        Pay Now
+        {isPaymentConfirmed ? 'Payment Confirmed' : 'Pay Now'}
       </button>
       {/* Navigate to ConfirmationPage when payment is confirmed */}
-      {isPaymentConfirmed && <Link to="/confirmation">Proceed to Confirmation</Link>}
+      {isPaymentConfirmed && (
+        <Link
+          to="/confirmation"
+          className="block mt-4 py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300"
+        >
+          Proceed to Confirmation
+        </Link>
+      )}
     </div>
   );
 };

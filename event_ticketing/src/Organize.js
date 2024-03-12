@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Axios from 'axios';
+import Navbar from './Navbar';
 
 const OrganizeEventWrapper = styled.div`
   max-width: 600px;
@@ -75,37 +76,40 @@ const OrganizeEvent = () => {
   };
 
   return (
-    <OrganizeEventWrapper>
-      <h2>Organize Your Event</h2>
-      <Form onSubmit={handleSubmit}>
-        <Label htmlFor="name">Event Name:</Label>
-        <Input
-          type="text"
-          id="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        <Label htmlFor="description">Event Description:</Label>
-        <TextArea
-          id="description"
-          rows="4"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          required
-        />
-        <Label htmlFor="date">Event Date:</Label>
-        <Input
-          type="date"
-          id="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          required
-        />
-        <Button type="submit">Create Event</Button>
-      </Form>
-      {message && <p>{message}</p>}
-    </OrganizeEventWrapper>
+    <div>
+      <Navbar/>
+      <OrganizeEventWrapper>
+        <h2>Organize Your Event</h2>
+        <Form onSubmit={handleSubmit}>
+          <Label htmlFor="name">Event Name:</Label>
+          <Input
+            type="text"
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+          <Label htmlFor="description">Event Description:</Label>
+          <TextArea
+            id="description"
+            rows="4"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            required
+          />
+          <Label htmlFor="date">Event Date:</Label>
+          <Input
+            type="date"
+            id="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            required
+          />
+          <Button type="submit">Create Event</Button>
+        </Form>
+        {message && <p>{message}</p>}
+      </OrganizeEventWrapper>
+    </div>
   );
 };
 
