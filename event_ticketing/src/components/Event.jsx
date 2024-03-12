@@ -2,7 +2,7 @@ import React from 'react';
 
 const Event = ({ id, title, description, date, location }) => {
     return (
-      <div className="max-w-md mx-auto bg-white rounded-lg overflow-hidden shadow-md p-4 mb-4">
+      <div className="max-w-md mx-auto bg-white rounded-lg overflow-hidden shadow-md p-4 mb-5">
         <h2 className="text-2xl font-bold mb-2">{title}</h2>
         <p className="text-gray-600 mb-4">{description}</p>
         <div className="flex items-center mb-2">
