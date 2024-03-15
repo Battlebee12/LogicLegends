@@ -36,25 +36,31 @@ function Navbar() {
         <Link to="/" className="hover:text-gray-300">Login</Link>
       )}
       {user && (
-        <div className="relative inline-block">
-          <button 
-            onClick={() => setShowDropdown(!showDropdown)} 
-            className="focus:outline-none"
-          >
-            <span>{`Hello, ${user.firstName}`}</span>
-          </button>
-          {showDropdown && (
-            <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-50">
-              <Link to="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">View Profile</Link>
-              <Link to="/tickets" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">View Tickets</Link>
-              <button 
-                onClick={logout} 
-                className="text-sm text-gray-700 block w-full text-left px-4 py-2 hover:bg-gray-100"
-              >
-                Logout
-              </button>
-            </div>
-          )}
+        <div className="flex items-center">
+          <Link to="/cart" className="mr-4 hover:text-gray-300">View Cart</Link>
+          <span>{`Hi, ${user.firstName}`}</span>
+          <div className="relative inline-block">
+            <button 
+              onClick={() => setShowDropdown(!showDropdown)} 
+              className="focus:outline-none"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
+              </svg>
+            </button>
+            {showDropdown && (
+              <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-50">
+                <Link to="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">View Profile</Link>
+                <Link to="/tickets" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">View Tickets</Link>
+                <button 
+                  onClick={logout} 
+                  className="text-sm text-gray-700 block w-full text-left px-4 py-2 hover:bg-gray-100"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       )}
     </nav>

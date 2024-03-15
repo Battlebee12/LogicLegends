@@ -70,7 +70,7 @@ app.post('/login', (req, res) => {
                 // Return user's name and email along with the response
                 res.status(200).send({
                     message: 'Login successful.',
-                    firstName: user.firstName,
+                    name: user.firstName,
                     email: user.email // Include email in the response
                 });
             } else {
@@ -82,32 +82,31 @@ app.post('/login', (req, res) => {
 
 
 app.post('/events', (req, res) => {
-    const { name, description, date, ticketType, ticketsAvailable } = req.body;
+    const { name, description, date, ticketPrice, ticketsAvailable } = req.body;
 
     // Check if any required field is missing
-    if (!name || !description || !date || !ticketType || !ticketsAvailable) {
+    if (!name || !description || !date || !ticketPrice || !ticketsAvailable) {
         res.status(400).send({ message: 'All fields are required.' });
         return;
     }
 
     // Insert the event into the database
-    con.query('INSERT INTO events (name, description, date, ticket_type, tickets_available) VALUES (?, ?, ?, ?, ?)',
-        [name, description, date, ticketType, ticketsAvailable],
-        (err, result) => {
-            if (err) {
-                console.error('Error creating event:', err);
-                // More specific error message based on error code
-                let message = "Error creating event.";
-                if (err.code === 'ER_DUP_ENTRY') {
-                    message = "Event name already exists.";
-                }
-                res.status(500).send({ message });
-            } else {
-                res.status(200).send({ message: 'Event created successfully.' });
-            }
-        });
-});
+    const eventInsertQuery = 'INSERT INTO events (name, description, date, ticket_price, tickets_available) VALUES (?, ?, ?, ?, ?)';
 
+    con.query(eventInsertQuery, [name, description, date, ticketPrice, ticketsAvailable], (err, result) => {
+        if (err) {
+            console.error('Error creating event:', err);
+            // More specific error message based on error code
+            let message = "Error creating event.";
+            if (err.code === 'ER_DUP_ENTRY') {
+                message = "Event name already exists.";
+            }
+            res.status(500).send({ message });
+        } else {
+            res.status(200).send({ message: 'Event created successfully.' });
+        }
+    });
+});
 app.get('/events/:id', (req, res) => {
     const eventId = req.params.id;
 

@@ -14,6 +14,7 @@ import ProfilePage from './Profile';
 import ConfirmationPage from './ConfirmationPage';
 import PaymentPage from './Checkout';
 import Tickets from './tickets';
+import Cart from './Cart';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="/organize-event" element={<OrganizeEvent/>}/>
         <Route path= "/profile"element = {<ProfilePage/>}/>
         <Route path= "/tickets"element = {<Tickets/>}/>
+        <Route path= "/cart"element = {<Cart/>}/>
       </Routes>
     </Router>
   );

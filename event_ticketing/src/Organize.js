@@ -53,6 +53,8 @@ const OrganizeEvent = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [date, setDate] = useState('');
+  const [ticketPrice, setTicketPrice] = useState('');
+  const [ticketsAvailable, setTicketsAvailable] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
@@ -64,7 +66,9 @@ const OrganizeEvent = () => {
       const response = await Axios.post('http://localhost:3002/events', {
         name: trimmedName,
         description: description,
-        date: date
+        date: date,
+        ticketPrice: ticketPrice,
+        ticketsAvailable: ticketsAvailable
       });
       setMessage(response.data.message);
       // Redirect to EventList after successful event creation
@@ -77,7 +81,7 @@ const OrganizeEvent = () => {
 
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       <OrganizeEventWrapper>
         <h2>Organize Your Event</h2>
         <Form onSubmit={handleSubmit}>
@@ -103,6 +107,22 @@ const OrganizeEvent = () => {
             id="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
+            required
+          />
+          <Label htmlFor="ticketPrice">Ticket Price:</Label>
+          <Input
+            type="number"
+            id="ticketPrice"
+            value={ticketPrice}
+            onChange={(e) => setTicketPrice(e.target.value)}
+            required
+          />
+          <Label htmlFor="ticketsAvailable">Tickets Available:</Label>
+          <Input
+            type="number"
+            id="ticketsAvailable"
+            value={ticketsAvailable}
+            onChange={(e) => setTicketsAvailable(e.target.value)}
             required
           />
           <Button type="submit">Create Event</Button>
