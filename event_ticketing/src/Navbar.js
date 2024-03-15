@@ -7,7 +7,7 @@ function Navbar() {
 
   const logout = () => {
     localStorage.removeItem('user');
-    navigate("/login");
+    navigate("/");
   };
 
   const userData = localStorage.getItem('user');
@@ -41,7 +41,7 @@ function Navbar() {
             onClick={() => setShowDropdown(!showDropdown)} 
             className="focus:outline-none"
           >
-            <span>{`Hello, ${user.name}`}</span>
+            <span>{`Hello, ${user.firstName}`}</span>
           </button>
           {showDropdown && (
             <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-50">

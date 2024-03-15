@@ -15,10 +15,10 @@ const con = mysql.createConnection({
 });
 
 app.post('/register', (req, res) => {
-    const { email, name, password } = req.body;
+    const { email, firstName, lastName, password, country, zipCode } = req.body;
 
     // Check if any required field is missing
-    if (!email || !name || !password) {
+    if (!email || !firstName || !lastName || !password || !country || !zipCode) {
         res.status(400).send({ message: 'All fields are required.' });
         return;
     }
@@ -31,7 +31,7 @@ app.post('/register', (req, res) => {
             return;
         }
 
-        con.query('INSERT INTO users (name, email, password) VALUES (?, ?, ?)', [name, email, hashedPassword], (err, result) => {
+        con.query('INSERT INTO users (firstName, lastName, email, password, country, zipCode) VALUES (?, ?, ?, ?, ?, ?)', [firstName, lastName, email, hashedPassword, country, zipCode], (err, result) => {
             if (err) {
                 console.error('Error creating account:', err);
                 res.status(500).send({ message: 'Error creating account.' });
@@ -70,7 +70,7 @@ app.post('/login', (req, res) => {
                 // Return user's name and email along with the response
                 res.status(200).send({
                     message: 'Login successful.',
-                    name: user.name,
+                    firstName: user.firstName,
                     email: user.email // Include email in the response
                 });
             } else {
@@ -80,65 +80,51 @@ app.post('/login', (req, res) => {
     });
 });
 
+
 app.post('/events', (req, res) => {
-    const { name, description, date, categories } = req.body;
+    const { name, description, date, ticketType, ticketsAvailable } = req.body;
 
     // Check if any required field is missing
-    if (!name || !description || !date || !categories) {
+    if (!name || !description || !date || !ticketType || !ticketsAvailable) {
         res.status(400).send({ message: 'All fields are required.' });
         return;
     }
 
     // Insert the event into the database
-    con.beginTransaction(err => {
-        if (err) {
-            console.error('Error beginning transaction:', err);
-            res.status(500).send({ message: 'Error creating event.' });
-            return;
-        }
-
-        con.query('INSERT INTO events (name, description, date) VALUES (?, ?, ?)', [name, description, date], (err, result) => {
+    con.query('INSERT INTO events (name, description, date, ticket_type, tickets_available) VALUES (?, ?, ?, ?, ?)',
+        [name, description, date, ticketType, ticketsAvailable],
+        (err, result) => {
             if (err) {
                 console.error('Error creating event:', err);
-                con.rollback(() => {
-                    // More specific error message based on error code
-                    let message = "Error creating event.";
-                    if (err.code === 'ER_DUP_ENTRY') {
-                        message = "Event name already exists.";
-                    }
-                    res.status(500).send({ message });
-                });
-                return;
-            }
-
-            const eventId = result.insertId;
-
-            // Insert ticket categories for the event
-            const categoryValues = categories.map(category => [eventId, category.type, category.quantity]);
-            con.query('INSERT INTO tickets (event_id, ticket_type, quantity) VALUES ?', [categoryValues], (err, result) => {
-                if (err) {
-                    console.error('Error creating ticket categories:', err);
-                    con.rollback(() => {
-                        res.status(500).send({ message: 'Error creating ticket categories.' });
-                    });
-                    return;
+                // More specific error message based on error code
+                let message = "Error creating event.";
+                if (err.code === 'ER_DUP_ENTRY') {
+                    message = "Event name already exists.";
                 }
-
-                con.commit(err => {
-                    if (err) {
-                        console.error('Error committing transaction:', err);
-                        con.rollback(() => {
-                            res.status(500).send({ message: 'Error creating event.' });
-                        });
-                        return;
-                    }
-                    res.status(200).send({ message: 'Event created successfully.' });
-                });
-            });
+                res.status(500).send({ message });
+            } else {
+                res.status(200).send({ message: 'Event created successfully.' });
+            }
         });
-    });
 });
 
+app.get('/events/:id', (req, res) => {
+    const eventId = req.params.id;
+
+    con.query('SELECT * FROM events WHERE id = ?', [eventId], (err, results) => {
+        if (err) {
+            console.error('Error fetching event details:', err);
+            res.status(500).send('Internal server error');
+        } else {
+            if (results.length > 0) {
+                const eventDetails = results[0];
+                res.status(200).json(eventDetails);
+            } else {
+                res.status(404).send('Event not found');
+            }
+        }
+    });
+});
 app.get('/events', (req, res) => {
     con.query('SELECT * FROM events', (err, results) => {
         if (err) {
@@ -149,6 +135,8 @@ app.get('/events', (req, res) => {
         }
     });
 });
+
+
 
 app.listen(3002, () => {
     console.log('Running backend server on port 3002');

@@ -62,7 +62,7 @@ const EventList = () => {
           {events.map((event) => (
             <EventItem key={event.id} to={`/event-details/${event.id}`}>
               <EventTitle>{event.title}</EventTitle>
-              <p>{event.description}</p>
+              <p>{event.name}</p>
               <p>Date: {event.date}</p>
             </EventItem>
           ))}
