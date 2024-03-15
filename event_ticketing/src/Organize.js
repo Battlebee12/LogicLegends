@@ -55,6 +55,7 @@ const OrganizeEvent = () => {
   const [date, setDate] = useState('');
   const [ticketPrice, setTicketPrice] = useState('');
   const [ticketsAvailable, setTicketsAvailable] = useState('');
+  const [venue, setVenue] = useState(''); // Added venue state
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
@@ -68,7 +69,8 @@ const OrganizeEvent = () => {
         description: description,
         date: date,
         ticketPrice: ticketPrice,
-        ticketsAvailable: ticketsAvailable
+        ticketsAvailable: ticketsAvailable,
+        venue: venue // Include venue in the request
       });
       setMessage(response.data.message);
       // Redirect to EventList after successful event creation
@@ -123,6 +125,14 @@ const OrganizeEvent = () => {
             id="ticketsAvailable"
             value={ticketsAvailable}
             onChange={(e) => setTicketsAvailable(e.target.value)}
+            required
+          />
+          <Label htmlFor="venue">Venue:</Label> {/* Added venue input */}
+          <Input
+            type="text"
+            id="venue"
+            value={venue}
+            onChange={(e) => setVenue(e.target.value)}
             required
           />
           <Button type="submit">Create Event</Button>
