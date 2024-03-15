@@ -53,6 +53,7 @@ const OrganizeEvent = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [date, setDate] = useState('');
+  const [categories, setCategories] = useState([{ type: '', quantity: 0 }]);
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
@@ -64,7 +65,8 @@ const OrganizeEvent = () => {
       const response = await Axios.post('http://localhost:3002/events', {
         name: trimmedName,
         description: description,
-        date: date
+        date: date,
+        categories: categories  // Sending ticket categories and quantities to the server
       });
       setMessage(response.data.message);
       // Redirect to EventList after successful event creation
@@ -73,6 +75,16 @@ const OrganizeEvent = () => {
       console.error('Error creating event:', error);
       setMessage('Error creating event');
     }
+  };
+
+  const handleCategoryChange = (index, key, value) => {
+    const updatedCategories = [...categories];
+    updatedCategories[index][key] = value;
+    setCategories(updatedCategories);
+  };
+
+  const handleAddCategory = () => {
+    setCategories([...categories, { type: '', quantity: 0 }]);
   };
 
   return (
@@ -105,6 +117,28 @@ const OrganizeEvent = () => {
             onChange={(e) => setDate(e.target.value)}
             required
           />
+          <h3>Ticket Categories:</h3>
+          {categories.map((category, index) => (
+            <div key={index}>
+              <Label htmlFor={`category-${index}`}>Type:</Label>
+              <Input
+                type="text"
+                id={`category-${index}`}
+                value={category.type}
+                onChange={(e) => handleCategoryChange(index, 'type', e.target.value)}
+                required
+              />
+              <Label htmlFor={`quantity-${index}`}>Quantity:</Label>
+              <Input
+                type="number"
+                id={`quantity-${index}`}
+                value={category.quantity}
+                onChange={(e) => handleCategoryChange(index, 'quantity', parseInt(e.target.value))}
+                required
+              />
+            </div>
+          ))}
+          <Button type="button" onClick={handleAddCategory}>Add Category</Button>
           <Button type="submit">Create Event</Button>
         </Form>
         {message && <p>{message}</p>}

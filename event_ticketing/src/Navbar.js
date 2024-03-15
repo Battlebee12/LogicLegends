@@ -5,19 +5,14 @@ function Navbar() {
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
 
-  // Function to handle logout
   const logout = () => {
-    // Clear user information from local storage
     localStorage.removeItem('user');
-    // Redirect to the login page after logout
     navigate("/login");
   };
 
-  // Retrieve user information from local storage
   const userData = localStorage.getItem('user');
   let user = null;
 
-  // Parse user information if it exists
   if (userData) {
     try {
       user = JSON.parse(userData);
@@ -31,25 +26,35 @@ function Navbar() {
       <div className="flex items-center">
         <h1 className="text-2xl font-bold mr-4">Eventify</h1>
         <div className="space-x-4">
-          <Link to="/event-list">Home</Link>
-          <Link to="/about">About</Link>
-          <Link to="/contact">Contact</Link>
-          {/* Option for organizing an event */}
-          <Link to="/organize-event">Organize Event</Link>
+          <Link to="/event-list" className="hover:text-gray-300">Home</Link>
+          <Link to="/about" className="hover:text-gray-300">About</Link>
+          <Link to="/contact" className="hover:text-gray-300">Contact</Link>
+          <Link to="/organize-event" className="hover:text-gray-300">Organize Event</Link>
         </div>
       </div>
-      {/* Conditionally render login option if user is not logged in */}
       {!user && (
-        <Link to="/login">Login</Link>
+        <Link to="/" className="hover:text-gray-300">Login</Link>
       )}
-      {/* Conditionally render user's name and dropdown menu if logged in */}
       {user && (
-        <div className="group inline-block relative">
-          <span className="cursor-pointer">{`Hello, ${user.name}`}</span>
-          <div className="hidden group-hover:block absolute bg-white border rounded p-2">
-            <Link to="/profile">View Profile</Link>
-            <button className="text-black" onClick={logout}>Logout</button>
-          </div>
+        <div className="relative inline-block">
+          <button 
+            onClick={() => setShowDropdown(!showDropdown)} 
+            className="focus:outline-none"
+          >
+            <span>{`Hello, ${user.name}`}</span>
+          </button>
+          {showDropdown && (
+            <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-50">
+              <Link to="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">View Profile</Link>
+              <Link to="/tickets" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">View Tickets</Link>
+              <button 
+                onClick={logout} 
+                className="text-sm text-gray-700 block w-full text-left px-4 py-2 hover:bg-gray-100"
+              >
+                Logout
+              </button>
+            </div>
+          )}
         </div>
       )}
     </nav>

@@ -9,9 +9,11 @@ import Contact from './contact';
 import EventDetails from './EventDetails';
 import OrganizeEvent from './Organize';
 import AdminLogin from './AdminLogin';
+import ProfilePage from './Profile';
 
 import ConfirmationPage from './ConfirmationPage';
 import PaymentPage from './Checkout';
+import Tickets from './tickets';
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
         <Route path="/checkout/:id" element={<PaymentPage />} />
         <Route path="/confirmation" element={<ConfirmationPage />} />
         <Route path="/organize-event" element={<OrganizeEvent/>}/>
+        <Route path= "/profile"element = {<ProfilePage/>}/>
+        <Route path= "/tickets"element = {<Tickets/>}/>
       </Routes>
     </Router>
   );

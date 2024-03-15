@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Hero from './components/Hero';
-import SearchBar from './components/searchBar';
 import Navbar from './Navbar';
+import Hero from './components/Hero';
+import SearchBar from './components/searchBar'; // Assuming you have a SearchBar component
+import { Link } from 'react-router-dom';
 
 const EventListWrapper = styled.div`
   max-width: 1200px;
@@ -26,8 +26,6 @@ const EventItem = styled(Link)`
   text-align: left;
   text-decoration: none;
   color: #333;
-  transition: box-shadow 0.3s ease;
-
   &:hover {
     box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
   }
@@ -38,61 +36,34 @@ const EventTitle = styled.h3`
 `;
 
 const EventList = () => {
-  const [events] = useState([
-    {
-      id: 1,
-      title: 'Demo Event 1',
-      description: 'Description of Demo Event 1',
-      date: '2024-03-15',
-      location: 'Location A',
-    },
-    {
-      id: 2,
-      title: 'Demo Event 2',
-      description: 'Description of Demo Event 2',
-      date: '2024-03-20',
-      location: 'Location B',
-    },
-    {
-      id: 3,
-      title: 'Diljit',
-      description: 'Concert',
-      date: '2024-03-20',
-      location: 'Location B',
-    },
-    {
-      id: 4,
-      title: 'Karan Aujla',
-      description: 'Concert',
-      date: '2024-03-20',
-      location: 'Location B',
-    },
-    // Add more demo events as needed
-  ]);
+  const [events, setEvents] = useState([]);
 
-  const [searchQuery, setSearchQuery] = useState('');
-
-  // Filter events based on search query
-  const filteredEvents = events.filter(event =>
-    event.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await fetch('http://localhost:3002/events');
+        const eventData = await response.json();
+        setEvents(eventData);
+      } catch (error) {
+        console.error('Error fetching events:', error);
+      }
+    };
+    fetchEvents();
+  }, []);
 
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       <Hero />
       <EventListWrapper>
         <h2>Events List</h2>
-        <SearchBarWrapper>
-          <SearchBar onSearch={(query) => setSearchQuery(query)} />
-        </SearchBarWrapper>
+        <SearchBar />
         <EventGrid>
-          {filteredEvents.map((event) => (
+          {events.map((event) => (
             <EventItem key={event.id} to={`/event-details/${event.id}`}>
               <EventTitle>{event.title}</EventTitle>
               <p>{event.description}</p>
               <p>Date: {event.date}</p>
-              <p>Location: {event.location}</p>
             </EventItem>
           ))}
         </EventGrid>
@@ -100,9 +71,5 @@ const EventList = () => {
     </div>
   );
 };
-
-const SearchBarWrapper = styled.div`
-  margin-bottom: 20px;
-`;
 
 export default EventList;
