@@ -81,6 +81,7 @@ const EventDetails = () => {
         <div className="grid grid-cols-2 gap-4 mb-6">
           <div>
             <p className="mb-2"><strong>Date:</strong> {formatDate(eventDetails.date)}</p>
+            <p className="mb-2"><strong>Venue:</strong> {eventDetails.venue}</p>
             <p className="mb-2"><strong>Price per ticket:</strong> ${eventDetails.ticket_price}</p>
             <p className="mb-2"><strong>Tickets available:</strong> {eventDetails.tickets_available}</p>
             <div className="mb-2">

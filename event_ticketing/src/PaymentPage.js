@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-// Make sure to adjust these paths to where you've actually stored your images
-
+import { useNavigate } from 'react-router-dom';
+import cardIcon from './path/to/cardIcon.png'; // Adjust the path accordingly
+import applePayIcon from './path/to/applePayIcon.png'; // Adjust the path accordingly
+import googlePayIcon from './path/to/googlePayIcon.png'; // Adjust the path accordingly
 
 const PaymentPage = () => {
+  const navigate = useNavigate();
   const [paymentMethod, setPaymentMethod] = useState('');
 
   const handlePayment = (method) => {
@@ -12,7 +15,7 @@ const PaymentPage = () => {
   const handleCheckout = () => {
     // Implement your checkout logic here
     // For now, navigate to the confirmation page
-    window.location.href = '/confirmation';
+    navigate('/confirmation'); // Navigate to the confirmation page
   };
 
   return (

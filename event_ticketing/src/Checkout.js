@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import cardIcon from './Images/cards.jpeg'; 
 import applePayIcon from './Images/apple_logo.jpeg';
 import googlePayIcon from './Images/Google_Pay_Logo.png';
+import { useNavigate, useParams } from 'react-router-dom'; // Import useParams and useNavigate
 
 const PaymentPage = () => {
+  const { id } = useParams(); // Get the event ID from URL parameters
   const [paymentMethod, setPaymentMethod] = useState('');
+  const navigate = useNavigate(); // Get the navigate function
 
   const handlePayment = (method) => {
     setPaymentMethod(method);
@@ -13,7 +16,7 @@ const PaymentPage = () => {
   const handleCheckout = () => {
     // Implement your checkout logic here
     // For now, navigate to the confirmation page
-    window.location.href = '/confirmation';
+    navigate(`/confirmation/${id}`); // Navigate to confirmation page with event ID
   };
 
   return (

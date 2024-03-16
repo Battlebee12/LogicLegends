@@ -81,6 +81,8 @@ app.post('/login', (req, res) => {
 });
 
 
+
+
 app.post('/events', (req, res) => {
     const { name, description, date, ticketPrice, ticketsAvailable } = req.body;
 
@@ -135,9 +137,31 @@ app.get('/events', (req, res) => {
     });
 });
 
+app.get('/confirmation/:eventId', (req, res) => {
+    const eventId = req.params.eventId;
+  
+    // Fetch event data from the database
+    const sql = 'SELECT * FROM events WHERE id = ?';
+    connection.query(sql, [eventId], (err, results) => {
+      if (err) {
+        console.error('Error fetching event data:', err);
+        res.status(500).send('Internal server error');
+        return;
+      }
+      if (results.length === 0) {
+        res.status(404).send('Event not found');
+        return;
+      }
+      const eventData = results[0];
+      res.render('confirmation', { event: eventData });
+    });
+  });
 app.get('/', (req, res) => {
     res.send('Hello from the backend!');
   });
+
+
+  
 
 
 
