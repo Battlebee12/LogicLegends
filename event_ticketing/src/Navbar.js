@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link, useNavigate } from 'react-router-dom'; 
 
-// Styled components for Navbar
 const Nav = styled.nav`
   background-color: #333;
   color: #fff;
@@ -29,6 +28,7 @@ const Menu = styled.ul`
 
 const MenuItem = styled.li`
   margin-left: 20px;
+  position: relative; /* Required for absolute positioning */
 `;
 
 const MenuLink = styled(Link)`
@@ -40,18 +40,62 @@ const MenuLink = styled(Link)`
   }
 `;
 
+const DropdownMenu = styled.div`
+  position: absolute;
+  top: 100%; /* Position below the MenuItem */
+  right: 0;
+  background-color: #333;
+  padding: 10px;
+  display: ${props => props.isOpen ? 'block' : 'none'}; /* Conditionally render based on isOpen state */
+`;
+
+const LogoutButton = styled.button`
+  color: #fff;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 function Navbar() {
+  const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false); // State to manage dropdown menu visibility
+  
+  // Logout function to clear user information from local storage
+  const logout = () => {
+    localStorage.removeItem('user');
+    navigate("/login"); // Redirect to login page after logout
+  }
+
+  // Toggle dropdown menu visibility
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  }
+
+  // Get user information from local storage
+  const user = JSON.parse(localStorage.getItem("user"));
+
   return (
     <Nav>
       <Container>
         <Logo>Event Ticketing</Logo>
         <Menu>
-          {/* Use Link instead of anchor tags */}
+          {user ? (
+            <MenuItem>
+              <span onClick={toggleDropdown}>Hello, {user.name}</span>
+              <DropdownMenu isOpen={isOpen}>
+                <LogoutButton onClick={logout}>Logout</LogoutButton>
+              </DropdownMenu>
+            </MenuItem>
+          ) : (
+            <MenuItem><MenuLink to="/login">Login</MenuLink></MenuItem>
+          )}
           <MenuItem><MenuLink to="/event-list">Home</MenuLink></MenuItem>
-         
           <MenuItem><MenuLink to="/about">About</MenuLink></MenuItem>
           <MenuItem><MenuLink to="/contact">Contact</MenuLink></MenuItem>
-          <MenuItem><MenuLink to="/">Login</MenuLink></MenuItem>
         </Menu>
       </Container>
     </Nav>

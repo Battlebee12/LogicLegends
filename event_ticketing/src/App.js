@@ -14,8 +14,8 @@ function App() {
     <Router>
       <Navbar /> {/* Render the Navbar component */}
       <Routes>
-      <Route path="/event-list" element={<EventList />} />
-        <Route path="/" element={<LandingContent />} />
+      <Route path="/" element={<EventList />} />
+        <Route path="/login" element={<LandingContent />} />
         <Route path="/sign-up" element={<Signup />} /> 
         <Route path= "/about" element={<About/>}/>
         <Route path="/contact" element={<Contact/>}/>
