@@ -76,38 +76,41 @@ const OrganizeEvent = () => {
   };
 
   return (
-    <div>
+    <div className="bg-gray-100 min-h-screen">
       <Navbar/>
-      <OrganizeEventWrapper>
-        <h2>Organize Your Event</h2>
+      <OrganizeEventWrapper className="py-12">
+        <h2 className="text-3xl font-bold text-center mb-8">Organize Your Event</h2>
         <Form onSubmit={handleSubmit}>
-          <Label htmlFor="name">Event Name:</Label>
+          <Label htmlFor="name" className="text-lg font-semibold">Event Name:</Label>
           <Input
             type="text"
             id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
+            className="border-2 border-gray-300 rounded-lg p-3 focus:outline-none focus:border-blue-500"
           />
-          <Label htmlFor="description">Event Description:</Label>
+          <Label htmlFor="description" className="text-lg font-semibold">Event Description:</Label>
           <TextArea
             id="description"
             rows="4"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required
+            className="border-2 border-gray-300 rounded-lg p-3 focus:outline-none focus:border-blue-500"
           />
-          <Label htmlFor="date">Event Date:</Label>
+          <Label htmlFor="date" className="text-lg font-semibold">Event Date:</Label>
           <Input
             type="date"
             id="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
             required
+            className="border-2 border-gray-300 rounded-lg p-3 focus:outline-none focus:border-blue-500"
           />
-          <Button type="submit">Create Event</Button>
+          <Button type="submit" className="bg-blue-500 hover:bg-blue-600 mt-8 rounded-lg focus:outline-none">Create Event</Button>
         </Form>
-        {message && <p>{message}</p>}
+        {message && <p className="text-lg mt-4 text-center">{message}</p>}
       </OrganizeEventWrapper>
     </div>
   );

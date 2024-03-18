@@ -16,6 +16,7 @@ const SearchBar = ({ onSearch }) => {
         placeholder="Search events..."
         value={searchTerm}
         onChange={handleSearch}
+        data-testid="search-input"
         className="w-full border-2 border-tropical-blue-200 bg-tropical-blue-100 h-10 px-5 pr-10 rounded-full text-sm focus:outline-none focus:border-tropical-blue-700"
       />
       <div className="absolute inset-y-0 right-0 flex items-center pr-3">

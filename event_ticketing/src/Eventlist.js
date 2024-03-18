@@ -74,7 +74,8 @@ const EventList = () => {
 
   // Filter events based on search query
   const filteredEvents = events.filter(event =>
-    event.title.toLowerCase().includes(searchQuery.toLowerCase())
+    event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    event.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -84,11 +85,11 @@ const EventList = () => {
       <EventListWrapper>
         <h2>Events List</h2>
         <SearchBarWrapper>
-          <SearchBar onSearch={(query) => setSearchQuery(query)} />
+          <SearchBar onSearch={(query) => setSearchQuery(query)} data-testid="search-bar" />
         </SearchBarWrapper>
         <EventGrid>
           {filteredEvents.map((event) => (
-            <EventItem key={event.id} to={`/event-details/${event.id}`}>
+            <EventItem key={event.id} to={`/event-details/${event.id}`} data-testid="event-item">
               <EventTitle>{event.title}</EventTitle>
               <p>{event.description}</p>
               <p>Date: {event.date}</p>
