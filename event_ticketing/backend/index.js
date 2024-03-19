@@ -137,28 +137,42 @@ app.get('/events', (req, res) => {
     });
 });
 
-app.get('/confirmation/:eventId', (req, res) => {
+app.post('/checkout/:eventId', (req, res) => {
     const eventId = req.params.eventId;
-  
-    // Fetch event data from the database
-    const sql = 'SELECT * FROM events WHERE id = ?';
-    connection.query(sql, [eventId], (err, results) => {
-      if (err) {
-        console.error('Error fetching event data:', err);
-        res.status(500).send('Internal server error');
+    const { user_id, ticketsBought, totalAmount, paymentMethod } = req.body;
+
+    // Validate request body
+    if (!user_id || !ticketsBought || !totalAmount || !paymentMethod) {
+        res.status(400).send({ message: 'Missing required fields.' });
         return;
-      }
-      if (results.length === 0) {
-        res.status(404).send('Event not found');
-        return;
-      }
-      const eventData = results[0];
-      res.render('confirmation', { event: eventData });
+    }
+
+    // Fetch event details from the database
+    con.query('SELECT * FROM events WHERE id = ?', [eventId], (err, results) => {
+        if (err) {
+            console.error('Error fetching event details:', err);
+            res.status(500).send({ message: 'Internal server error' });
+            return;
+        }
+        if (results.length === 0) {
+            res.status(404).send({ message: 'Event not found' });
+            return;
+        }
+
+        const event = results[0];
+
+        // Insert transaction data into the transactions table
+        const transactionInsertQuery = 'INSERT INTO transactions (user_id, event_name, tickets_bought, total_amount, payment_method) VALUES (?, ?, ?, ?, ?)';
+        con.query(transactionInsertQuery, [user_id, event.name, ticketsBought, totalAmount, paymentMethod], (err, result) => {
+            if (err) {
+                console.error('Error creating transaction:', err);
+                res.status(500).send({ message: 'Error processing payment.' });
+            } else {
+                res.status(200).send({ message: 'Payment processed successfully.' });
+            }
+        });
     });
-  });
-app.get('/', (req, res) => {
-    res.send('Hello from the backend!');
-  });
+});
 
 
   

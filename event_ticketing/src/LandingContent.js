@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 
-function Login() {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginStatus, setLoginStatus] = useState("");
@@ -19,7 +19,9 @@ function Login() {
         console.log("Login response:", response);
         if (response.status === 200) {
           const userData = response.data;
+          // Store user data in local storage to maintain session
           localStorage.setItem('user', JSON.stringify(userData));
+          // Redirect to event list page
           navigate("/event-list");
         } else {
           setLoginStatus("Invalid email or password.");
@@ -30,7 +32,7 @@ function Login() {
         setLoginStatus("Error logging in. Please try again later.");
       });
   };
-  
+
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
       <div className="mb-6 text-center">
@@ -52,10 +54,9 @@ function Login() {
         </form>
         <Link to="/sign-up" className="block text-blue-500 mt-4 hover:underline text-center">Don't have an account? Sign up here</Link>
         {loginStatus && <p className="text-red-500 mt-4">{loginStatus}</p>}
-        <Link to="/admin-login" className="block text-blue-500 mt-4 hover:underline text-center">Admin?Log in here</Link>
       </div>
     </div>
   );
-}
+};
 
 export default Login;
