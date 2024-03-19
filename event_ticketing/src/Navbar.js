@@ -29,7 +29,7 @@ function Navbar() {
   return (
     <nav className="bg-gray-800 text-white p-4 flex justify-between items-center">
       <div className="flex items-center">
-        <h1 className="text-2xl font-bold mr-4">Eventify</h1>
+        <h1 className="text-2xl font-bold mr-4">Eventify</h1>      
         <div className="space-x-4">
           <Link to="/event-list">Home</Link>
           <Link to="/about">About</Link>
