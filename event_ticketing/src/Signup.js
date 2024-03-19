@@ -76,6 +76,7 @@ function Signup() {
         </form>
         <Link to="/" className="block text-blue-500 mt-4 hover:underline">Already have an Eventify Account? Login </Link>
         {registerStatus && <p className="text-red-500 mt-4">{registerStatus}</p>}
+        <Link to="/admin-login" className="block text-blue-500 mt-4 hover:underline">Login in as Admin? </Link>
       </div>
     </div>
   );
