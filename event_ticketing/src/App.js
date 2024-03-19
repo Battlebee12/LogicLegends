@@ -9,7 +9,8 @@ import About from './about';
 import Contact from './contact';
 import EventDetails from './EventDetails';
 import AdminLogin from './AdminLogin';
-import AdminSignup from './AdminSignup'
+import AdminSignup from './AdminSignup';
+import AdminEvents from './AdminEvents';
 import Hero from './components/Hero';
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
       <Routes>
       <Route path="/event-list" element={<EventList />} />
       <Route path ="/admin-login" element = {<AdminLogin/>}/>
+      <Route path ="/admin-events" element = {<AdminEvents/>}/>      
       <Route path ="login" element = {<LandingContent/>}/>
       <Route path ="admin-signup" element = {<AdminSignup/>}/>
 

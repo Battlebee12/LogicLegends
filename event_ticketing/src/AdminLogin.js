@@ -116,12 +116,11 @@ function AdminLogin() {
                 required
               />
             </div>
-            <button
-              type="submit"
-              className="w-full px-4 py-3 text-base bg-tropical-blue-500 text-white rounded cursor-pointer transition duration-300 hover:bg-blue-600"
-            >
-              Login
-            </button>
+            <Link to="/admin-events">
+              <button type="button" className="w-full px-4 py-3 text-base bg-tropical-blue-500 text-white rounded cursor-pointer transition duration-300 hover:bg-blue-600">
+                Login
+              </button>
+            </Link>
             <div className="mt-4">
               <Link to="/login" className="text-tropical-blue-500">Back to Login</Link>
             </div>
