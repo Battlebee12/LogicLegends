@@ -33,6 +33,8 @@ function App() {
         <Route path= "/profile"element = {<ProfilePage/>}/>
         <Route path= "/tickets"element = {<Tickets/>}/>
         <Route path= "/cart"element = {<Cart/>}/>
+        <Route path ="/admin-login" element = {<AdminLogin/>}/>
+        <Route path ="/admin-events" element = {<AdminEvents/>}/>  
       </Routes>
     </Router>
   );
