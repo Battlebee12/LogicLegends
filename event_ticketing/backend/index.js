@@ -174,7 +174,31 @@ app.post('/checkout/:eventId', (req, res) => {
     });
 });
 
-// Add admin login endpoint
+// Middleware function to authenticate admin users
+const authenticateAdmin = (req, res, next) => {
+    // Extract JWT from request headers
+    const token = req.headers.authorization;
+
+    if (!token) {
+        return res.status(401).json({ message: 'No token provided. Unauthorized.' });
+    }
+
+    // Verify JWT token
+    jwt.verify(token, 'secretkey', (err, decoded) => {
+        if (err) {
+            return res.status(403).json({ message: 'Failed to authenticate token.' });
+        }
+        // Check if the decoded token contains admin role
+        if (decoded.role !== 'admin') {
+            return res.status(403).json({ message: 'Unauthorized access.' });
+        }
+        // If token is valid and user is admin, proceed to the next middleware
+        req.adminId = decoded.adminId;
+        next();
+    });
+};
+
+// Route for admin login
 app.post('/admin/login', (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -196,11 +220,46 @@ app.post('/admin/login', (req, res) => {
             }
             if (result) {
                 // Passwords match, login successful
-                return res.status(200).json({ message: 'Login successful.', adminId: admin.admin_id });
+                // Generate JWT token
+                const token = jwt.sign({ adminId: admin.admin_id, role: 'admin' }, 'secretkey', { expiresIn: '1h' });
+                return res.status(200).json({ message: 'Login successful.', token });
             } else {
                 return res.status(401).json({ message: 'Invalid email or password.' });
             }
         });
+    });
+});
+
+// Route for fetching events for admin dashboard
+app.get('/admin/events', authenticateAdmin, (req, res) => {
+    con.query('SELECT * FROM events', (err, results) => {
+        if (err) {
+            console.error('Error fetching events:', err);
+            res.status(500).json({ message: 'Internal server error' });
+        } else {
+            res.status(200).json(results);
+        }
+    });
+});
+
+// Route for updating event status (approval/rejection)
+app.put('/admin/events/:id', authenticateAdmin, (req, res) => {
+    const eventId = req.params.id;
+    const { status } = req.body;
+
+    // Check if status is valid
+    if (status !== 'approved' && status !== 'rejected') {
+        return res.status(400).json({ message: 'Invalid status.' });
+    }
+
+    // Update the status of the event in the database
+    con.query('UPDATE events SET status = ? WHERE id = ?', [status, eventId], (err, result) => {
+        if (err) {
+            console.error('Error updating event status:', err);
+            res.status(500).json({ message: 'Internal server error.' });
+        } else {
+            res.status(200).json({ message: 'Event status updated successfully.' });
+        }
     });
 });
   
