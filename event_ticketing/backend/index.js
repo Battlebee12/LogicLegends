@@ -174,7 +174,35 @@ app.post('/checkout/:eventId', (req, res) => {
     });
 });
 
-
+// Add admin login endpoint
+app.post('/admin/login', (req, res) => {
+    const { email, password } = req.body;
+    if (!email || !password) {
+        return res.status(400).json({ message: 'Email and password are required.' });
+    }
+    con.query('SELECT * FROM admins WHERE email = ?', [email], (err, rows) => {
+        if (err) {
+            console.error('Error querying database:', err);
+            return res.status(500).json({ message: 'Internal server error.' });
+        }
+        if (rows.length === 0) {
+            return res.status(401).json({ message: 'Invalid email or password.' });
+        }
+        const admin = rows[0];
+        bcrypt.compare(password, admin.password, (err, result) => {
+            if (err) {
+                console.error('Error comparing passwords:', err);
+                return res.status(500).json({ message: 'Internal server error.' });
+            }
+            if (result) {
+                // Passwords match, login successful
+                return res.status(200).json({ message: 'Login successful.', adminId: admin.admin_id });
+            } else {
+                return res.status(401).json({ message: 'Invalid email or password.' });
+            }
+        });
+    });
+});
   
 
 
