@@ -3,6 +3,8 @@ const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
 const cors = require('cors');
 const app = express();
+const jwt = require('jsonwebtoken');
+
 
 app.use(express.json());
 app.use(cors());
@@ -84,18 +86,18 @@ app.post('/login', (req, res) => {
 
 
 app.post('/events', (req, res) => {
-    const { name, description, date, ticketPrice, ticketsAvailable } = req.body;
+    const { name, description, date, ticketPrice, ticketsAvailable,venue } = req.body;
 
     // Check if any required field is missing
-    if (!name || !description || !date || !ticketPrice || !ticketsAvailable) {
+    if (!name || !description || !date || !ticketPrice || !ticketsAvailable ||!venue) {
         res.status(400).send({ message: 'All fields are required.' });
         return;
     }
 
     // Insert the event into the database
-    const eventInsertQuery = 'INSERT INTO events (name, description, date, ticket_price, tickets_available) VALUES (?, ?, ?, ?, ?)';
+    const eventInsertQuery = 'INSERT INTO events (name, description, date, ticket_price, tickets_available,venue) VALUES (?, ?, ?, ?, ?,?)';
 
-    con.query(eventInsertQuery, [name, description, date, ticketPrice, ticketsAvailable], (err, result) => {
+    con.query(eventInsertQuery, [name, description, date, ticketPrice, ticketsAvailable,venue], (err, result) => {
         if (err) {
             console.error('Error creating event:', err);
             // More specific error message based on error code
@@ -221,7 +223,7 @@ app.post('/admin/login', (req, res) => {
             if (result) {
                 // Passwords match, login successful
                 // Generate JWT token
-                const token = jwt.sign({ adminId: admin.admin_id, role: 'admin' }, 'secretkey', { expiresIn: '1h' });
+                const token = jwt.sign({ adminId: admin.admin_id, role: 'admin' }, 'secretkey', { expiresIn: '0.01h' });
                 return res.status(200).json({ message: 'Login successful.', token });
             } else {
                 return res.status(401).json({ message: 'Invalid email or password.' });
