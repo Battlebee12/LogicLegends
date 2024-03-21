@@ -11,10 +11,12 @@ import OrganizeEvent from './Organize';
 import AdminLogin from './AdminLogin';
 import ProfilePage from './Profile';
 
+
 import ConfirmationPage from './ConfirmationPage';
 import PaymentPage from './Checkout';
 import Tickets from './tickets';
 import Cart from './Cart';
+import AdminEvents from './AdminEvents';
 
 function App() {
   return (
@@ -34,7 +36,8 @@ function App() {
         <Route path= "/tickets"element = {<Tickets/>}/>
         <Route path= "/cart"element = {<Cart/>}/>
         <Route path ="/admin-login" element = {<AdminLogin/>}/>
-        <Route path ="/admin-events" element = {<AdminEvents/>}/>  
+        <Route path ="/admin-events" element = {<AdminEvents/>}/>
+        
       </Routes>
     </Router>
   );
