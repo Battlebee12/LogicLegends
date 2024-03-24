@@ -12,7 +12,7 @@ app.use(cors());
 const con = mysql.createConnection({
     user: 'root',
     host: 'localhost',
-    password: '304rootpw',
+    password: '121103sarab',
     database: 'test',
 });
 
@@ -95,9 +95,9 @@ app.post('/events', (req, res) => {
     }
 
     // Insert the event into the database
-    const eventInsertQuery = 'INSERT INTO events (name, description, date, ticket_price, tickets_available,venue) VALUES (?, ?, ?, ?, ?,?)';
+    const eventInsertQuery = 'INSERT INTO events (name, description, date, ticket_price,venue) VALUES (?, ?, ?, ?,?)'; // ticketsAvailable removed
 
-    con.query(eventInsertQuery, [name, description, date, ticketPrice, ticketsAvailable,venue], (err, result) => {
+    con.query(eventInsertQuery, [name, description, date, ticketPrice, venue], (err, result) => { // ticketsAvailable removed
         if (err) {
             console.error('Error creating event:', err);
             // More specific error message based on error code

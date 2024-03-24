@@ -8,6 +8,34 @@ const EventDetails = () => {
   const [eventDetails, setEventDetails] = useState(null);
   const [quantity, setQuantity] = useState(1);
 
+  
+  const [eventIds, setEventIds] = useState([]);
+
+  const handleBuyNow = () => {
+    // Logic to handle purchasing tickets...
+    const ticketDetails = {
+      eventId: eventDetails.id,
+      eventName: eventDetails.name,
+      eventDate: eventDetails.date,
+      quantity: quantity,
+      totalPrice: eventDetails.ticket_price * quantity,
+      location: eventDetails.venue
+      // Add more ticket details as needed
+    };
+
+    // Log ticket details to console
+    console.log('Ticket Details at event detail:', ticketDetails);
+
+    // Redirect to confirmation page with ticket and event details
+    navigate('/payment', { state: { ticketDetails } });
+};
+
+
+  const handleQuantityChange = (e) => {
+    const newQuantity = parseInt(e.target.value);
+    setQuantity(newQuantity);
+  };
+
   useEffect(() => {
     const fetchEventDetails = async () => {
       try {
@@ -25,9 +53,9 @@ const EventDetails = () => {
     fetchEventDetails();
   }, [id]);
 
-  const handleBuyNow = () => {
-    navigate(`/checkout/${id}`);
-  };
+  // const handleBuyNow = () => {
+  //   navigate(`/checkout/${id}`);
+  // };
 
   const handleAddToCart = () => {
     // Check if eventDetails is not null and quantity is valid
@@ -49,10 +77,10 @@ const EventDetails = () => {
     }
   };
 
-  const handleQuantityChange = (e) => {
-    const newQuantity = parseInt(e.target.value);
-    setQuantity(newQuantity);
-  };
+  // const handleQuantityChange = (e) => {
+  //   const newQuantity = parseInt(e.target.value);
+  //   setQuantity(newQuantity);
+  // };
 
   const totalPrice = eventDetails ? eventDetails.ticket_price * quantity : 0;
 

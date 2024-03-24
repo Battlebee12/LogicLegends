@@ -1,22 +1,58 @@
+// import React, { useState } from 'react';
+// import cardIcon from './Images/cards.jpeg'; 
+// import applePayIcon from './Images/apple_logo.jpeg';
+// import googlePayIcon from './Images/Google_Pay_Logo.png';
+// import { useNavigate, useParams } from 'react-router-dom'; // Import useParams and useNavigate
+
+// const PaymentPage = () => {
+//   const { id } = useParams(); // Get the event ID from URL parameters
+//   const [paymentMethod, setPaymentMethod] = useState('');
+//   const navigate = useNavigate(); // Get the navigate function
+
+//   const handlePayment = (method) => {
+//     setPaymentMethod(method);
+//   };
+
+//   const handleCheckout = () => {
+//     // Implement your checkout logic here
+//     // For now, navigate to the confirmation page
+//     navigate(`/confirmation/${id}`); // Navigate to confirmation page with event ID
+//   };
 import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import cardIcon from './Images/cards.jpeg'; 
 import applePayIcon from './Images/apple_logo.jpeg';
 import googlePayIcon from './Images/Google_Pay_Logo.png';
-import { useNavigate, useParams } from 'react-router-dom'; // Import useParams and useNavigate
+import { useTicketContext } from './TicketContext';
 
 const PaymentPage = () => {
-  const { id } = useParams(); // Get the event ID from URL parameters
+  const navigate = useNavigate();
+  const location = useLocation();
   const [paymentMethod, setPaymentMethod] = useState('');
-  const navigate = useNavigate(); // Get the navigate function
+  const { setTicketDetails } = useTicketContext();
 
   const handlePayment = (method) => {
+    console.log("Handled payment");
     setPaymentMethod(method);
   };
 
   const handleCheckout = () => {
-    // Implement your checkout logic here
-    // For now, navigate to the confirmation page
-    navigate(`/confirmation/${id}`); // Navigate to confirmation page with event ID
+    console.log("Entered handleCheckout");
+    const { ticketDetails } = location.state || {};
+
+    const ticketDetails1 = {
+      eventId: ticketDetails.eventId,
+      eventName: ticketDetails.eventName,
+      eventDate: ticketDetails.eventDate,
+      quantity: ticketDetails.quantity,
+      totalPrice: ticketDetails.totalPrice,
+      location: ticketDetails.location
+    };
+    setTicketDetails(ticketDetails1);
+
+    console.log('Ticket Details at payment page:', ticketDetails1);
+
+    navigate('/confirmation', { state: { ticketDetails1 } });
   };
 
   return (
