@@ -33,12 +33,17 @@ function Navbar() {
           <Link to="/organize-event" className="hover:text-gray-300">Organize Event</Link>
         </div>
       </div>
-      {/* Add cart icon here */}
+      {/* Add cart and sell tickets icons here */}
       <div className="flex items-center">
         {user && (
-          <Link to="/cart" className="mr-4 hover:text-gray-300">
-            <FaShoppingCart />
-          </Link>
+          <>
+            <Link to="/cart" className="mr-4 hover:text-gray-300">
+              <FaShoppingCart />
+            </Link>
+            <Link to="/sell-tickets" className="mr-4 hover:text-gray-300">
+              Sell Tickets
+            </Link>
+          </>
         )}
         {!user && (
           <Link to="/" className="hover:text-gray-300">Login</Link>

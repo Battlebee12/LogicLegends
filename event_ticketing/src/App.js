@@ -18,6 +18,8 @@ import PaymentPage from './Checkout';
 import Tickets from './tickets';
 import Cart from './Cart';
 import AdminEvents from './AdminEvents';
+import SellTickets from './SellTickets';
+import Waiting from './waiting';
 
 function App() {
   return (
@@ -41,6 +43,8 @@ function App() {
           <Route path ="/admin-login" element = {<AdminLogin/>}/>
           <Route path ="/admin-events" element = {<AdminEvents/>}/>
           <Route path="/confirmation" element={<ConfirmationPage />} />
+          <Route path="sell-tickets" element={<SellTickets/>}/>
+          <Route path="/waiting" element={<Waiting/>}/>
           
         </Routes>
       </Router>
