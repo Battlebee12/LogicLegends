@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Navbar from './Navbar';
 import Hero from './components/Hero';
-import SearchBar from './components/searchBar'; // Assuming you have a SearchBar component
 import { Link } from 'react-router-dom';
 
 const EventListWrapper = styled.div`
@@ -35,8 +34,17 @@ const EventTitle = styled.h3`
   margin-top: 0;
 `;
 
+const SearchBar = styled.input`
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+`;
+
 const EventList = () => {
   const [events, setEvents] = useState([]);
+  const [filteredEvents, setFilteredEvents] = useState([]);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -44,6 +52,7 @@ const EventList = () => {
         const response = await fetch('http://localhost:3002/events');
         const eventData = await response.json();
         setEvents(eventData);
+        setFilteredEvents(eventData); // Initially set filteredEvents to all events
       } catch (error) {
         console.error('Error fetching events:', error);
       }
@@ -51,19 +60,51 @@ const EventList = () => {
     fetchEvents();
   }, []);
 
+  const handleSearch = (e) => {
+    const searchTerm = e.target.value.trim().toLowerCase();
+  
+    console.log("Search Term:", searchTerm);
+  
+    if (!searchTerm) {
+      setFilteredEvents(events); // Show all events if search term is empty
+      return;
+    }
+  
+    const filtered = events.filter((event) => {
+      console.log("Event:", event);
+      if (!event || (!event.title && !event.name)) return false; // Ensure event and either title or name exist
+  
+      const titleMatch = event.title && event.title.toLowerCase().includes(searchTerm);
+      const nameMatch = event.name && event.name.toLowerCase().includes(searchTerm);
+      
+      console.log("Title Match:", titleMatch);
+      console.log("Name Match:", nameMatch);
+  
+      return titleMatch || nameMatch;
+    });
+  
+    console.log("Filtered Events:", filtered);
+  
+    setFilteredEvents(filtered);
+  };
+  
+
   return (
     <div>
       <Navbar />
       <Hero />
       <EventListWrapper>
         <h2>Events List</h2>
-        <SearchBar />
+        <SearchBar
+          type="text"
+          placeholder="Search events..."
+          onChange={handleSearch}
+        />
         <EventGrid>
-          {events.map((event) => (
+          {filteredEvents.map((event) => (
             <EventItem key={event.id} to={`/event-details/${event.id}`}>
               <EventTitle>{event.title}</EventTitle>
               <p>{event.name}</p>
-              
             </EventItem>
           ))}
         </EventGrid>
