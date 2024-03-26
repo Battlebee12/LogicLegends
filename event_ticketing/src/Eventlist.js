@@ -1,19 +1,33 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import Navbar from './Navbar';
+import Hero from './components/Hero';
+import { Link } from 'react-router-dom';
 
 const EventListWrapper = styled.div`
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
 `;
 
-const EventItem = styled.div`
-  border: 1px solid #ccc;
+const EventGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+`;
+
+const EventItem = styled(Link)`
+  display: block;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
   border-radius: 8px;
-  margin-bottom: 20px;
   padding: 20px;
-  cursor: pointer; /* Add cursor pointer */
+  text-align: left;
+  text-decoration: none;
+  color: #333;
+  &:hover {
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
+  }
 `;
 
 const EventTitle = styled.h3`
@@ -24,71 +38,81 @@ const SearchBar = styled.input`
   width: 100%;
   padding: 10px;
   margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 `;
 
-const FilterSelect = styled.select`
-  padding: 10px;
-  margin-bottom: 20px;
-`;
+const EventList = () => {
+  const [events, setEvents] = useState([]);
+  const [filteredEvents, setFilteredEvents] = useState([]);
 
-function EventList() {
-  const [events] = useState([
-    {
-      id: 1,
-      title: 'Demo Event 1',
-      description: 'Description of Demo Event 1',
-      date: '2024-03-15',
-      location: 'Location A',
-    },
-    {
-      id: 2,
-      title: 'Demo Event 2',
-      description: 'Description of Demo Event 2',
-      date: '2024-03-20',
-      location: 'Location B',
-    },
-    // Add more demo events as needed
-  ]);
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await fetch('http://localhost:3002/events');
+        const eventData = await response.json();
+        setEvents(eventData);
+        setFilteredEvents(eventData); // Initially set filteredEvents to all events
+      } catch (error) {
+        console.error('Error fetching events:', error);
+      }
+    };
+    fetchEvents();
+  }, []);
 
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filterCriteria, setFilterCriteria] = useState('');
-
-  // Filter events based on search query and filter criteria
-  const filteredEvents = events.filter(event =>
-    event.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
-    (filterCriteria === '' || event.location === filterCriteria)
-  );
+  const handleSearch = (e) => {
+    const searchTerm = e.target.value.trim().toLowerCase();
+  
+    console.log("Search Term:", searchTerm);
+  
+    if (!searchTerm) {
+      setFilteredEvents(events); // Show all events if search term is empty
+      return;
+    }
+  
+    const filtered = events.filter((event) => {
+      console.log("Event:", event);
+      if (!event || (!event.title && !event.name)) return false; // Ensure event and either title or name exist
+  
+      const titleMatch = event.title && event.title.toLowerCase().includes(searchTerm);
+      const nameMatch = event.name && event.name.toLowerCase().includes(searchTerm);
+      
+      console.log("Title Match:", titleMatch);
+      console.log("Name Match:", nameMatch);
+  
+      return titleMatch || nameMatch;
+    });
+  
+    console.log("Filtered Events:", filtered);
+  
+    setFilteredEvents(filtered);
+  };
+  
 
   return (
-    <EventListWrapper>
-      <h2>Events List</h2>
-      <SearchBar
-        type="text"
-        placeholder="Search events"
-        value={searchQuery}
-        onChange={e => setSearchQuery(e.target.value)}
-      />
-      <FilterSelect
-        value={filterCriteria}
-        onChange={e => setFilterCriteria(e.target.value)}
-      >
-        <option value="">All Locations</option>
-        {/* Replace with actual locations or categories */}
-        <option value="Location A">Location A</option>
-        <option value="Location B">Location B</option>
-      </FilterSelect>
-      {filteredEvents.map(event => (
-        <Link key={event.id} to={`/event-details/${event.id}`}> {/* Link to event details page */}
-          <EventItem>
-            <EventTitle>{event.title}</EventTitle>
-            <p>{event.description}</p>
-            <p>Date: {event.date}</p>
-            <p>Location: {event.location}</p>
-          </EventItem>
-        </Link>
-      ))}
-    </EventListWrapper>
+    <div>
+      <Navbar />
+      <Hero />
+      <EventListWrapper>
+        <h2>Events List</h2>
+        <SearchBar
+          type="text"
+          placeholder="Search events..."
+          onChange={handleSearch}
+          data-testid="search-bar"
+        />
+        <EventGrid>
+          {filteredEvents.map((event) => (
+            <EventItem key={event.id} to={`/event-details/${event.id}`}
+            data-testid="event-item">
+              <EventTitle>{event.title}</EventTitle>
+              <p>{event.name}</p>
+            </EventItem>
+          ))}
+        </EventGrid>
+      </EventListWrapper>
+    </div>
   );
-}
+};
 
 export default EventList;

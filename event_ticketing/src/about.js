@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Navbar from './Navbar';
 
 const AboutWrapper = styled.div`
   text-align: center;
@@ -41,32 +42,33 @@ const MemberRole = styled.p`
 
 function About() {
   return (
-    <AboutWrapper>
-      <Title>About Us</Title>
-      <Description>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget hendrerit urna, nec tristique nisl.
-        Sed rutrum ante ac risus varius bibendum. Praesent efficitur, purus eget condimentum sollicitudin,
-        ligula nisi euismod nulla, nec laoreet mauris eros vel sem.
-      </Description>
-      <TeamList>
-        <TeamMember>
-          <MemberName>Raghav</MemberName>
-          <MemberRole>CEO</MemberRole>
-        </TeamMember>
-        <TeamMember>
-          <MemberName>Sarab</MemberName>
-          <MemberRole>CTO</MemberRole>
-        </TeamMember>
-        <TeamMember>
-          <MemberName>Lluis</MemberName>
-          <MemberRole>Lead Developer</MemberRole>
-        </TeamMember>
-        <TeamMember>
-          <MemberName>Shreya</MemberName>
-          <MemberRole>Lead Developer</MemberRole>
-        </TeamMember>
-      </TeamList>
-    </AboutWrapper>
+    <div>
+      <Navbar />
+      <AboutWrapper>
+        <Title>About Us</Title>
+        <Description>
+          Eventify is a comprehensive event management platform designed to simplify the process of organizing and managing events of all types and sizes. Whether you're hosting a small gathering or a large-scale conference, Eventify provides the tools and features you need to plan, promote, and execute successful events.
+        </Description>
+        <TeamList>
+          <TeamMember>
+            <MemberName>Raghav</MemberName>
+            <MemberRole>CEO</MemberRole>
+          </TeamMember>
+          <TeamMember>
+            <MemberName>Sarab</MemberName>
+            <MemberRole>CTO</MemberRole>
+          </TeamMember>
+          <TeamMember>
+            <MemberName>Lluis</MemberName>
+            <MemberRole>Lead Developer</MemberRole>
+          </TeamMember>
+          <TeamMember>
+            <MemberName>Shreya</MemberName>
+            <MemberRole>Lead Developer</MemberRole>
+          </TeamMember>
+        </TeamList>
+      </AboutWrapper>
+    </div>
   );
 }
 

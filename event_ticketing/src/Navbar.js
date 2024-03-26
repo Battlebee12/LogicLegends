@@ -1,104 +1,77 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom'; 
-
-const Nav = styled.nav`
-  background-color: #333;
-  color: #fff;
-  padding: 10px 0;
-`;
-
-const Container = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-`;
-
-const Logo = styled.h1`
-  margin: 0;
-`;
-
-const Menu = styled.ul`
-  list-style: none;
-  display: flex;
-`;
-
-const MenuItem = styled.li`
-  margin-left: 20px;
-  position: relative; /* Required for absolute positioning */
-`;
-
-const MenuLink = styled(Link)`
-  color: #fff;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
-const DropdownMenu = styled.div`
-  position: absolute;
-  top: 100%; /* Position below the MenuItem */
-  right: 0;
-  background-color: #333;
-  padding: 10px;
-  display: ${props => props.isOpen ? 'block' : 'none'}; /* Conditionally render based on isOpen state */
-`;
-
-const LogoutButton = styled.button`
-  color: #fff;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
+import { Link, useNavigate } from 'react-router-dom';
+import { FaShoppingCart } from 'react-icons/fa'; // Import the cart icon
 
 function Navbar() {
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false); // State to manage dropdown menu visibility
-  
-  // Logout function to clear user information from local storage
+  const [showDropdown, setShowDropdown] = useState(false);
+
   const logout = () => {
     localStorage.removeItem('user');
-    navigate("/login"); // Redirect to login page after logout
-  }
+    navigate("/");
+  };
 
-  // Toggle dropdown menu visibility
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  }
+  const userData = localStorage.getItem('user');
+  let user = null;
 
-  // Get user information from local storage
-  const user = JSON.parse(localStorage.getItem("user"));
+  if (userData) {
+    try {
+      user = JSON.parse(userData);
+    } catch (error) {
+      console.error('Error parsing user data:', error);
+    }
+  }
 
   return (
-    <Nav>
-      <Container>
-        <Logo>Event Ticketing</Logo>
-        <Menu>
-          {user ? (
-            <MenuItem>
-              <span onClick={toggleDropdown}>Hello, {user.name}</span>
-              <DropdownMenu isOpen={isOpen}>
-                <LogoutButton onClick={logout}>Logout</LogoutButton>
-              </DropdownMenu>
-            </MenuItem>
-          ) : (
-            <MenuItem><MenuLink to="/login">Login</MenuLink></MenuItem>
-          )}
-          <MenuItem><MenuLink to="/event-list">Home</MenuLink></MenuItem>
-          <MenuItem><MenuLink to="/about">About</MenuLink></MenuItem>
-          <MenuItem><MenuLink to="/contact">Contact</MenuLink></MenuItem>
-        </Menu>
-      </Container>
-    </Nav>
+    <nav className="bg-gray-800 text-white p-4 flex justify-between items-center">
+      <div className="flex items-center">
+        <h1 className="text-2xl font-bold mr-4">Eventify</h1>
+        <div className="space-x-4">
+          <Link to="/event-list" className="hover:text-gray-300">Home</Link>
+          <Link to="/about" className="hover:text-gray-300">About</Link>
+          <Link to="/contact" className="hover:text-gray-300">Contact</Link>
+          <Link to="/organize-event" className="hover:text-gray-300">Organize Event</Link>
+        </div>
+      </div>
+      {/* Add cart and sell tickets icons here */}
+      <div className="flex items-center">
+        {user && (
+          <>
+            <Link to="/cart" className="mr-4 hover:text-gray-300">
+              <FaShoppingCart />
+            </Link>
+            <Link to="/sell-tickets" className="mr-4 hover:text-gray-300">
+              Sell Tickets
+            </Link>
+          </>
+        )}
+        {!user && (
+          <Link to="/" className="hover:text-gray-300">Login</Link>
+        )}
+        {user && (
+          <div className="relative inline-block">
+            <button 
+              onClick={() => setShowDropdown(!showDropdown)} 
+              className="focus:outline-none"
+            >
+              <span>{`Hello, ${user.name}`}</span>
+            </button>
+            {showDropdown && (
+              <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-50">
+                <Link to="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">View Profile</Link>
+                <Link to="/tickets" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">View Tickets</Link>
+                <button 
+                  onClick={logout} 
+                  className="text-sm text-gray-700 block w-full text-left px-4 py-2 hover:bg-gray-100"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </nav>
   );
 }
 
