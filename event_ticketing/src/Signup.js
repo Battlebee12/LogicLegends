@@ -26,7 +26,7 @@ function Signup() {
         setRegisterStatus(response.data.message);
         if (response.status === 200) {
           // Navigate to login screen after successful account creation
-          navigate("/login");
+          navigate("/");
         }
       } else {
         setRegisterStatus("Error creating account.");
