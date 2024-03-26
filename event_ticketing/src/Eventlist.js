@@ -99,10 +99,12 @@ const EventList = () => {
           type="text"
           placeholder="Search events..."
           onChange={handleSearch}
+          data-testid="search-bar"
         />
         <EventGrid>
           {filteredEvents.map((event) => (
-            <EventItem key={event.id} to={`/event-details/${event.id}`}>
+            <EventItem key={event.id} to={`/event-details/${event.id}`}
+            data-testid="event-item">
               <EventTitle>{event.title}</EventTitle>
               <p>{event.name}</p>
             </EventItem>
