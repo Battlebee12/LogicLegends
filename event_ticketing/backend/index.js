@@ -82,6 +82,7 @@ app.post('/login', (req, res) => {
                         message: 'Login successful.',
                         name: user.firstName,
                         email: user.email,
+                        zipCode: user.zipCode,
                         isOrganizer: false // Indicate that the user is not an organizer
                     });
                 } else {
@@ -114,6 +115,7 @@ app.post('/login', (req, res) => {
                                 message: 'Login successful.',
                                 name: organizer.firstName,
                                 email: organizer.email,
+                                zipCode: organizer.zipCode,
                                 isOrganizer: true // Indicate that the user is an organizer
                             });
                         } else {
