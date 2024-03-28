@@ -9,6 +9,7 @@ function Signup() {
   const [password, setPassword] = useState("");
   const [country, setCountry] = useState("Canada");
   const [zipCode, setZipCode] = useState("");
+  const [isOrganizer, setIsOrganizer] = useState(false); // State to store organizer status
   const [registerStatus, setRegisterStatus] = useState("");
   const navigate = useNavigate();
 
@@ -20,7 +21,8 @@ function Signup() {
       lastName: lastName,
       password: password,
       country: country,
-      zipCode: zipCode
+      zipCode: zipCode,
+      isOrganizer: isOrganizer // Include isOrganizer in the request payload
     }).then((response) => {
       if (response.data.message) {
         setRegisterStatus(response.data.message);
@@ -71,6 +73,17 @@ function Signup() {
           <div className="mb-4">
             <label htmlFor="zipCode" className="block text-gray-700">Zip/Postal Code:</label>
             <input type="text" id="zipCode" name="zipCode" onChange={(e) => { setZipCode(e.target.value) }} placeholder="Enter your zip/postal code" className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" />
+          </div>
+          <div className="mb-4">
+            <label>
+              <input
+                type="checkbox"
+                name="isOrganizer"
+                checked={isOrganizer}
+                onChange={(e) => setIsOrganizer(e.target.checked)}
+              />
+                <br></br>I want to be an event organizer
+            </label>
           </div>
           <button type="submit" onClick={register} className="w-full p-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700 transition duration-300 ease-in-out">Sign Up</button>
         </form>

@@ -5,6 +5,7 @@ import HeroSlider from './HeroSlider';
 
 const HeroSection = styled.section`
   position: relative;
+  background-color: #000; /* Set background color to black */
 `;
 
 const HeroContent = styled.div`

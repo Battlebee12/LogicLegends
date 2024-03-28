@@ -41,7 +41,22 @@
 //   );
 // };
 
+// // Style for the payment method buttons
+// const buttonStyle = {
+//   display: 'flex',
+//   alignItems: 'center',
+//   padding: '10px 20px',
+//   fontSize: '16px',
+//   cursor: 'pointer',
+// };
 
+// // Style for the icons within the buttons
+// const iconStyle = {
+//   width: '24px',
+//   marginRight: '8px',
+// };
+
+// export default PaymentPage;
 
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
