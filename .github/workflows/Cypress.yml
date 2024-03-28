@@ -16,5 +16,8 @@ jobs:
     - name: Install dependencies
       run: npm install
 
+    - name: Start the website
+      run: npm start
+
     - name: Run Cypress tests
       run: npx cypress run
