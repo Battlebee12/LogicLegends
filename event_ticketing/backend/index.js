@@ -17,7 +17,7 @@ const con = mysql.createConnection({
 });
 
 app.post('/register', (req, res) => {
-    const { email, firstName, lastName, password, country, zipCode } = req.body;
+    const { email, firstName, lastName, password, country, zipCode, isOrganizer } = req.body;
 
     // Check if any required field is missing
     if (!email || !firstName || !lastName || !password || !country || !zipCode) {
@@ -33,7 +33,12 @@ app.post('/register', (req, res) => {
             return;
         }
 
-        con.query('INSERT INTO users (firstName, lastName, email, password, country, zipCode) VALUES (?, ?, ?, ?, ?, ?)', [firstName, lastName, email, hashedPassword, country, zipCode], (err, result) => {
+        // Determine which table to insert the data based on the value of isOrganizer
+        const tableName = isOrganizer ? 'event_organizers' : 'users';
+
+        // Insert the data into the appropriate table
+        con.query(`INSERT INTO ${tableName} (firstName, lastName, email, password, country, zipCode) VALUES (?, ?, ?, ?, ?, ?)`, 
+            [firstName, lastName, email, hashedPassword, country, zipCode], (err, result) => {
             if (err) {
                 console.error('Error creating account:', err);
                 res.status(500).send({ message: 'Error creating account.' });
@@ -44,43 +49,88 @@ app.post('/register', (req, res) => {
     });
 });
 
+
 app.post('/login', (req, res) => {
     const { email, password } = req.body;
+    
     // Check if email or password is empty
     if (!email || !password) {
-        res.status(400).send({ message: 'Email and password are required.' });
-        return;
+        return res.status(400).send({ message: 'Email and password are required.' });
     }
-    con.query('SELECT * FROM users WHERE email = ?', [email], (err, rows) => {
+    
+    // Query the users table
+    con.query('SELECT * FROM users WHERE email = ?', [email], (err, userRows) => {
         if (err) {
-            console.error('Error querying database:', err);
-            res.status(500).send({ message: 'Internal server error.' });
-            return;
+            console.error('Error querying users table:', err);
+            return res.status(500).send({ message: 'Internal server error.' });
         }
-        if (rows.length === 0) {
-            res.status(401).send({ message: 'Invalid email or password.' });
-            return;
+        
+        // If user is found in the users table
+        if (userRows.length > 0) {
+            const user = userRows[0];
+            
+            // Compare passwords
+            bcrypt.compare(password, user.password, (err, result) => {
+                if (err) {
+                    console.error('Error comparing passwords:', err);
+                    return res.status(500).send({ message: 'Internal server error.' });
+                }
+                
+                // If passwords match, return success response
+                if (result) {
+                    return res.status(200).send({
+                        message: 'Login successful.',
+                        name: user.firstName,
+                        email: user.email,
+                        isOrganizer: false // Indicate that the user is not an organizer
+                    });
+                } else {
+                    // If passwords do not match, return unauthorized response
+                    return res.status(401).send({ message: 'Invalid email or password.' });
+                }
+            });
+        } else {
+            // Query the event_organizers table if user is not found in the users table
+            con.query('SELECT * FROM event_organizers WHERE email = ?', [email], (err, organizerRows) => {
+                if (err) {
+                    console.error('Error querying event organizers table:', err);
+                    return res.status(500).send({ message: 'Internal server error.' });
+                }
+                
+                // If organizer is found in the event_organizers table
+                if (organizerRows.length > 0) {
+                    const organizer = organizerRows[0];
+                    
+                    // Compare passwords
+                    bcrypt.compare(password, organizer.password, (err, result) => {
+                        if (err) {
+                            console.error('Error comparing passwords:', err);
+                            return res.status(500).send({ message: 'Internal server error.' });
+                        }
+                        
+                        // If passwords match, return success response
+                        if (result) {
+                            return res.status(200).send({
+                                message: 'Login successful.',
+                                name: organizer.firstName,
+                                email: organizer.email,
+                                isOrganizer: true // Indicate that the user is an organizer
+                            });
+                        } else {
+                            // If passwords do not match, return unauthorized response
+                            return res.status(401).send({ message: 'Invalid email or password.' });
+                        }
+                    });
+                } else {
+                    // If user is not found in either tables, return unauthorized response
+                    return res.status(401).send({ message: 'Invalid email or password.' });
+                }
+            });
         }
-        const user = rows[0];
-        bcrypt.compare(password, user.password, (err, result) => {
-            if (err) {
-                console.error('Error comparing passwords:', err);
-                res.status(500).send({ message: 'Internal server error.' });
-                return;
-            }
-            if (result) {
-                // Return user's name and email along with the response
-                res.status(200).send({
-                    message: 'Login successful.',
-                    name: user.firstName,
-                    email: user.email // Include email in the response
-                });
-            } else {
-                res.status(401).send({ message: 'Invalid email or password.' });
-            }
-        });
     });
 });
+
+
 
 
 

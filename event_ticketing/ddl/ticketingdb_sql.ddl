@@ -59,12 +59,6 @@ CREATE TABLE csquerrys (
         ON UPDATE CASCADE ON DELETE NO ACTION
 );
 
-CREATE TABLE eventorganizer (
-    organizerId         INT IDENTIFY,
-    name                VARCHAR(20),
-    email               VARCHAR(40),
-    PRIMARY KEY (organizerId)
-);
 
 CREATE TABLE event (
     eventId             INT IDENTIFY,
@@ -109,6 +103,17 @@ CREATE TABLE transaction (
     FOREIGN KEY (eventId) REFERENCES Event(EventId)
         ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+CREATE TABLE event_organizers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    firstName VARCHAR(255) NOT NULL,
+    lastName VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    country VARCHAR(255) NOT NULL,
+    zipCode VARCHAR(10) NOT NULL
+);
+
 
 --Filler info needs to be changed for later
 INSERT INTO admin(adminId,userName,password,firstName,lastName,email,phonenum)

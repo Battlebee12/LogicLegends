@@ -50,8 +50,12 @@ function ProfilePage() {
           </div>
           <div className="col-span-1">
             <label className="block text-sm font-medium text-gray-700">Postal Code</label>
-            <div className="mt-1">{user.postalcode}</div>
+            <div className="mt-1">{user.zipCode}</div>
+
+            
           </div>
+          
+         
           {/* Add more fields as needed */}
         </div>
       </div>
