@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './Navbar';
+//import Navbar from './Navbar';
 import LandingContent from './LandingContent';
 import Signup from './Signup';
 import EventList from './Eventlist';

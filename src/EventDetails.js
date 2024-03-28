@@ -9,7 +9,7 @@ const EventDetails = () => {
   const [quantity, setQuantity] = useState(1);
 
   
-  const [eventIds, setEventIds] = useState([]);
+  //const [eventIds, setEventIds] = useState([]);
 
   const handleBuyNow = () => {
     // Logic to handle purchasing tickets...

@@ -26,10 +26,10 @@ const AdminEvents = () => {
     console.log(`Rejecting event with ID ${eventId}`);
   };
 
-  const handleReadMore = (eventId) => {
-    // Implement read more logic here
-    console.log(`Read more for event with ID ${eventId}`);
-  };
+  // const handleReadMore = (eventId) => {
+  //   // Implement read more logic here
+  //   console.log(`Read more for event with ID ${eventId}`);
+  // };
 
   return (
     <div className="p-4 flex flex-wrap">
