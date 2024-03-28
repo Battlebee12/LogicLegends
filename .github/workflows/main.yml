@@ -1,9 +1,6 @@
 name: Automated Testing
 
-on:
-  push:
-    branches:
-      - main  # You can specify the branch you want to trigger the workflow on
+on: [push]
 
 jobs:
   build:
