@@ -2,8 +2,8 @@ name: cypress
 
 on:
   push:
-    branches:
-      - main
+    branches: 
+      - '*'
 
 jobs:
   build:
