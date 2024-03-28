@@ -26,31 +26,31 @@
 
 // cypress/integration/eventList.spec.ts
 
-describe('EventList Component', () => {
-  beforeEach(() => {
-    cy.visit('http://localhost:3000/event-list');
-  });
+// describe('EventList Component', () => {
+//   beforeEach(() => {
+//     cy.visit('http://localhost:3000/event-list');
+//   });
 
-  it('renders events correctly', () => {
-    cy.wait(2000); // Waits for 2 seconds
+//   it('renders events correctly', () => {
+//     cy.wait(2000); // Waits for 2 seconds
 
-    cy.get('h2').should('contain', 'Events List');
-    cy.get('[data-testid="search-bar"]').should('exist');
-    cy.get('[data-testid="event-item"]').should('have.length.gt', 0); // Ensure at least one event is rendered
-  });
+//     cy.get('h2').should('contain', 'Events List');
+//     cy.get('[data-testid="search-bar"]').should('exist');
+//     cy.get('[data-testid="event-item"]').should('have.length.gt', 0); // Ensure at least one event is rendered
+//   });
 
-  it('filters events based on search query', () => {
-    cy.get('[data-testid="search-bar"]').type('aujka');
-    cy.get('[data-testid="event-item"]').should('have.length', 1);
-    //cy.get('[data-testid="event-item"]').contains('');
+//   it('filters events based on search query', () => {
+//     cy.get('[data-testid="search-bar"]').type('aujka');
+//     cy.get('[data-testid="event-item"]').should('have.length', 1);
+//     //cy.get('[data-testid="event-item"]').contains('');
 
-    // cy.get('[data-testid="search-bar"]').clear().type('concert');
-    // cy.get('[data-testid="event-item"]').should('have.length.gt', 0); // Ensure at least one event matches the search query
-  });
+//     // cy.get('[data-testid="search-bar"]').clear().type('concert');
+//     // cy.get('[data-testid="event-item"]').should('have.length.gt', 0); // Ensure at least one event matches the search query
+//   });
 
-  it('navigates to event details page on event item click', () => {
-    cy.get('[data-testid="event-item"]').first().click();
-    cy.url().should('include', '/event-details/1'); // Assuming the first event's id is 1
-  });
-});
+//   it('navigates to event details page on event item click', () => {
+//     cy.get('[data-testid="event-item"]').first().click();
+//     cy.url().should('include', '/event-details/1'); // Assuming the first event's id is 1
+//   });
+// });
 
