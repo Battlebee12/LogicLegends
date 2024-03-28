@@ -48,8 +48,7 @@ const Cart = () => {
               <p className="text-lg font-bold">Total Price: ${totalPrice.toFixed(2)}</p>
               <div>
                 <Link to="/event-list" className="text-blue-500 mr-4">Shop More</Link>
-                <Link to={`/checkout/${id}`} className="bg-blue-500 text-white py-2 px-4 rounded">Continue to Checkout</Link>
-
+                <Link to="/checkout/${id}" className="bg-blue-500 text-white py-2 px-4 rounded">Continue to Checkout</Link>
               </div>
             </div>
           </div>

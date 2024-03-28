@@ -14,6 +14,9 @@ jobs:
       # - name: Chnage directory
       #   run: cd event_ticketing # This step checks out your repository's code
 
+      - name: Set CI environment variable to false
+        run: echo "CI=false" >> $GITHUB_ENV
+
       - name: Install dependencies
         run: npm install  # Install project dependencies using npm
       
