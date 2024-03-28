@@ -12,10 +12,13 @@ jobs:
 
       - name: Chnage directory
         run: cd event_ticketing # This step checks out your repository's code
-        
+
       - name: Install dependencies
         run: npm install  # Install project dependencies using npm
 
-      - name: run test
-        run: npx cypress run
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          build: npm run build
+          start: npm start
 
