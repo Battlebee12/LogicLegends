@@ -1,0 +1,18 @@
+name: Automated Testing
+
+on:
+  push:
+    branches:
+      - main  # You can specify the branch you want to trigger the workflow on
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Specify the operating system you want to run the job on
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2  # This step checks out your repository's code
+
+      - name: Install dependencies
+        run: npm install  # Install project dependencies using npm
+
