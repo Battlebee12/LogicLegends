@@ -15,11 +15,13 @@ import { TicketProvider } from './TicketContext';
 
 import ConfirmationPage from './ConfirmationPage';
 import PaymentPage from './Checkout';
-import Tickets from './tickets';
+import PaymentPageCart from './PaymentPage';
+import Tickets from './ViewTickets';
 import Cart from './Cart';
 import AdminEvents from './AdminEvents';
 import SellTickets from './SellTickets';
 import Waiting from './waiting';
+import CartConformation from "./TicketConfirmationCart"
 
 function App() {
   return (
@@ -34,7 +36,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/event-details/:id" element={<EventDetails />} />
-          <Route path="/checkout/:id" element={<PaymentPage />} />
+          <Route path="/checkout/:id" element={<PaymentPageCart />} />
           <Route path="/confirmation/:eventId" element={<ConfirmationPage />} />
           <Route path="/organize-event" element={<OrganizeEvent/>}/>
           <Route path= "/profile"element = {<ProfilePage/>}/>
@@ -45,6 +47,7 @@ function App() {
           <Route path="/confirmation" element={<ConfirmationPage />} />
           <Route path="sell-tickets" element={<SellTickets/>}/>
           <Route path="/waiting" element={<Waiting/>}/>
+          <Route path="/cart-conformation" element={<CartConformation/>}/>
           
         </Routes>
       </Router>

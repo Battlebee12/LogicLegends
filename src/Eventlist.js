@@ -8,12 +8,14 @@ const lightTheme = {
   background: '#fff',
   textColor: '#333',
   borderColor: '#e0e0e0',
+  primaryColor: '#007bff', // Primary color - shades of blue
 };
 
 const darkTheme = {
   background: '#000', // Set background to black
   textColor: '#fff',
   borderColor: '#666',
+  primaryColor: '#4d94ff', // Primary color - shades of blue
 };
 
 const EventListWrapper = styled.div`
@@ -46,6 +48,7 @@ const EventItem = styled(Link)`
 
 const EventTitle = styled.h3`
   margin-top: 0;
+  color: ${({ theme }) => theme.primaryColor}; // Use primary color for event title
 `;
 
 const SearchBar = styled.input`
@@ -99,14 +102,22 @@ const EventList = () => {
     setDarkMode(!darkMode);
   };
 
+  window.addEventListener('keydown', function(event) {
+    if (event.key === '0') {
+      localStorage.clear();
+      console.log('Local storage cleared.');
+    }
+  });
+
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <div style={{ backgroundColor: darkMode ? '#000' : '#fff', minHeight: '100vh' }}>
         <Navbar />
         <Hero />
         <EventListWrapper>
-          <h2>Events List</h2>
-          <button onClick={toggleDarkMode}>
+        <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-black'} text-center py-4 bg-${darkMode ? 'blue-800' : 'blue-500'} rounded-md`}>  Events List</h2>
+
+          <button onClick={toggleDarkMode} style={{ marginBottom: '20px', backgroundColor: darkMode ? '#4d94ff' : '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
             {darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
           </button>
           <SearchBar

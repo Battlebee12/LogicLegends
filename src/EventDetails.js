@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
+import { updatePurchasedTickets } from './ViewTickets';
 
 const EventDetails = () => {
   const { id } = useParams();
@@ -25,6 +26,7 @@ const EventDetails = () => {
 
     // Log ticket details to console
     console.log('Ticket Details at event detail:', ticketDetails);
+    updatePurchasedTickets(ticketDetails);
 
     // Redirect to confirmation page with ticket and event details
     navigate('/payment', { state: { ticketDetails } });
@@ -60,11 +62,22 @@ const EventDetails = () => {
   const handleAddToCart = () => {
     // Check if eventDetails is not null and quantity is valid
     if (eventDetails && quantity > 0) {
+      // const cartItem = {
+      //   id: eventDetails.id,
+      //   name: eventDetails.name,
+      //   price: eventDetails.ticket_price,
+      //   quantity: quantity,
+      //   date: eventDetails.Date,
+      //   location: eventDetails.location
+      // };
       const cartItem = {
         id: eventDetails.id,
         name: eventDetails.name,
+        date: eventDetails.date,
+        quantity: quantity,
         price: eventDetails.ticket_price,
-        quantity: quantity
+        location: eventDetails.venue
+        // Add more ticket details as needed
       };
       // Retrieve existing cart items from local storage
       const existingCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
