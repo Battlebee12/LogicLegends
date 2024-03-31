@@ -7,6 +7,9 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.8",
+    "chai-http": "^4.4.0",
+    "http": "^0.0.1-security",
+    "mocha": "*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.0.1",
@@ -22,7 +25,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "test:backend": "mocha 'test//*.test.mjs'",
+    "test:backend2": "mocha 'test//*.js'"
   },
   "eslintConfig": {
     "extends": [
@@ -43,7 +48,13 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.24.3",
+    "@babel/preset-env": "^7.24.3",
+    "@babel/register": "^7.23.7",
+    "@types/chai-http": "^4.2.0",
+    "chai": "^3.5.0",
     "cypress": "^13.7.1",
+    "mocha": "^10.4.0",
     "tailwindcss": "^3.4.1",
     "typescript": "^4.9.5"
   }

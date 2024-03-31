@@ -591,6 +591,7 @@ app.put('/admin/events/:id', authenticateAdmin, (req, res) => {
         }
     });
 });
+module.exports = app;
   
 
 
@@ -598,3 +599,4 @@ app.put('/admin/events/:id', authenticateAdmin, (req, res) => {
 app.listen(3002, () => {
     console.log('Running backend server on port 3002');
 });
+
