@@ -26,6 +26,9 @@ jobs:
         with:
           # build: npm run build
           start: npm start
+
+      - name: backend testing
+        run: npm run test:backend
    
         
 
