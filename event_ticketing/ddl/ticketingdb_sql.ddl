@@ -77,6 +77,7 @@ CREATE TABLE eventstable (
     capacity            INT,
     ageRestriction      INT,
     descritpion         VARCHAR(500),
+    status              VARCHAR(10),
     PRIMARY KEY (eventId),
     FOREIGN KEY (organizerId) REFERENCES eventorganizer(organizerId)
         ON UPDATE CASCADE ON DELETE CASCADE
@@ -111,3 +112,11 @@ CREATE TABLE transactionTable (
 -- Filler info needs to be changed for later
 INSERT INTO siteAdmin(adminId,userName,password,firstName,lastName,email,phonenum)
 VALUES (1,'Admin1','password123','John','Doe','john.doe@gmail.com',2039753427);
+
+INSERT INTO eventstable (organizerId, eventName, address, city, state, postalCode, country, eventDate, capacity, ageRestriction, description, status) 
+VALUES 
+(1, 'Summer Music Festival', '123 Main Street', 'Toronto', 'Ontario', 'M1P 1A1', 'Canada', '2024-07-15 18:00:00', 500, 18, 'Join us for a day of live music performances from top artists!', 'Pending'),
+(2, 'Art Exhibition', '456 Elm Avenue', 'Vancouver', 'British Columbia', 'V5Z 1M8', 'Canada', '2024-08-20 12:00:00', 200, NULL, 'Explore stunning artworks from local and international artists.', 'Pending'),
+(3, 'Charity Gala Dinner', '789 Oak Street', 'Montreal', 'Quebec', 'H3A 1R2', 'Canada', '2024-09-10 19:00:00', 300, 18, 'Support a noble cause while enjoying a lavish dinner and entertainment.', 'Pending'),
+(4, 'Tech Conference 2024', '101 Pine Road', 'Calgary', 'Alberta', 'T2E 2Z8', 'Canada', '2024-10-05 09:00:00', 400, NULL, 'Dive into the latest trends and innovations in the tech industry.', 'Pending'),
+(5, 'Yoga Retreat', '222 Beach Avenue', 'Victoria', 'British Columbia', 'V8W 1A5', 'Canada', '2024-11-15 08:00:00', 100, 16, 'Relax and rejuvenate with yoga sessions in a serene coastal setting.', 'Pending');
