@@ -286,7 +286,8 @@ app.use(cors());
 
 const con = mysql.createConnection({
     user: 'root',
-    host: 'localhost',
+    // host: 'localhost',
+    host: '142.231.28.103:3306',
     password: '121103sarab',
     database: 'test',
 });
@@ -598,7 +599,7 @@ module.exports = app;
 
 
 
-// app.listen(3005, () => {
-//     console.log('Running backend server on port 3005');
-// });
+app.listen(3002, () => {
+    console.log('Running backend server on port 3005');
+});
 

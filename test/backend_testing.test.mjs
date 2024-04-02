@@ -25,7 +25,7 @@ describe('User Registration', () => {
 
   it('should register a new user', (done) => {
     const newUser = {
-      email: "test@8example.com",
+      email: "test@9example.com",
       firstName: "John",
       lastName: "Doe",
       password: "123456",
