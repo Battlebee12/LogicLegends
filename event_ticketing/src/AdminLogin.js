@@ -18,7 +18,7 @@ const AdminLogin = () => {
       .then((response) => {
         console.log("Login response:", response);
         if (response.status === 200) {
-          // Login successful, redirect to admin dashboard or other page
+          // Login successful, redirect to admin dashboard 
           navigate("/admin-events");
         } else {
           // Invalid email or password
