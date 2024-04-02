@@ -62,7 +62,7 @@ describe('User Registration', () => {
   describe('Event Creation by Regular User', () => {
     it('should prevent a regular user from creating an event', (done) => {
       const eventData = {
-        // Event data structure
+        // Event data 
       };
       const userToken = 'regularusertoken';
     
