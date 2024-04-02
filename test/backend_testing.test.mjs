@@ -5,7 +5,7 @@ import server from '/Users/shreyasaxena/Desktop/LL/LogicLegends/backend/index.js
 
 const { expect } = chai;
 chai.use(chaiHttp);
-//Testing
+
 describe('User Registration', () => {
   it('should register a new user', (done) => {
     const newUser = {
