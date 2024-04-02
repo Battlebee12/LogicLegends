@@ -54,6 +54,9 @@ const Login = () => {
         </form>
         <Link to="/sign-up" className="block text-blue-500 mt-4 hover:underline text-center">Don't have an account? Sign up here</Link>
         {loginStatus && <p className="text-red-500 mt-4">{loginStatus}</p>}
+        
+        <Link to="/admin-events" className="block text-blue-500 mt-4 hover:underline text-center">AdminShortcut</Link>
+        
       </div>
     </div>
   );
