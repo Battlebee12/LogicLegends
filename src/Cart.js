@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from './Navbar';
-import Ticket from "./components/ticket";
+
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
