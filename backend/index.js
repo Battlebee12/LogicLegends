@@ -279,6 +279,8 @@ const bcrypt = require('bcryptjs');
 const cors = require('cors');
 const app = express();
 const jwt = require('jsonwebtoken');
+// Your middleware and routes setup
+
 
 
 app.use(express.json());
@@ -287,8 +289,9 @@ app.use(cors());
 const con = mysql.createConnection({
     user: 'root',
     host: 'localhost',
-    password: '121103sarab',
+    password: 'password',
     database: 'test',
+    //port: 3306
 });
 
 app.post('/register', (req, res) => {
