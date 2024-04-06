@@ -79,7 +79,7 @@ const OrganizeEvent = () => {
       // Check response status code
       if (response.status === 200 || response.status === 201) {
         setMessage('Event created successfully.');
-        navigate('/event-list'); // Navigate after successful creation
+        navigate('/waiting'); // Navigate after successful creation
       } else {
         setMessage('Failed to create event. Please try again.');
       }

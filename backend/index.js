@@ -181,7 +181,17 @@ app.get('/events/:id', (req, res) => {
     });
 });
 app.get('/events', (req, res) => {
-    con.query("SELECT * FROM events ", (err, results) => {
+    let query = "SELECT * FROM events WHERE status = 'approved'"; // Default query for public view
+    const allEvents = req.query.all;
+
+    // If 'all' query parameter is present and true, adjust the query for admin view
+    if (allEvents === 'true') {
+        // Ensure this is only accessible by admins by checking for admin credentials
+        // This part is simplified; implement proper authentication/authorization checks
+        query = "SELECT * FROM events";
+    }
+
+    con.query(query, (err, results) => {
         if (err) {
             console.error('Error fetching events:', err);
             res.status(500).send('Internal server error');
@@ -190,6 +200,7 @@ app.get('/events', (req, res) => {
         }
     });
 });
+
 
 app.post('/checkout/:eventId', (req, res) => {
     const eventId = req.params.eventId;

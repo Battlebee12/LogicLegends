@@ -11,7 +11,8 @@ const AdminEvents = () => {
   }, []);
 
   const fetchEvents = () => {
-    Axios.get('http://localhost:3002/events')
+    Axios.get('http://localhost:3002/events?all=true')
+
       .then((response) => {
         const filteredEvents = response.data.filter(event => event.status === 'pending');
         setEvents(filteredEvents);
@@ -68,9 +69,7 @@ const AdminEvents = () => {
             <strong>Name:</strong> {event.name}<br />
             <strong>Description:</strong> {event.description}<br />
             <strong>Location:</strong> {event.venue}<br />
-            <strong>Age Restriction:</strong> {event.ageRestriction}<br />
-            <strong>Capacity:</strong> {event.ticket_available}<br />
-            <strong>Status:</strong> {event.status}
+            
             <div className="flex justify-between mt-4">
               <button className="bg-green-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-600" onClick={() => handleApprove(event.id)}>Approve</button>
               <button className="bg-red-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-600" onClick={() => handleReject(event.id)}>Reject</button>
