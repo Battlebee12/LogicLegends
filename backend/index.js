@@ -181,7 +181,7 @@ app.get('/events/:id', (req, res) => {
     });
 });
 app.get('/events', (req, res) => {
-    con.query('SELECT * FROM events', (err, results) => {
+    con.query("SELECT * FROM events ", (err, results) => {
         if (err) {
             console.error('Error fetching events:', err);
             res.status(500).send('Internal server error');
@@ -285,38 +285,34 @@ app.post('/admin/login', (req, res) => {
 });
 
 // Route for fetching events for admin dashboard
-app.get('/admin/events', authenticateAdmin, (req, res) => {
-    con.query('SELECT * FROM events', (err, results) => {
+app.get('/admin/events/pending', authenticateAdmin, (req, res) => {
+    con.query("SELECT * FROM events WHERE status = 'pending'", (err, results) => {
         if (err) {
-            console.error('Error fetching events:', err);
+            console.error('Error fetching pending events:', err);
             res.status(500).json({ message: 'Internal server error' });
         } else {
             res.status(200).json(results);
         }
     });
 });
-
 // Route for updating event status (approval/rejection)
 app.put('/admin/events/:id', authenticateAdmin, (req, res) => {
     const eventId = req.params.id;
-    const { status } = req.body;
+    const { status } = req.body; // Expected to be 'approved' or 'rejected'
 
-    // Check if status is valid
-    if (status !== 'approved' && status !== 'rejected') {
-        return res.status(400).json({ message: 'Invalid status.' });
+    if (!['approved', 'rejected'].includes(status)) {
+        return res.status(400).json({ message: 'Invalid status provided.' });
     }
 
-    // Update the status of the event in the database
-    con.query('UPDATE events SET status = ? WHERE id = ?', [status, eventId], (err, result) => {
+    con.query("UPDATE events SET status = ? WHERE id = ?", [status, eventId], (err, result) => {
         if (err) {
             console.error('Error updating event status:', err);
-            res.status(500).json({ message: 'Internal server error.' });
+            res.status(500).json({ message: 'Internal server error' });
         } else {
-            res.status(200).json({ message: 'Event status updated successfully.' });
+            res.status(200).json({ message: `Event status updated to ${status} successfully.` });
         }
     });
 });
-  
 
 
 
