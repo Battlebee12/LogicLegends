@@ -24,29 +24,38 @@ const AdminEvents = () => {
   };
 
   const handleApprove = (eventId) => {
-    Axios.put(`http://localhost:3002/events/approve/${eventId}`)
+    Axios.put(`http://localhost:3002/admin/events/${eventId}`, {
+      status: 'approved'
+    }, {
+      headers: {
+        Authorization: 'Bearer YOUR_ADMIN_TOKEN_HERE' // Ensure you replace this with the actual token
+      }
+    })
       .then((response) => {
         console.log(`Event with ID ${eventId} approved.`);
-        // Update events list after approval
-        fetchEvents();
+        fetchEvents(); // Refresh the event list
       })
       .catch((error) => {
         console.error('Error approving event:', error);
       });
   };
-
+  
   const handleReject = (eventId) => {
-    Axios.put(`http://localhost:3002/events/reject/${eventId}`)
+    Axios.put(`http://localhost:3002/admin/events/${eventId}`, {
+      status: 'rejected'
+    }, {
+      headers: {
+        Authorization: 'Bearer YOUR_ADMIN_TOKEN_HERE' // Same here for the token
+      }
+    })
       .then((response) => {
         console.log(`Event with ID ${eventId} rejected.`);
-        // Update events list after rejection
-        fetchEvents();
+        fetchEvents(); // Refresh the event list
       })
       .catch((error) => {
         console.error('Error rejecting event:', error);
       });
   };
-
   return (
     <div className="p-4 flex flex-wrap">
       <h2 className="text-2xl font-semibold mb-4 w-full">Manage Events</h2>

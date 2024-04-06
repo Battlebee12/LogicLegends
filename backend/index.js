@@ -296,22 +296,22 @@ app.get('/admin/events/pending', authenticateAdmin, (req, res) => {
     });
 });
 // Route for updating event status (approval/rejection)
-app.put('/admin/events/:id', authenticateAdmin, (req, res) => {
-    const eventId = req.params.id;
-    const { status } = req.body; // Expected to be 'approved' or 'rejected'
+app.put('/admin/events/:id', (req, res) => {
+  const eventId = req.params.id;
+  const { status } = req.body; // Expected to be 'approved' or 'rejected'
 
-    if (!['approved', 'rejected'].includes(status)) {
-        return res.status(400).json({ message: 'Invalid status provided.' });
+  if (!['approved', 'rejected'].includes(status)) {
+    return res.status(400).json({ message: 'Invalid status provided.' });
+  }
+
+  con.query("UPDATE events SET status = ? WHERE id = ?", [status, eventId], (err, result) => {
+    if (err) {
+      console.error('Error updating event status:', err);
+      res.status(500).json({ message: 'Internal server error' });
+    } else {
+      res.status(200).json({ message: `Event status updated to ${status} successfully.` });
     }
-
-    con.query("UPDATE events SET status = ? WHERE id = ?", [status, eventId], (err, result) => {
-        if (err) {
-            console.error('Error updating event status:', err);
-            res.status(500).json({ message: 'Internal server error' });
-        } else {
-            res.status(200).json({ message: `Event status updated to ${status} successfully.` });
-        }
-    });
+  });
 });
 
 
