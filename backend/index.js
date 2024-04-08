@@ -349,89 +349,72 @@ app.post('/register', (req, res) => {
 });
 
 
+const jwtSecret = 'secretkey';
+
 app.post('/login', (req, res) => {
     const { email, password } = req.body;
     
-    // Check if email or password is empty
     if (!email || !password) {
         return res.status(400).send({ message: 'Email and password are required.' });
     }
     
-    // Query the users table
+    // First, attempt to find the user in the 'users' table
     con.query('SELECT * FROM users WHERE email = ?', [email], (err, userRows) => {
         if (err) {
             console.error('Error querying users table:', err);
             return res.status(500).send({ message: 'Internal server error.' });
         }
         
-        // If user is found in the users table
         if (userRows.length > 0) {
             const user = userRows[0];
-            
-            // Compare passwords
             bcrypt.compare(password, user.password, (err, result) => {
-                if (err) {
-                    console.error('Error comparing passwords:', err);
-                    return res.status(500).send({ message: 'Internal server error.' });
-                }
-                
-                // If passwords match, return success response
-                if (result) {
-                    return res.status(200).send({
-                        message: 'Login successful.',
-                        name: user.firstName,
-                        email: user.email,
-                        zipCode: user.zipCode,
-                        isOrganizer: false // Indicate that the user is not an organizer
-                    });
-                } else {
-                    // If passwords do not match, return unauthorized response
+                if (err || !result) {
                     return res.status(401).send({ message: 'Invalid email or password.' });
                 }
+                
+                const token = jwt.sign({ userId: user.id, role: 'user' }, jwtSecret, { expiresIn: '1h' });
+                res.status(200).json({
+                    message: 'Login successful.',
+                    token,
+                    name: user.firstName,
+                    email: user.email,
+                    zipCode: user.zipCode,
+                    isOrganizer: false
+                });
             });
         } else {
-            // Query the event_organizers table if user is not found in the users table
+            // If not found, then try the 'event_organizers' table
             con.query('SELECT * FROM event_organizers WHERE email = ?', [email], (err, organizerRows) => {
                 if (err) {
                     console.error('Error querying event organizers table:', err);
                     return res.status(500).send({ message: 'Internal server error.' });
                 }
                 
-                // If organizer is found in the event_organizers table
                 if (organizerRows.length > 0) {
                     const organizer = organizerRows[0];
-                    
-                    // Compare passwords
                     bcrypt.compare(password, organizer.password, (err, result) => {
-                        if (err) {
-                            console.error('Error comparing passwords:', err);
-                            return res.status(500).send({ message: 'Internal server error.' });
-                        }
-                        
-                        // If passwords match, return success response
-                        if (result) {
-                            return res.status(200).send({
-                                message: 'Login successful.',
-                                name: organizer.firstName,
-                                email: organizer.email,
-                                zipCode: organizer.zipCode,
-                                isOrganizer: true // Indicate that the user is an organizer
-                            });
-                        } else {
-                            // If passwords do not match, return unauthorized response
+                        if (err || !result) {
                             return res.status(401).send({ message: 'Invalid email or password.' });
                         }
+                        
+                        const token = jwt.sign({ userId: organizer.id, role: 'organizer' }, jwtSecret, { expiresIn: '1h' });
+                        res.status(200).json({
+                            message: 'Login successful.',
+                            token,
+                            name: organizer.firstName,
+                            email: organizer.email,
+                            zipCode: organizer.zipCode,
+                            isOrganizer: true
+                        });
                     });
                 } else {
-                    // If user is not found in either tables, return unauthorized response
+                    // If user is not found in either table
                     return res.status(401).send({ message: 'Invalid email or password.' });
                 }
             });
         }
     });
 });
-
-
 
 
 
@@ -595,9 +578,8 @@ app.put('/admin/events/:id', authenticateAdmin, (req, res) => {
 });
 module.exports = app;
   
-app.put('/updateProfile', (req, res) => {
-    // and added to the request object (req.userId)
-    const { userId } = req;
+app.put('/updateProfile', authenticate, (req, res) => {
+    const { userId } = req.user;
     const { firstName, lastName, country, zipCode } = req.body;
 
     if (!firstName || !lastName || !country || !zipCode) {
@@ -617,6 +599,7 @@ app.put('/updateProfile', (req, res) => {
         res.send({ message: 'Profile updated successfully.' });
     });
 });
+
 
 
 
