@@ -595,6 +595,28 @@ app.put('/admin/events/:id', authenticateAdmin, (req, res) => {
 });
 module.exports = app;
   
+app.put('/updateProfile', (req, res) => {
+    // and added to the request object (req.userId)
+    const { userId } = req;
+    const { firstName, lastName, country, zipCode } = req.body;
+
+    if (!firstName || !lastName || !country || !zipCode) {
+        return res.status(400).send({ message: 'All fields are required.' });
+    }
+
+    const updateQuery = 'UPDATE users SET firstName = ?, lastName = ?, country = ?, zipCode = ? WHERE id = ?';
+
+    con.query(updateQuery, [firstName, lastName, country, zipCode, userId], (err, result) => {
+        if (err) {
+            console.error('Error updating user profile:', err);
+            return res.status(500).send({ message: 'Error updating profile.' });
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).send({ message: 'User not found.' });
+        }
+        res.send({ message: 'Profile updated successfully.' });
+    });
+});
 
 
 
