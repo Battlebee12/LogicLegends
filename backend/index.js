@@ -594,7 +594,8 @@ app.put('/admin/events/:id', authenticateAdmin, (req, res) => {
         }
     });
 });
-  
+
+
 
 
 
