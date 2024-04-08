@@ -291,7 +291,7 @@ const con = mysql.createConnection({
     host: 'localhost',
     password: 'password',
     database: 'test',
-    //port: 3306
+    port: 3306
 });
 
 app.post('/register', (req, res) => {
