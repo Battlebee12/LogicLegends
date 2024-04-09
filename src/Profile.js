@@ -6,8 +6,10 @@ function ProfilePage() {
   const { ticketDetails } = useTicketContext();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null);
   const [editData, setEditData] = useState({
-    name: user?.name || '',
+    firstName: user?.firstName || '',
+    lastName: user?.lastName || '',
     email: user?.email || '', // Assuming you want to display but not edit the email
+    country: user?.country || '', // Initialize country state
     zipCode: user?.zipCode || '',
   });
 
@@ -21,10 +23,11 @@ function ProfilePage() {
     e.preventDefault();
 
     try {
-      // Use Axios to send a PUT request
-      const response = await axios.put('/updateProfile', {
-        id: user.id, // Ensure your user object includes the user's id
-        name: editData.name,
+      const response = await axios.put('http://localhost:3002/updateProfile', {
+        user_Id: user.id, // Use the key expected by your server
+        firstName: editData.firstName,
+        lastName: editData.lastName,
+        country: editData.country,
         zipCode: editData.zipCode,
       });
 
@@ -63,47 +66,66 @@ function ProfilePage() {
 
   return (
     <div className="max-w-4xl mx-auto py-10">
-      <h1 className="text-3xl font-semibold mb-6">Profile</h1>
-      <form onSubmit={handleSubmit} className="bg-white shadow rounded-lg p-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="col-span-1">
-            <label className="block text-sm font-medium text-gray-700">Name</label>
-            <input
-              className="mt-1 block w-full"
-              name="name"
-              type="text"
-              value={editData.name}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="col-span-1">
-            <label className="block text-sm font-medium text-gray-700">Email</label>
-            <input
-              className="mt-1 block w-full"
-              name="email"
-              type="email"
-              value={editData.email}
-              disabled // Assuming email should not be editable
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="col-span-1">
-            <label className="block text-sm font-medium text-gray-700">Postal Code</label>
-            <input
-              className="mt-1 block w-full"
-              name="zipCode"
-              type="text"
-              value={editData.zipCode}
-              onChange={handleInputChange}
-            />
-          </div>
+    <h1 className="text-3xl font-semibold mb-6">Profile</h1>
+    <form onSubmit={handleSubmit} className="bg-white shadow rounded-lg p-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="col-span-1">
+          <label className="block text-sm font-medium text-gray-700">First Name</label>
+          <input
+            className="mt-1 block w-full"
+            name="firstName"
+            type="text"
+            value={editData.firstName}
+            onChange={handleInputChange}
+          />
         </div>
-        <button type="submit" className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">
-          Save Changes
-        </button>
-      </form>
-      {ticketsComponent}
-    </div>
+        <div className="col-span-1">
+          <label className="block text-sm font-medium text-gray-700">Last Name</label>
+          <input
+            className="mt-1 block w-full"
+            name="lastName"
+            type="text"
+            value={editData.lastName}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="col-span-1">
+          <label className="block text-sm font-medium text-gray-700">Email</label>
+          <input
+            className="mt-1 block w-full"
+            name="email"
+            type="email"
+            value={editData.email}
+
+          />
+        </div>
+        <div className="col-span-1">
+          <label className="block text-sm font-medium text-gray-700">Country</label>
+          <input
+            className="mt-1 block w-full"
+            name="country"
+            type="text"
+            value={editData.country}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="col-span-1">
+          <label className="block text-sm font-medium text-gray-700">Postal Code</label>
+          <input
+            className="mt-1 block w-full"
+            name="zipCode"
+            type="text"
+            value={editData.zipCode}
+            onChange={handleInputChange}
+          />
+        </div>
+      </div>
+      <button type="submit" className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">
+        Save Changes
+      </button>
+    </form>
+    {ticketsComponent}
+  </div>
   );
 }
 
