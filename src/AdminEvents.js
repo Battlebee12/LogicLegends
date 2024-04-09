@@ -11,7 +11,8 @@ const AdminEvents = () => {
   }, []);
 
   const fetchEvents = () => {
-    Axios.get('http://localhost:3002/events')
+    Axios.get('http://localhost:3002/events?all=true')
+
       .then((response) => {
         const filteredEvents = response.data.filter(event => event.status === 'pending');
         setEvents(filteredEvents);
@@ -24,29 +25,38 @@ const AdminEvents = () => {
   };
 
   const handleApprove = (eventId) => {
-    Axios.put(`http://localhost:3002/events/approve/${eventId}`)
+    Axios.put(`http://localhost:3002/admin/events/${eventId}`, {
+      status: 'approved'
+    }, {
+      headers: {
+        Authorization: 'Bearer YOUR_ADMIN_TOKEN_HERE' // Ensure you replace this with the actual token
+      }
+    })
       .then((response) => {
         console.log(`Event with ID ${eventId} approved.`);
-        // Update events list after approval
-        fetchEvents();
+        fetchEvents(); // Refresh the event list
       })
       .catch((error) => {
         console.error('Error approving event:', error);
       });
   };
-
+  
   const handleReject = (eventId) => {
-    Axios.put(`http://localhost:3002/events/reject/${eventId}`)
+    Axios.put(`http://localhost:3002/admin/events/${eventId}`, {
+      status: 'rejected'
+    }, {
+      headers: {
+        Authorization: 'Bearer YOUR_ADMIN_TOKEN_HERE' // Same here for the token
+      }
+    })
       .then((response) => {
         console.log(`Event with ID ${eventId} rejected.`);
-        // Update events list after rejection
-        fetchEvents();
+        fetchEvents(); // Refresh the event list
       })
       .catch((error) => {
         console.error('Error rejecting event:', error);
       });
   };
-
   return (
     <div className="p-4 flex flex-wrap">
       <h2 className="text-2xl font-semibold mb-4 w-full">Manage Events</h2>
@@ -59,9 +69,7 @@ const AdminEvents = () => {
             <strong>Name:</strong> {event.name}<br />
             <strong>Description:</strong> {event.description}<br />
             <strong>Location:</strong> {event.venue}<br />
-            <strong>Age Restriction:</strong> {event.ageRestriction}<br />
-            <strong>Capacity:</strong> {event.ticket_available}<br />
-            <strong>Status:</strong> {event.status}
+            
             <div className="flex justify-between mt-4">
               <button className="bg-green-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-600" onClick={() => handleApprove(event.id)}>Approve</button>
               <button className="bg-red-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-600" onClick={() => handleReject(event.id)}>Reject</button>
