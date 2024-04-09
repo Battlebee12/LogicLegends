@@ -373,6 +373,8 @@ app.post('/login', (req, res) => {
                 res.status(200).json({
                     message: 'Login successful.',
                     name: user.firstName,
+                    lastname: user.lastName,
+                    country:user.country,
                     email: user.email,
                     zipCode: user.zipCode,
                     isOrganizer: false
