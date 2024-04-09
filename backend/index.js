@@ -287,7 +287,7 @@ app.use(cors());
 const con = mysql.createConnection({
     user: 'root',
     host: 'localhost',
-    password: '121103sarab',
+    password: 'password',
     database: 'test',
 });
 const authenticateAdmin = (req, res, next) => {

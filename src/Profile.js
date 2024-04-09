@@ -1,12 +1,11 @@
 
 import React, { useState } from 'react';
 import { useTicketContext } from './TicketContext';
+import axios from 'axios'; // Import Axios
 
 function ProfilePage() {
   const { ticketDetails } = useTicketContext();
-  // Initialize user state with data from localStorage or null if not found
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null);
-  // State to manage form inputs, initializing with current user data
   const [editData, setEditData] = useState({
     name: user?.name || '',
     email: user?.email || '', // Assuming you want to display but not edit the email
@@ -22,14 +21,11 @@ function ProfilePage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Begin the API call section
     try {
-      const response = await fetch('/updateProfile', { // Adjust the endpoint as needed
+      const response = await fetch('/updateProfile', { 
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          // If you have authentication tokens, add them to headers
-          // 'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({
           id: user.id, // Ensure your user object includes the user's id
@@ -42,15 +38,12 @@ function ProfilePage() {
         const updatedUser = { ...user, ...editData };
         localStorage.setItem('user', JSON.stringify(updatedUser));
         setUser(updatedUser);
-        // Optionally, display a success message or perform additional actions
         alert("Profile updated successfully.");
       } else {
-        // Handle errors, for example, show an error message
         alert("Failed to update profile. Please try again.");
       }
     } catch (error) {
       console.error('Error updating profile:', error);
-      // Handle network errors or other exceptions
       alert("An error occurred. Please try again.");
     }
   };
@@ -59,7 +52,6 @@ function ProfilePage() {
     return <div>No user data found. Please log in.</div>;
   }
 
-  // Display tickets component if ticket details are available
   let ticketsComponent = ticketDetails && (
     <div className="mt-8 bg-white shadow rounded-lg p-6">
       <h2 className="text-xl font-semibold mb-4">Your Tickets</h2>
@@ -96,7 +88,6 @@ function ProfilePage() {
               type="email"
               value={editData.email}
               onChange={handleInputChange}
-              disabled // Assuming you don't want the email to be editable
             />
           </div>
           <div className="col-span-1">
