@@ -328,7 +328,7 @@ app.put('/admin/events/:id', (req, res) => {
 });
 
 
-
+//listen on 3002 port
 app.listen(3002, () => {
     console.log('Running backend server on port 3002');
 });
