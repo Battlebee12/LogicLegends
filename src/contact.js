@@ -1,66 +1,6 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import Navbar from './Navbar';
 import emailjs from 'emailjs-com';
-
-const ContactWrapper = styled.div`
-  text-align: center;
-  padding: 50px 20px;
-`;
-
-const Title = styled.h2`
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: #333;
-`;
-
-const Message = styled.p`
-  font-size: 16px;
-  line-height: 1.6;
-  color: #666;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const Input = styled.input`
-  width: 100%;
-  margin-bottom: 15px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-`;
-
-const TextArea = styled.textarea`
-  width: 100%;
-  margin-bottom: 15px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-`;
-
-const Button = styled.button`
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-`;
-
-const WorkingHours = styled.div`
-  margin-top: 50px;
-`;
 
 function Contact() {
   const [formData, setFormData] = useState({
@@ -81,7 +21,6 @@ function Contact() {
   };
   
   function sendEmail(form) {
-    
     emailjs
       .sendForm('service_zsc0csh', 'template_pcmhr3g', form, 'WHlogMiA7euWcnLjq')
       .then((result) => {
@@ -90,59 +29,61 @@ function Contact() {
       .catch((error) => {
         console.log(error.text);
       });
-      // Extract sender's email from the form data
-   
   }
 
   return (
-    <div>
+    <div className="bg-blue-50 min-h-screen">
       <Navbar />
-      <ContactWrapper>
-        <Title>Contact Us</Title>
+      <div className="bg-white rounded-lg shadow-md p-10 mx-auto max-w-xl mt-10">
+        <h2 className="mb-5 text-3xl font-bold text-blue-800">Contact Us</h2>
         {!submitted ? (
-          <Form onSubmit={handleSubmit}>
-            <Input
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <input
               type="text"
               name="name"
               placeholder="Your Name"
               value={formData.name}
               onChange={handleChange}
               required
+              className="w-full p-2 border border-gray-300 rounded"
             />
-            <Input
+            <input
               type="email"
               name="email"
               placeholder="Your Email"
               value={formData.email}
               onChange={handleChange}
               required
+              className="w-full p-2 border border-gray-300 rounded"
             />
-            <TextArea
+            <textarea
               name="message"
               placeholder="Your Message"
               value={formData.message}
               onChange={handleChange}
               rows="5"
               required
+              className="w-full p-2 border border-gray-300 rounded"
             />
-            <Button type="submit">Submit</Button>
-          </Form>
+            <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Submit</button>
+          </form>
         ) : (
-          <Message>
+          <p className="text-lg text-gray-700 mb-8">
             Thank you for your message! We will get back to you as soon as possible.
-          </Message>
+          </p>
         )}
 
-        <WorkingHours>
-          <h3>Working Hours</h3>
-          <p>Monday - Friday: 9:00 AM - 5:00 PM</p>
-          <p>Saturday: 10:00 AM - 2:00 PM</p>
-          <p>Sunday: Closed</p>
-        </WorkingHours>
-      </ContactWrapper>
+        <div className="mt-10">
+          <h3 className="mb-2 text-2xl font-semibold text-blue-800">Working Hours</h3>
+          <p className="text-lg text-gray-700">Monday - Friday: 9:00 AM - 5:00 PM</p>
+          <p className="text-lg text-gray-700">Saturday: 10:00 AM - 2:00 PM</p>
+          <p className="text-lg text-gray-700">Sunday: Closed</p>
+        </div>
+      </div>
     </div>
   );
 }
 
 export default Contact;
+
 

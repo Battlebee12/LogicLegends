@@ -1,73 +1,28 @@
 import React from 'react';
-import styled from 'styled-components';
 import Navbar from './Navbar';
-
-const AboutWrapper = styled.div`
-  text-align: center;
-  padding: 50px 20px;
-`;
-
-const Title = styled.h2`
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: #333;
-`;
-
-const Description = styled.p`
-  font-size: 16px;
-  line-height: 1.6;
-  color: #666;
-`;
-
-const TeamList = styled.ul`
-  list-style: none;
-  padding: 0;
-  margin-top: 40px;
-`;
-
-const TeamMember = styled.li`
-  margin-bottom: 30px;
-`;
-
-const MemberName = styled.h3`
-  margin-bottom: 10px;
-  font-size: 20px;
-  color: #333;
-`;
-
-const MemberRole = styled.p`
-  font-size: 16px;
-  color: #666;
-`;
 
 function About() {
   return (
-    <div>
+    <div className="bg-blue-50 min-h-screen">
       <Navbar />
-      <AboutWrapper>
-        <Title>About Us</Title>
-        <Description>
+      <div className="bg-white rounded-lg shadow-md p-10 mx-auto max-w-xl mt-10">
+        <h2 className="mb-5 text-3xl font-bold text-blue-800">About Us</h2>
+        <p className="text-lg text-gray-700 mb-8">
           Eventify is a comprehensive event management platform designed to simplify the process of organizing and managing events of all types and sizes. Whether you're hosting a small gathering or a large-scale conference, Eventify provides the tools and features you need to plan, promote, and execute successful events.
-        </Description>
-        <TeamList>
-          <TeamMember>
-            <MemberName>Raghav</MemberName>
-            <MemberRole>CEO</MemberRole>
-          </TeamMember>
-          <TeamMember>
-            <MemberName>Sarab</MemberName>
-            <MemberRole>CTO</MemberRole>
-          </TeamMember>
-          <TeamMember>
-            <MemberName>Lluis</MemberName>
-            <MemberRole>Lead Developer</MemberRole>
-          </TeamMember>
-          <TeamMember>
-            <MemberName>Shreya</MemberName>
-            <MemberRole>Lead Developer</MemberRole>
-          </TeamMember>
-        </TeamList>
-      </AboutWrapper>
+        </p>
+        <h3 className="mb-5 text-2xl font-bold text-blue-800">Our Team</h3>
+        <ul className="list-none space-y-8">
+          {['Raghav', 'Sarab', 'Lluis', 'Shreya'].map((name, index) => (
+            <li key={index} className="flex items-center space-x-4">
+              <img className="w-16 h-16 rounded-full" src={`https://randomuser.me/api/portraits/men/${index}.jpg`} alt={name} />
+              <div>
+                <h3 className="text-2xl font-semibold text-blue-800">{name}</h3>
+                <p className="text-lg text-gray-700">{index === 0 ? 'CEO' : index === 1 ? 'CTO' : 'Lead Developer'}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

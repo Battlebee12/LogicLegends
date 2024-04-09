@@ -116,7 +116,7 @@ const EventList = () => {
 
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-      <div style={{ backgroundColor: darkMode ? '#000' : '#fff', minHeight: '100vh' }}>
+      <div style={{ backgroundColor: darkMode ? '#000' : '#EFF6FF', minHeight: '100vh' }}>
         <Navbar />
         <Hero />
         <div>
