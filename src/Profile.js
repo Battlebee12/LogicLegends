@@ -28,7 +28,7 @@ function ProfilePage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          user_Id: user.id,
+          email: editData.email,
           firstName: editData.firstName,
           lastName: editData.lastName,
           country: editData.country,

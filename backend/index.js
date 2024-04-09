@@ -287,7 +287,7 @@ app.use(cors());
 const con = mysql.createConnection({
     user: 'root',
     host: 'localhost',
-    password: 'password',
+    password: '121103sarab',
     database: 'test',
 });
 const authenticateAdmin = (req, res, next) => {
@@ -574,7 +574,7 @@ app.put('/admin/events/:id', authenticateAdmin, (req, res) => {
 module.exports = app;
 
 app.put('/updateProfile', (req, res) => {
-    const { user_Id, firstName, lastName, country, zipCode } = req.body; 
+    const { email, firstName, lastName, country, zipCode } = req.body; 
 
     if (!firstName || !lastName || !country || !zipCode) {
         return res.status(400).send({ message: 'All fields are required.' });
@@ -582,7 +582,7 @@ app.put('/updateProfile', (req, res) => {
 
     const updateQuery = 'UPDATE users SET firstName = ?, lastName = ?, country = ?, zipCode = ? WHERE email = ?';
 
-    con.query(updateQuery, [firstName, lastName, country, zipCode, user_Id], (err, result) => {
+    con.query(updateQuery, [firstName, lastName, country, zipCode, email], (err, result) => {
         if (err) {
             console.error('Error updating user profile:', err);
             return res.status(500).send({ message: 'Error updating profile.' });
