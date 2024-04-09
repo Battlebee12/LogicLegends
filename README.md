@@ -15,11 +15,7 @@ Navigate to the cloned repository directory in the terminal and run:
 ```
 npm install
 ```
-Start Frontend
-Start the frontend of the application by running:
-```
-npm start
-```
+
 
 Set Up MySQL Database
 Open a new terminal window and run MySQL:
@@ -41,5 +37,13 @@ node index.js
 ```
 
 The backend server should now be running.
+
+Start Frontend
+
+Start the frontend of the application by running:
+```
+npm start
+```
+
 
 and the website should be ready to be tested 
