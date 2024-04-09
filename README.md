@@ -7,7 +7,7 @@ To run the Eventify web application on your machine, follow these steps:
 Clone the Eventify repository to your local machine:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/Battlebee12/LogicLegends.git
 ```
 Install Dependencies
 Navigate to the cloned repository directory in the terminal and run:
