@@ -125,7 +125,7 @@ const EventList = () => {
       
         
         <EventCatWrapper>
-        <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-black'} text-center py-4 bg-${darkMode ? 'blue-800' : 'blue-500'} rounded-md`}>  Catogiries</h2>
+        <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-black'} text-center py-4 bg-${darkMode ? 'blue-800' : 'blue-500'} rounded-md`}>  Categories</h2>
           <EventCat/>
         </EventCatWrapper>
         <EventListWrapper>
