@@ -576,11 +576,11 @@ module.exports = app;
 app.put('/updateProfile', (req, res) => {
     const { user_Id, firstName, lastName, country, zipCode } = req.body; 
 
-    if (!user_Id || !firstName || !lastName || !country || !zipCode) {
-        return res.status(400).send({ message: 'All fields including user ID are required.' });
+    if (!firstName || !lastName || !country || !zipCode) {
+        return res.status(400).send({ message: 'All fields are required.' });
     }
 
-    const updateQuery = 'UPDATE users SET firstName = ?, lastName = ?, country = ?, zipCode = ? WHERE id = ?';
+    const updateQuery = 'UPDATE users SET firstName = ?, lastName = ?, country = ?, zipCode = ? WHERE email = ?';
 
     con.query(updateQuery, [firstName, lastName, country, zipCode, user_Id], (err, result) => {
         if (err) {
