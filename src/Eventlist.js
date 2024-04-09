@@ -3,6 +3,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import Navbar from './Navbar';
 import Hero from './components/Hero';
 import { Link } from 'react-router-dom';
+import EventCat from './components/eventGrid';
 
 const lightTheme = {
   background: '#fff',
@@ -21,7 +22,7 @@ const darkTheme = {
 const EventListWrapper = styled.div`
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 20px; /* Adjust padding as needed */
   background-color: ${({ theme }) => theme.background};
   color: ${({ theme }) => theme.textColor};
 `;
@@ -57,6 +58,10 @@ const SearchBar = styled.input`
   margin-bottom: 20px;
   border: 1px solid ${({ theme }) => theme.borderColor};
   border-radius: 4px;
+`;
+
+const EventCatWrapper = styled.div`
+padding: 30px 80px; /* Adjust padding as needed */
 `;
 
 const EventList = () => {
@@ -114,8 +119,17 @@ const EventList = () => {
       <div style={{ backgroundColor: darkMode ? '#000' : '#fff', minHeight: '100vh' }}>
         <Navbar />
         <Hero />
+        <div>
+          <p1> .</p1>
+        </div>
+      
+        
+        <EventCatWrapper>
+        <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-black'} text-center py-4 bg-${darkMode ? 'blue-800' : 'blue-500'} rounded-md`}>  Catogiries</h2>
+          <EventCat/>
+        </EventCatWrapper>
         <EventListWrapper>
-        <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-black'} text-center py-4 bg-${darkMode ? 'blue-800' : 'blue-500'} rounded-md`}>  Events List</h2>
+          <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-black'} text-center py-4 bg-${darkMode ? 'blue-800' : 'blue-500'} rounded-md`}>  Events List</h2>
 
           <button onClick={toggleDarkMode} style={{ marginBottom: '20px', backgroundColor: darkMode ? '#4d94ff' : '#007bff', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
             {darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
@@ -135,6 +149,7 @@ const EventList = () => {
             ))}
           </EventGrid>
         </EventListWrapper>
+        
       </div>
     </ThemeProvider>
   );

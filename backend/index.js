@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs');
 const cors = require('cors');
 const app = express();
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
 
 
 app.use(express.json());
@@ -12,7 +14,7 @@ app.use(cors());
 const con = mysql.createConnection({
     user: 'root',
     host: 'localhost',
-    password: '304rootpw',
+    password: "121103sarab",
     database: 'test',
 });
 
@@ -326,7 +328,7 @@ app.put('/admin/events/:id', (req, res) => {
 });
 
 
-
+//listen on 3002 port
 app.listen(3002, () => {
     console.log('Running backend server on port 3002');
 });

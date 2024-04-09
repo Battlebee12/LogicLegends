@@ -53,7 +53,7 @@ function Navbar() {
               {showDropdown && (
                 <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-50">
                   <Link to="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</Link>
-                  <Link to="/view-tickets" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">View Tickets</Link> {/* View Tickets Link */}
+                  <Link to="/tickets" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">View Tickets</Link> {/* View Tickets Link */}
                   <button onClick={logout} className="text-sm text-gray-700 block w-full text-left px-4 py-2 hover:bg-gray-100">
                     Logout
                   </button>
