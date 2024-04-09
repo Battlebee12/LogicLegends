@@ -577,18 +577,17 @@ app.put('/admin/events/:id', authenticateAdmin, (req, res) => {
     });
 });
 module.exports = app;
-  
-app.put('/updateProfile', authenticate, (req, res) => {
-    const { userId } = req.user;
-    const { firstName, lastName, country, zipCode } = req.body;
 
-    if (!firstName || !lastName || !country || !zipCode) {
-        return res.status(400).send({ message: 'All fields are required.' });
+app.put('/updateProfile', (req, res) => {
+    const { user_Id, firstName, lastName, country, zipCode } = req.body; 
+
+    if (!user_Id || !firstName || !lastName || !country || !zipCode) {
+        return res.status(400).send({ message: 'All fields including user ID are required.' });
     }
 
     const updateQuery = 'UPDATE users SET firstName = ?, lastName = ?, country = ?, zipCode = ? WHERE id = ?';
 
-    con.query(updateQuery, [firstName, lastName, country, zipCode, userId], (err, result) => {
+    con.query(updateQuery, [firstName, lastName, country, zipCode, user_Id], (err, result) => {
         if (err) {
             console.error('Error updating user profile:', err);
             return res.status(500).send({ message: 'Error updating profile.' });
