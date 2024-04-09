@@ -15,18 +15,22 @@ const Login = () => {
       return;
     }
     Axios.post("http://localhost:3002/login", { email, password })
-      .then((response) => {
-        console.log("Login response:", response);
-        if (response.status === 200) {
-          const userData = response.data;
-          // Store user data in local storage to maintain session
-          localStorage.setItem('user', JSON.stringify(userData));
-          // Redirect to event list page
-          navigate("/event-list");
+    .then((response) => {
+      console.log("Login response:", response);
+      if (response.status === 200) {
+        const userData = response.data;
+        localStorage.setItem('user', JSON.stringify(userData));
+        
+        // Redirect based on role
+        if(userData.isOrganizer) {
+          navigate("/organize-event"); // For organizers
         } else {
-          setLoginStatus("Invalid email or password.");
+          navigate("/event-list"); // For regular users
         }
-      })
+      } else {
+        setLoginStatus("Invalid email or password.");
+      }
+    })
       .catch((error) => {
         console.error('Error logging in:', error);
         setLoginStatus("Error logging in. Please try again later.");
@@ -55,7 +59,7 @@ const Login = () => {
         <Link to="/sign-up" className="block text-blue-500 mt-4 hover:underline text-center">Don't have an account? Sign up here</Link>
         {loginStatus && <p className="text-red-500 mt-4">{loginStatus}</p>}
         
-        <Link to="/admin-events" className="block text-blue-500 mt-4 hover:underline text-center">AdminShortcut</Link>
+        
         
       </div>
     </div>

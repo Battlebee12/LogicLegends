@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Navbar from './Navbar';
+import emailjs from 'emailjs-com';
 
 const ContactWrapper = styled.div`
   text-align: center;
@@ -75,9 +76,23 @@ function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // You can perform client-side validation here if needed
+    sendEmail(e.target); // Pass the form element to sendEmail function
     setSubmitted(true);
   };
+  
+  function sendEmail(form) {
+    
+    emailjs
+      .sendForm('service_zsc0csh', 'template_pcmhr3g', form, 'WHlogMiA7euWcnLjq')
+      .then((result) => {
+        console.log(result.text);
+      })
+      .catch((error) => {
+        console.log(error.text);
+      });
+      // Extract sender's email from the form data
+   
+  }
 
   return (
     <div>
@@ -130,3 +145,4 @@ function Contact() {
 }
 
 export default Contact;
+
