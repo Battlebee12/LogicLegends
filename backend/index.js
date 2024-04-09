@@ -348,9 +348,6 @@ app.post('/register', (req, res) => {
     });
 });
 
-
-const jwtSecret = 'secretkey';
-
 app.post('/login', (req, res) => {
     const { email, password } = req.body;
     
@@ -358,7 +355,7 @@ app.post('/login', (req, res) => {
         return res.status(400).send({ message: 'Email and password are required.' });
     }
     
-    // First, attempt to find the user in the 'users' table
+    // Attempt to find the user in the 'users' table
     con.query('SELECT * FROM users WHERE email = ?', [email], (err, userRows) => {
         if (err) {
             console.error('Error querying users table:', err);
@@ -372,10 +369,9 @@ app.post('/login', (req, res) => {
                     return res.status(401).send({ message: 'Invalid email or password.' });
                 }
                 
-                const token = jwt.sign({ userId: user.id, role: 'user' }, jwtSecret, { expiresIn: '1h' });
+                // Removed JWT token generation
                 res.status(200).json({
                     message: 'Login successful.',
-                    token,
                     name: user.firstName,
                     email: user.email,
                     zipCode: user.zipCode,
@@ -397,10 +393,9 @@ app.post('/login', (req, res) => {
                             return res.status(401).send({ message: 'Invalid email or password.' });
                         }
                         
-                        const token = jwt.sign({ userId: organizer.id, role: 'organizer' }, jwtSecret, { expiresIn: '1h' });
+                        // Removed JWT token generation
                         res.status(200).json({
                             message: 'Login successful.',
-                            token,
                             name: organizer.firstName,
                             email: organizer.email,
                             zipCode: organizer.zipCode,
@@ -408,13 +403,13 @@ app.post('/login', (req, res) => {
                         });
                     });
                 } else {
-                    // If user is not found in either table
                     return res.status(401).send({ message: 'Invalid email or password.' });
                 }
             });
         }
     });
 });
+
 
 
 
