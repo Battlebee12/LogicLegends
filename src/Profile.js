@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useTicketContext } from './TicketContext';
-import axios from 'axios'; // Import Axios
 
 function ProfilePage() {
   const { ticketDetails } = useTicketContext();
@@ -8,8 +7,8 @@ function ProfilePage() {
   const [editData, setEditData] = useState({
     firstName: user?.firstName || '',
     lastName: user?.lastName || '',
-    email: user?.email || '', // Assuming you want to display but not edit the email
-    country: user?.country || '', // Initialize country state
+    email: user?.email || '',
+    country: user?.country || '',
     zipCode: user?.zipCode || '',
   });
 
@@ -18,28 +17,35 @@ function ProfilePage() {
     setEditData({ ...editData, [name]: value });
   };
 
-  // Handle form submission with Axios
+  // Handle form submission using the native fetch API
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.put('http://localhost:3002/updateProfile', {
-        user_Id: user.id, // Use the key expected by your server
-        firstName: editData.firstName,
-        lastName: editData.lastName,
-        country: editData.country,
-        zipCode: editData.zipCode,
+      const response = await fetch('http://localhost:3002/updateProfile', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user_Id: user.id,
+          firstName: editData.firstName,
+          lastName: editData.lastName,
+          country: editData.country,
+          zipCode: editData.zipCode,
+        }),
       });
 
-      if (response.status === 200) {
+      const data = await response.json();
+      if (response.ok) {
         // Update was successful
         const updatedUser = { ...user, ...editData };
         localStorage.setItem('user', JSON.stringify(updatedUser));
         setUser(updatedUser);
         alert("Profile updated successfully.");
       } else {
-        // Handle other statuses or errors not thrown
-        alert("Failed to update profile. Please try again.");
+        // Handle other statuses
+        alert(data.message || "Failed to update profile. Please try again.");
       }
     } catch (error) {
       console.error('Error updating profile:', error);
