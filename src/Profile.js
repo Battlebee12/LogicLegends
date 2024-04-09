@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTicketContext } from './TicketContext';
 import axios from 'axios'; // Import Axios
@@ -17,29 +16,26 @@ function ProfilePage() {
     setEditData({ ...editData, [name]: value });
   };
 
-  // Handle form submission
+  // Handle form submission with Axios
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('/updateProfile', { 
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          id: user.id, // Ensure your user object includes the user's id
-          name: editData.name,
-          zipCode: editData.zipCode,
-        }),
+      // Use Axios to send a PUT request
+      const response = await axios.put('/updateProfile', {
+        id: user.id, // Ensure your user object includes the user's id
+        name: editData.name,
+        zipCode: editData.zipCode,
       });
 
-      if (response.ok) {
+      if (response.status === 200) {
+        // Update was successful
         const updatedUser = { ...user, ...editData };
         localStorage.setItem('user', JSON.stringify(updatedUser));
         setUser(updatedUser);
         alert("Profile updated successfully.");
       } else {
+        // Handle other statuses or errors not thrown
         alert("Failed to update profile. Please try again.");
       }
     } catch (error) {
@@ -87,6 +83,7 @@ function ProfilePage() {
               name="email"
               type="email"
               value={editData.email}
+              disabled // Assuming email should not be editable
               onChange={handleInputChange}
             />
           </div>
@@ -111,4 +108,3 @@ function ProfilePage() {
 }
 
 export default ProfilePage;
-
