@@ -603,7 +603,7 @@ app.put('/updateProfile', authenticate, (req, res) => {
 
 
 
-app.listen(3005, () => {
-    console.log('Running backend server on port 3005');
+app.listen(3002, () => {
+    console.log('Running backend server on port 3002');
 });
 
