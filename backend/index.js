@@ -14,7 +14,7 @@ app.use(cors());
 const con = mysql.createConnection({
     user: 'root',
     host: 'localhost',
-    password: "304rootpw",
+    password: "121103sarab",
     database: 'test',
 });
 
@@ -332,6 +332,28 @@ app.put('/updateProfile', (req, res) => {
         res.send({ message: 'Profile updated successfully.' });
     });
 });
+
+app.put('/updateEvent/:id', (req, res) => {
+    const { id } = req.params;
+    const { name, description, venue } = req.body;
+  
+    if (!name || !description || !venue) {
+      return res.status(400).send({ message: 'All fields are required.' });
+    }
+  
+    const updateQuery = 'UPDATE events SET name = ?, description = ?, venue = ? WHERE id = ?';
+  
+    con.query(updateQuery, [name, description, venue, id], (err, result) => {
+      if (err) {
+        console.error('Error updating event:', err);
+        return res.status(500).send({ message: 'Error updating event.' });
+      }
+      if (result.affectedRows === 0) {
+        return res.status(404).send({ message: 'Event not found.' });
+      }
+      res.send({ message: 'Event updated successfully.' });
+    });
+  });
 
 
 

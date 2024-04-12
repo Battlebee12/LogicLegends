@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaShoppingCart, FaUserPlus, FaSignInAlt } from 'react-icons/fa';
 
+
 function Navbar() {
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
   // Retrieve user info from localStorage and initialize state
   const [userInfo, setUserInfo] = useState(JSON.parse(localStorage.getItem('user')));
   const [isOrganizer, setIsOrganizer] = useState(userInfo?.isOrganizer || false);
+
 
   useEffect(() => {
     const updateStateFromStorage = () => {
@@ -54,6 +56,9 @@ function Navbar() {
                 <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-50">
                   <Link to="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</Link>
                   <Link to="/tickets" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">View Tickets</Link> {/* View Tickets Link */}
+                  {isOrganizer && (
+                  <Link to="/event-pending" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Your events</Link> 
+                  )}
                   <button onClick={logout} className="text-sm text-gray-700 block w-full text-left px-4 py-2 hover:bg-gray-100">
                     Logout
                   </button>

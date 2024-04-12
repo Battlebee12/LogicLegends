@@ -22,6 +22,8 @@ import AdminEvents from './AdminEvents';
 import SellTickets from './SellTickets';
 import Waiting from './waiting';
 import CartConformation from "./TicketConfirmationCart"
+import Pending_event from "./pending_event_page"
+
 
 function App() {
   return (
@@ -48,11 +50,11 @@ function App() {
           <Route path="sell-tickets" element={<SellTickets/>}/>
           <Route path="/waiting" element={<Waiting/>}/>
           <Route path="/cart-conformation" element={<CartConformation/>}/>
+          <Route path="/event-pending" element={<Pending_event/>}/>
           
         </Routes>
       </Router>
     </TicketProvider>
   );
 }
-
 export default App;
