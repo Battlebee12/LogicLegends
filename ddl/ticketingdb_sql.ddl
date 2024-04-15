@@ -1,115 +1,44 @@
-CREATE DATABASE siteddl;
-go;
-
-USE siteddl;
-go;
-
-DROP TABLE admin;
-DROP TABLE customer;
-DROP TABLE csa;
-DROP TABLE csquerrys;
-DROP TABLE eventorganizer;
-DROP TABLE event;
-DROP TABLE ticket;
-DROP TABLE transaction;
-
-CREATE TABLE admin (
-    adminId             INT IDENTITY,
-    userName            VARCHAR(20),
-    password            VARCHAR(30),
-    firstName           VARCHAR(40),
-    lastName            VARCHAR(40),
-    email               VARCHAR(50),
-    phonenum            VARCHAR(20),
-    PRIMARY KEY (adminId)
+CREATE DATABASE test;
+use test;
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    firstName VARCHAR(255) NOT NULL,
+    lastName VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    country VARCHAR(255) NOT NULL,
+    zipCode VARCHAR(255) NOT NULL
+    
 );
 
-CREATE TABLE customer (
-    customerId          INT NOT NULL AUTO_INCREMENT,,
-    userName            VARCHAR(20),
-    password            VARCHAR(30),
-    firstName           VARCHAR(40),
-    lastName            VARCHAR(40),
-    email               VARCHAR(50),
-    phonenum            VARCHAR(20),
-    country             VARCHAR(40),
-    age                 INT,
-    PRIMARY KEY (customerId)
+CREATE TABLE event_organizers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    firstName VARCHAR(255) NOT NULL,
+    lastName VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    country VARCHAR(255) NOT NULL,
+    zipCode VARCHAR(10) NOT NULL
 );
 
--- CSA stands for Customer Support Agent
-CREATE TABLE csa(
-    employeeId          INT NOT NULL AUTO_INCREMENT,,
-    firstName           VARCHAR(40),
-    lastName            VARCHAR(40),
-    PRIMARY KEY (employeeId)
+CREATE TABLE admins (
+    admin_id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL
 );
 
--- Customer support querrys
-CREATE TABLE csquerrys (
-    querryId            INT IDENTIFY,
-    CSAId               INT,
-    customerId          INT,
-    date                DATETIME,
-    probDesc            VARCHAR(300),
-    PRIMARY KEY (querryId),
-    FOREIGN KEY (CSAId) REFERENCES CSA(employeeId)
-        ON UPDATE CASCADE ON DELETE NO ACTION,
-    FOREIGN KEY (customerId) REFERENCES customer(customerId)
-        ON UPDATE CASCADE ON DELETE NO ACTION
+CREATE TABLE events (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    date DATE NOT NULL,
+    ticket_price DECIMAL(10, 2) NOT NULL,
+    tickets_available INT NOT NULL DEFAULT 0,
+    tickets_sold INT NOT NULL DEFAULT 0, -- New column for tracking tickets sold
+    venue VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE eventorganizer (
-    organizerId         INT IDENTIFY,
-    name                VARCHAR(20),
-    email               VARCHAR(40),
-    PRIMARY KEY (organizerId)
-);
+ALTER TABLE events ADD COLUMN status VARCHAR(20) NOT NULL DEFAULT 'pending';
 
-CREATE TABLE event (
-    eventId             INT IDENTIFY,
-    organizerId         INT,
-    name                VARCHAR(40),
-    address             VARCHAR(50),
-    city                VARCHAR(40),
-    state               VARCHAR(20),
-    postalCode          VARCHAR(20),
-    country             VARCHAR(40),
-    date                DATETIME,
-    capacity            INT,
-    ageRestriction      INT,
-    descritpion         VARCHAR(500)
-    PRIMARY KEY (eventId),
-    FOREIGN KEY (organizerId) REFERENCES eventorganizer(organizerId)
-        ON UPDATE CASCADE ON DELETE CASCADE
-);
--- when owner is null it means it hasnt been sold
-CREATE TABLE ticket (
-    ticketId            INT IDENTIFY;
-    eventId             INT,
-    ownerId             INT,
-    price               DECIMAL(10,2),
-    seatNum             VARCHAR(5),
-    PRIMARY KEY (ticketId),
-    FOREIGN KEY (eventId) REFERENCES event(eventId)
-        ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY (ownerId) REFERENCES customer(customerId)
-        ON UPDATE CASCADE ON DELETE CASCADE,
-    );
-
-CREATE TABLE transaction (
-    transactionId       INT NOT NULL AUTO_INCREMENT,
-    customerId          INT,
-    eventId             INT,
-    amount              DECIMAL(10, 2) NOT NULL,
-    date                DATE NOT NULL,
-    PRIMARY KEY (transactionId),
-    FOREIGN KEY (customerId) REFERENCES customer(customerId)
-        ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY (eventId) REFERENCES Event(EventId)
-        ON UPDATE CASCADE ON DELETE CASCADE
-);
-
---Filler info needs to be changed for later
-INSERT INTO admin(adminId,userName,password,firstName,lastName,email,phonenum)
-VALUES (1,'Admin1','password123','John','Doe','john.doe@gmail.com',2039753427);
+insert into admins (email,password) values('testuser@test.com','$2y$10$5qERIxFZv6XENnOisGnJLuJTPb5MLOrvCAfaMJTHoc.BmQRXa4WtC');
